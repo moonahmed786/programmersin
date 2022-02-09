@@ -1,0 +1,2 @@
+# TopSeo theme
+## From Haintheme

@@ -1,0 +1,21 @@
+.pb-item-type-column > .builder-items > .builder-item{
+  padding: 11px 0 !important;
+}
+.pb-item-type-column > .builder-items {
+    padding: 7px 10px 13px !important;
+}
+.fw-ext-megamenu-item-options .fw-container-type-popup{
+	padding-left: 0;
+}
+.mce-menu-align{
+	z-index:2000000!important;
+}
+
+
+/* kirki radio-image control */
+.customize-control-kirki-radio-image .image label{
+    margin-right: 10px;
+}
+.customize-control-kirki-radio-image .image label:last-child{
+    margin-right: 0px;
+}
