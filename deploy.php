@@ -13,12 +13,28 @@
 
 // Detect the correct PHP binary. 
 // Since the web server is running PHP 8.4, we try to use the same binary for CLI commands.
-$php = PHP_BINARY;
-if (strpos($php, 'php-fpm') !== false || strpos($php, 'cgi') !== false) {
-    // If running under FPM/CGI, PHP_BINARY might not be the CLI version.
-    // We can try to guess or use common paths.
-    $php = 'php8.4'; // Common for many hosting providers
+$phpCandidates = [
+    PHP_BINARY,
+    '/opt/alt/php84/usr/bin/php',  // Hostinger Alt-PHP 8.4
+    '/usr/local/bin/php8.4',
+    '/usr/bin/php8.4',
+    'php8.4'
+];
+
+$php = 'php'; // Default
+foreach ($phpCandidates as $candidate) {
+    if (empty($candidate)) continue;
+    
+    // Check version
+    $output = [];
+    $returnVar = 0;
+    exec($candidate . ' -v 2>&1', $output, $returnVar);
+    if ($returnVar === 0 && !empty($output) && strpos($output[0], 'PHP 8.4') !== false) {
+        $php = $candidate;
+        break;
+    }
 }
+
 
 function runCommand($command) {
     echo "<b>Running: $command</b>\n";
