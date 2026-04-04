@@ -67,10 +67,19 @@ runCommand($php . ' artisan config:cache');
 runCommand($php . ' artisan route:cache');
 runCommand($php . ' artisan view:cache');
 
-// 4. Update assets if needed (Vite)
-// runCommand('npm run build');
+// 4. Update assets (Vite)
+$manifestPath = __DIR__ . '/build/manifest.json';
+if (!file_exists($manifestPath)) {
+    echo "<b>Warning: Vite manifest not found at $manifestPath</b>\n";
+    echo "Attempting to run npm run build if npm is available...\n";
+    runCommand('npm install --omit=dev');
+    runCommand('npm run build');
+} else {
+    echo "Vite manifest found in build directory.\n";
+}
 
 echo "\n<b>Deployment Process Finished!</b>";
 echo "</pre>";
+
 
 
