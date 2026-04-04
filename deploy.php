@@ -55,13 +55,17 @@ echo "<pre>";
 echo "<h3>ProgrammersIn Deployment Tool</h3>\n";
 echo "Using PHP: " . $php . " (Version: " . PHP_VERSION . ")\n\n";
 
-// 1. Pull latest code
-runCommand('git pull origin main');
+// 1. Pull latest code (from dev branch)
+runCommand('git pull origin dev');
 
 // 2. Run migrations (Essential to fix the "sessions" table error)
 runCommand($php . ' artisan migrate --force');
 
-// 3. Clear and Optimize caches
+// 3. Seed data
+runCommand($php . ' artisan db:seed --force');
+
+// 4. Clear and Optimize caches
+
 runCommand($php . ' artisan cache:clear');
 runCommand($php . ' artisan config:cache');
 runCommand($php . ' artisan route:cache');
