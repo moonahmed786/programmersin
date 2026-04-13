@@ -135,6 +135,29 @@
 <div class="text-3xl font-extrabold text-on-surface">89</div>
 </div>
 </section>
+
+<!-- Analytics Charts Section -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 transition-all duration-300 relative overflow-hidden group">
+        <h3 class="text-on-surface text-lg font-bold tracking-tight mb-4 flex items-center justify-between">
+            Traffic & Conversions
+            <span class="material-symbols-outlined text-slate-400">trending_up</span>
+        </h3>
+        <div class="w-full h-[300px]">
+             <canvas id="trafficChart"></canvas>
+        </div>
+    </div>
+    <div class="bg-surface-container-lowest p-6 rounded-xl shadow-lg border border-slate-100 dark:border-slate-800 transition-all duration-300 relative overflow-hidden group">
+        <h3 class="text-on-surface text-lg font-bold tracking-tight mb-4 flex items-center justify-between">
+            System Performance Load
+            <span class="material-symbols-outlined text-slate-400">memory</span>
+        </h3>
+        <div class="w-full h-[300px] flex items-center justify-center">
+             <canvas id="systemLoadChart"></canvas>
+        </div>
+    </div>
+</section>
+
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 <!-- Main Content Area -->
 <div class="lg:col-span-2 space-y-8">
@@ -304,5 +327,77 @@
 </div>
 </div>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const isDarkMode = document.documentElement.classList.contains('dark') || window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const textColor = isDarkMode ? '#e2e8f0' : '#334155';
+    const gridColor = isDarkMode ? '#1e293b' : '#f1f5f9';
+
+    // Check if charts exist
+    if (!document.getElementById('trafficChart') || !document.getElementById('systemLoadChart')) return;
+
+    // Traffic Chart (Line)
+    const ctx1 = document.getElementById('trafficChart').getContext('2d');
+    new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            datasets: [{
+                label: 'Unique Visitors',
+                data: [6500, 5900, 8000, 8100, 5600, 8500, 11000],
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }, {
+                label: 'Conversions',
+                data: [2800, 4800, 4000, 4100, 6600, 4500, 7100],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { labels: { color: textColor, font: { family: 'Inter', size: 12 } } }
+            },
+            scales: {
+                y: { grid: { color: gridColor }, ticks: { color: textColor } },
+                x: { grid: { color: gridColor }, ticks: { color: textColor } }
+            }
+        }
+    });
+
+    // System Load Chart (Doughnut)
+    const ctx2 = document.getElementById('systemLoadChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['CPU Usage', 'Memory', 'Disk I/O', 'Network'],
+            datasets: [{
+                data: [45, 25, 20, 10],
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'],
+                borderWidth: 0,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right', labels: { color: textColor, font: { family: 'Inter', size: 12 } } }
+            },
+            cutout: '75%'
+        }
+    });
+});
+</script>
 
 @endsection

@@ -1,17 +1,106 @@
-@extends("layouts.app")
-@section("content")
+<!DOCTYPE html>
 
-
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pricing | Programmers.in</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface": "#f8f9ff",
+                        "on-error": "#ffffff",
+                        "surface-container": "#e5eeff",
+                        "primary-fixed-dim": "#b2c5ff",
+                        "tertiary-fixed": "#89f5e7",
+                        "surface-container-high": "#dce9ff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "on-secondary": "#ffffff",
+                        "primary": "#0040a1",
+                        "on-surface-variant": "#424654",
+                        "surface-variant": "#d3e4fe",
+                        "surface-container-low": "#eff4ff",
+                        "on-tertiary-fixed-variant": "#005049",
+                        "primary-fixed": "#dae2ff",
+                        "tertiary": "#00514a",
+                        "outline": "#737785",
+                        "on-surface": "#0b1c30",
+                        "on-secondary-fixed": "#0d1c2e",
+                        "secondary": "#515f74",
+                        "tertiary-fixed-dim": "#6bd8cb",
+                        "surface-container-highest": "#d3e4fe",
+                        "on-tertiary-fixed": "#00201d",
+                        "on-primary-fixed": "#001847",
+                        "secondary-container": "#d5e3fc",
+                        "outline-variant": "#c3c6d6",
+                        "on-background": "#0b1c30",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed-dim": "#b9c7df",
+                        "on-secondary-fixed-variant": "#3a485b",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f8f9ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#cbdbf5",
+                        "primary-container": "#0056d2",
+                        "secondary-container": "#d5e3fc",
+                        "inverse-surface": "#213145",
+                        "on-primary-fixed-variant": "#0040a1",
+                        "on-secondary-container": "#57657a",
+                        "background": "#f8f9ff",
+                        "error": "#ba1a1a",
+                        "inverse-primary": "#b2c5ff",
+                        "on-tertiary-container": "#7fecde",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#006b62",
+                        "surface-tint": "#0056d2",
+                        "on-primary-container": "#ccd8ff"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #0040a1 0%, #0056d2 100%);
+        }
+        .text-balance {
+            text-wrap: balance;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
 <!-- Top Navigation Bar -->
 <nav class="sticky top-0 w-full z-50 bg-white/70 backdrop-blur-md shadow-sm">
 <div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
-<div class="text-xl font-bold tracking-tighter text-slate-900"><div class="flex items-center gap-2"><img alt="ProgrammersIn Logo" class="h-10 w-auto" src="/uploads/stitch/fcd58854b2.png"/><span>ProgrammersIn</span></div></div>
+<div class="text-xl font-bold tracking-tighter text-slate-900">Programmers.in</div>
 <!-- Desktop Links -->
 <div class="hidden md:flex items-center space-x-8 font-inter body-md tracking-tight">
 <a class="text-slate-600 hover:text-blue-600 transition-colors" href="#">Services</a>
 <a class="text-slate-600 hover:text-blue-600 transition-colors" href="#">Products</a>
 <a class="text-blue-700 font-semibold border-b-2 border-blue-700" href="#">Pricing</a>
-<button class="primary-gradient text-on-primary px-6 py-2 rounded-lg font-semibold scale-95 hover:scale-100 duration-200 ease-in-out">14-Day Sprint</button>
+<button class="primary-gradient text-on-primary px-6 py-2 rounded-lg font-semibold scale-95 hover:scale-100 duration-200 ease-in-out">
+                    Get Started
+                </button>
 </div>
 <!-- Mobile Menu Icon (Placeholder) -->
 <div class="md:hidden">
@@ -64,7 +153,9 @@
 <span class="text-outline text-sm">Advanced Security Audits</span>
 </div>
 </div>
-<button class="w-full py-4 rounded-lg font-semibold border-2 border-primary text-primary hover:bg-primary-fixed/30 transition-all">14-Day Sprint</button>
+<button class="w-full py-4 rounded-lg font-semibold border-2 border-primary text-primary hover:bg-primary-fixed/30 transition-all">
+                    Get Started
+                </button>
 </div>
 <!-- Corporate Tier (Highlighted) -->
 <div class="relative bg-surface-container-lowest rounded-xl p-8 ring-4 ring-primary-container shadow-2xl transition-transform hover:-translate-y-2 duration-300">
@@ -72,7 +163,7 @@
                     Most Popular
                 </div>
 <div class="mb-8">
-<h3 class="label-md tracking-wide uppercase font-inter text-primary mb-2">Growth</h3>
+<h3 class="label-md tracking-wide uppercase font-inter text-primary mb-2">Corporate</h3>
 <div class="flex items-baseline gap-1">
 <span class="text-5xl font-extrabold text-on-surface tracking-tight">$199</span>
 <span class="text-on-surface-variant">/mo</span>
@@ -101,7 +192,9 @@
 <span class="text-on-surface font-medium text-sm">Monthly Performance Reviews</span>
 </div>
 </div>
-<button class="w-full py-4 rounded-lg font-bold primary-gradient text-on-primary shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all">14-Day Sprint</button>
+<button class="w-full py-4 rounded-lg font-bold primary-gradient text-on-primary shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all">
+                    Get Started Now
+                </button>
 </div>
 <!-- Enterprise Tier -->
 <div class="bg-surface-container-low rounded-xl p-8 transition-transform hover:-translate-y-1 duration-300">
@@ -144,7 +237,7 @@
 <tr class="bg-surface-container-high">
 <th class="px-6 py-4 label-md text-on-surface-variant rounded-tl-lg">Feature</th>
 <th class="px-6 py-4 label-md text-on-surface-variant">Startup</th>
-<th class="px-6 py-4 label-md text-on-surface-variant">Growth</th>
+<th class="px-6 py-4 label-md text-on-surface-variant">Corporate</th>
 <th class="px-6 py-4 label-md text-on-surface-variant rounded-tr-lg">Enterprise</th>
 </tr>
 </thead>
@@ -193,7 +286,7 @@
 <footer class="bg-slate-50 border-t border-slate-200 mt-24">
 <div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 py-16 max-w-7xl mx-auto">
 <div class="space-y-4">
-<div class="text-lg font-black text-slate-900"><div class="flex items-center gap-2"><img alt="ProgrammersIn Logo" class="h-8 w-auto" src="/uploads/stitch/fcd58854b2.png"/><span>ProgrammersIn</span></div></div>
+<div class="text-lg font-black text-slate-900">Programmers.in</div>
 <p class="text-slate-500 text-sm">Building the future of software development, one precision-engineered solution at a time.</p>
 </div>
 <div>
@@ -223,9 +316,7 @@
 </div>
 </div>
 <div class="max-w-7xl mx-auto px-8 py-8 border-t border-slate-100">
-<p class="text-slate-400 text-xs text-center">© 2024 ProgrammersIn. All rights reserved.</p>
+<p class="text-slate-400 text-xs text-center">© 2024 Programmers.in. All rights reserved.</p>
 </div>
 </footer>
-
-
-@endsection
+</body></html>
