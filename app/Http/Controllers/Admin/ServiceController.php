@@ -3,63 +3,76 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $services = Service::orderBy('order')->orderBy('title')->paginate(15);
+        return view('admin.services.index', compact('services'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.services.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'icon'        => 'nullable|string|max:100',
+            'price'       => 'nullable|numeric|min:0',
+            'order'       => 'nullable|integer|min:0',
+        ]);
+
+        $validated['slug']      = Str::slug($validated['title']);
+        $validated['is_active'] = $request->boolean('is_active', true);
+
+        Service::create($validated);
+
+        return redirect()->route('admin.services.index')
+            ->with('success', 'Service created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Service $service)
     {
-        //
+        return redirect()->route('admin.services.edit', $service);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Service $service)
     {
-        //
+        return view('admin.services.edit', compact('service'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Service $service)
     {
-        //
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'icon'        => 'nullable|string|max:100',
+            'price'       => 'nullable|numeric|min:0',
+            'order'       => 'nullable|integer|min:0',
+        ]);
+
+        $validated['slug']      = Str::slug($validated['title']);
+        $validated['is_active'] = $request->boolean('is_active');
+
+        $service->update($validated);
+
+        return redirect()->route('admin.services.index')
+            ->with('success', 'Service updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Service $service)
     {
-        //
+        $service->delete();
+
+        return redirect()->route('admin.services.index')
+            ->with('success', 'Service deleted successfully.');
     }
 }

@@ -3,63 +3,86 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $employees = User::where('role', 'employee')->latest()->paginate(15);
+        return view('admin.employees.index', compact('employees'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.employees.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name'              => 'required|string|max:255',
+            'email'             => 'required|email|unique:users,email',
+            'password'          => 'required|string|min:8|confirmed',
+            'phone'             => 'nullable|string|max:30',
+            'position'          => 'nullable|string|max:255',
+            'bio'               => 'nullable|string',
+        ]);
+
+        $validated['role']      = 'employee';
+        $validated['password']  = Hash::make($validated['password']);
+        $validated['is_active'] = $request->boolean('is_active', true);
+
+        User::create($validated);
+
+        return redirect()->route('admin.employees.index')
+            ->with('success', 'Employee created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(User $employee)
     {
-        //
+        return redirect()->route('admin.employees.edit', $employee);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(User $employee)
     {
-        //
+        return view('admin.employees.edit', compact('employee'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $employee)
     {
-        //
+        $validated = $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => ['required', 'email', Rule::unique('users')->ignore($employee->id)],
+            'password' => 'nullable|string|min:8|confirmed',
+            'phone'    => 'nullable|string|max:30',
+            'position' => 'nullable|string|max:255',
+            'bio'      => 'nullable|string',
+        ]);
+
+        if (!empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        $validated['is_active'] = $request->boolean('is_active');
+
+        $employee->update($validated);
+
+        return redirect()->route('admin.employees.index')
+            ->with('success', 'Employee updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(User $employee)
     {
-        //
+        // Deactivate instead of hard delete to preserve project references
+        $employee->update(['is_active' => false]);
+
+        return redirect()->route('admin.employees.index')
+            ->with('success', 'Employee has been deactivated.');
     }
 }

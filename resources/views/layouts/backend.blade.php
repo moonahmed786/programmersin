@@ -68,8 +68,13 @@
                     <span class="material-symbols-outlined">rocket_launch</span>
                     <span class="text-sm font-semibold">Projects</span>
                 </a>
+                <a href="{{ route('admin.employees.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ str_contains($currentRoute, 'employees') ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-slate-500 hover:bg-surface-container-low hover:text-primary' }}">
+                    <span class="material-symbols-outlined">badge</span>
+                    <span class="text-sm font-semibold">Employees</span>
+                </a>
                 <a href="{{ route('admin.services.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ str_contains(request()->url(), 'services-management') ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-slate-500 hover:bg-surface-container-low hover:text-primary' }}">
+                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ str_contains($currentRoute, 'services') ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-slate-500 hover:bg-surface-container-low hover:text-primary' }}">
                     <span class="material-symbols-outlined">settings_suggest</span>
                     <span class="text-sm font-semibold">Services</span>
                 </a>

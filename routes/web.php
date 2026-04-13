@@ -32,6 +32,27 @@ Route::middleware(['auth'])->group(function () {
             'update' => 'admin.projects.update',
             'destroy' => 'admin.projects.destroy',
         ]);
+
+        Route::resource('admin/employees', \App\Http\Controllers\Admin\EmployeeController::class)->names([
+            'index' => 'admin.employees.index',
+            'create' => 'admin.employees.create',
+            'store' => 'admin.employees.store',
+            'show' => 'admin.employees.show',
+            'edit' => 'admin.employees.edit',
+            'update' => 'admin.employees.update',
+            'destroy' => 'admin.employees.destroy',
+        ]);
+
+        Route::resource('admin/services', \App\Http\Controllers\Admin\ServiceController::class)->names([
+            'index' => 'admin.services.index',
+            'create' => 'admin.services.create',
+            'store' => 'admin.services.store',
+            'show' => 'admin.services.show',
+            'edit' => 'admin.services.edit',
+            'update' => 'admin.services.update',
+            'destroy' => 'admin.services.destroy',
+        ]);
+
         Route::resource('admin/inquiries', InquiryController::class)->only(['index', 'show'])->names([
             'index' => 'admin.inquiries.index',
             'show' => 'admin.inquiries.show',
@@ -62,7 +83,6 @@ Route::middleware(['auth'])->group(function () {
 // Static Page Routes from Stitch
 Route::prefix('pages')->group(function () {
     Route::get('/product-gallery', function () { return view('pages.product-gallery'); });
-    Route::get('/services-management', function () { return view('pages.services-management'); })->name('admin.services.index');
     Route::get('/product-showcase', function () { return view('pages.product-showcase'); });
     Route::get('/dashboard-overview', function () { return view('pages.dashboard-overview'); });
     Route::get('/public-pricing', function () { return view('pages.public-pricing'); });
