@@ -25,3 +25,17 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+/scripts
+/docs
+/.agent
+/.agents
+/.gemini
+/.gsd
+/adapters
+/GSD-STYLE.md
+/model_capabilities.yaml
+/PROJECT_RULES.md
+/PRD.md
+/progress.txt
+/VERSION
