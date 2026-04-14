@@ -58,6 +58,10 @@ Route::middleware(['auth'])->group(function () {
             'show' => 'admin.inquiries.show',
         ]);
         Route::patch('admin/inquiries/{inquiry}/status', [InquiryController::class, 'updateStatus'])->name('admin.inquiries.update_status');
+
+        // Settings Routes
+        Route::get('admin/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('admin.settings.index');
+        Route::post('admin/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('admin.settings.update');
     });
 
     // Employee Routes
