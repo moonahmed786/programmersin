@@ -132,6 +132,36 @@ class SettingSeeder extends Seeder
                 'label' => 'Mail Encryption',
                 'type' => 'text',
             ],
+
+            // CMS / CTA / Footer settings
+            [
+                'key' => 'cta_text',
+                'value' => 'Ship in 14 Days',
+                'group' => 'general',
+                'label' => 'Header CTA Text',
+                'type' => 'text',
+            ],
+            [
+                'key' => 'cta_url',
+                'value' => '#contact',
+                'group' => 'general',
+                'label' => 'Header CTA URL',
+                'type' => 'text',
+            ],
+            [
+                'key' => 'footer_about',
+                'value' => 'Hyper-speed AI-First engineering for the world\'s most ambitious companies.',
+                'group' => 'general',
+                'label' => 'Footer About Text',
+                'type' => 'textarea',
+            ],
+            [
+                'key' => 'footer_copyright',
+                'value' => '© 2024 ProgrammersIn. Velocity First.',
+                'group' => 'general',
+                'label' => 'Footer Copyright Text',
+                'type' => 'text',
+            ],
         ];
 
         foreach ($settings as $setting) {

@@ -75,4 +75,16 @@ class ServiceController extends Controller
         return redirect()->route('admin.services.index')
             ->with('success', 'Service deleted successfully.');
     }
+
+    /**
+     * Public Services Catalog
+     */
+    public function publicCatalog()
+    {
+        $services = Service::where('is_active', true)->orderBy('order')->get();
+        $headerMenus = \App\Models\Menu::header()->with('children')->get();
+        $footerMenus = \App\Models\Menu::footer()->with('children')->get();
+
+        return view('pages.services-catalog', compact('services', 'headerMenus', 'footerMenus'));
+    }
 }

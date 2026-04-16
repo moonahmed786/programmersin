@@ -42,16 +42,18 @@ class Setting extends Model
      */
     public static function set(string $key, $value)
     {
-        $setting = self::updateOrCreate(
+        self::updateOrCreate(
             ['key' => $key],
             ['value' => $value]
         );
-
-        Cache::forget("setting.{$key}");
     }
 
     protected static function booted()
     {
+        static::created(function ($setting) {
+            Cache::forget("setting.{$setting->key}");
+        });
+
         static::updated(function ($setting) {
             Cache::forget("setting.{$setting->key}");
         });

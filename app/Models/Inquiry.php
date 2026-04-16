@@ -20,6 +20,11 @@ class Inquiry extends Model
         'assigned_to',
     ];
 
+    public function notes()
+    {
+        return $this->hasMany(InquiryNote::class)->latest();
+    }
+
     public function assignedTo()
     {
         return $this->belongsTo(User::class, 'assigned_to');

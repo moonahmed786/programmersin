@@ -1,117 +1,121 @@
 @extends('layouts.backend')
 
 @section('content')
-<div class="max-w-2xl space-y-6">
 
-    {{-- Page Header --}}
-    <div class="flex items-center gap-4">
-        <a href="{{ route('admin.employees.index') }}"
-            class="p-2 rounded-xl text-slate-500 hover:bg-surface-container-low transition-colors">
-            <span class="material-symbols-outlined">arrow_back</span>
+<!-- Architect Unit Initialization Header -->
+<div class="mb-12">
+    <div class="flex items-center gap-4 mb-4">
+        <a href="{{ route('admin.employees.index') }}" class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-on-surface-variant opacity-40">
+            <span class="material-symbols-outlined text-xl">arrow_back</span>
         </a>
+        <div class="h-4 w-px bg-outline-variant/20 mx-2"></div>
         <div>
-            <h1 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Add New Employee</h1>
-            <p class="text-sm text-slate-400 mt-1">Create a new team member account</p>
+            <h1 class="text-2xl font-black tracking-tighter text-on-surface uppercase italic">Architect Unit Initialization</h1>
+            <p class="text-[10px] text-on-surface-variant font-mono opacity-60 uppercase tracking-widest mt-1">Deploying new personnel node to agency grid</p>
         </div>
     </div>
+</div>
 
-    {{-- Form Card --}}
-    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
-        <form action="{{ route('admin.employees.store') }}" method="POST" class="divide-y divide-outline-variant/10">
+<div class="max-w-4xl">
+    <div class="bg-white rounded overflow-hidden border border-outline-variant/10 shadow-sm">
+        <form action="{{ route('admin.employees.store') }}" method="POST">
             @csrf
 
-            {{-- Personal Info --}}
-            <div class="p-6 space-y-5">
-                <p class="text-xs uppercase font-black tracking-widest text-slate-400">Personal Information</p>
-
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="name">Full Name <span class="text-red-400">*</span></label>
-                        <input id="name" type="text" name="name" value="{{ old('name') }}"
-                            class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all @error('name') border-red-400 @enderror"
-                            placeholder="John Doe">
-                        @error('name') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+            <div class="p-10 space-y-12">
+                <!-- Group 01: Identity Metadata -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div>
+                        <span class="label-mono text-[9px] opacity-40 uppercase tracking-widest block mb-1">Section 01</span>
+                        <h3 class="font-black text-on-surface tracking-tight uppercase text-xs">Identity Metadata</h3>
                     </div>
+                    <div class="md:col-span-2 space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="label-mono text-[10px] text-on-surface opacity-60 uppercase tracking-widest" for="name">Legal Identifier (Name)</label>
+                                <input id="name" type="text" name="name" required value="{{ old('name') }}"
+                                    class="w-full bg-surface-container-low border border-outline-variant/20 rounded px-5 py-3.5 text-sm font-bold text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all @error('name') border-error @enderror"
+                                    placeholder="SURNAME_GIVEN">
+                                @error('name') <p class="text-[9px] text-error font-bold uppercase tracking-widest mt-2">{{ $message }}</p> @enderror
+                            </div>
 
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="position">Position / Role</label>
-                        <input id="position" type="text" name="position" value="{{ old('position') }}"
-                            class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
-                            placeholder="e.g. Full Stack Developer">
+                            <div class="space-y-2">
+                                <label class="label-mono text-[10px] text-on-surface opacity-60 uppercase tracking-widest" for="position">Assigned Designation</label>
+                                <input id="position" type="text" name="position" value="{{ old('position') }}"
+                                    class="w-full bg-surface-container-low border border-outline-variant/20 rounded px-5 py-3.5 text-sm font-bold text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
+                                    placeholder="e.g. SR_DEVELOPER">
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="label-mono text-[10px] text-on-surface opacity-60 uppercase tracking-widest" for="phone">Signal Port (Phone)</label>
+                            <input id="phone" type="text" name="phone" value="{{ old('phone') }}"
+                                class="w-full bg-surface-container-low border border-outline-variant/20 rounded px-5 py-3.5 text-xs font-mono font-bold text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
+                                placeholder="+XX XXX XXXXXXX">
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="label-mono text-[10px] text-on-surface opacity-60 uppercase tracking-widest" for="bio">Personnel Brief (Bio)</label>
+                            <textarea id="bio" name="bio" rows="3"
+                                class="w-full bg-surface-container-low border border-outline-variant/20 rounded px-5 py-4 focus:ring-4 focus:ring-primary/10 focus:border-primary/40 text-sm font-medium text-on-surface-variant transition-all resize-none italic"
+                                placeholder="Awaiting manual narrative input...">{{ old('bio') }}</textarea>
+                        </div>
                     </div>
                 </div>
 
-                <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="phone">Phone Number</label>
-                    <input id="phone" type="text" name="phone" value="{{ old('phone') }}"
-                        class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
-                        placeholder="+92 300 0000000">
-                </div>
+                <div class="h-px bg-outline-variant/10"></div>
 
-                <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="bio">Bio / About</label>
-                    <textarea id="bio" name="bio" rows="3"
-                        class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all resize-none"
-                        placeholder="Short bio about this team member...">{{ old('bio') }}</textarea>
+                <!-- Group 02: Access Credentials -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div>
+                        <span class="label-mono text-[9px] opacity-40 uppercase tracking-widest block mb-1">Section 02</span>
+                        <h3 class="font-black text-on-surface tracking-tight uppercase text-xs">Access Credentials</h3>
+                    </div>
+                    <div class="md:col-span-2 space-y-8">
+                        <div class="space-y-2">
+                            <label class="label-mono text-[10px] text-on-surface opacity-60 uppercase tracking-widest" for="email">Auth Node (Email)</label>
+                            <input id="email" type="email" name="email" required value="{{ old('email') }}"
+                                class="w-full bg-surface-container-low border border-outline-variant/20 rounded px-5 py-3.5 text-sm font-mono font-bold text-primary focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all @error('email') border-error @enderror"
+                                placeholder="user@agency.com">
+                            @error('email') <p class="text-[9px] text-error font-bold uppercase tracking-widest mt-2">{{ $message }}</p> @enderror
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="label-mono text-[10px] text-on-surface opacity-60 uppercase tracking-widest" for="password">Security Hash (Password)</label>
+                                <input id="password" type="password" name="password" required
+                                    class="w-full bg-surface-container-low border border-outline-variant/20 rounded px-5 py-3.5 text-sm font-mono font-bold text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all @error('password') border-error @enderror"
+                                    placeholder="********">
+                                @error('password') <p class="text-[9px] text-error font-bold uppercase tracking-widest mt-2">{{ $message }}</p> @enderror
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="label-mono text-[10px] text-on-surface opacity-60 uppercase tracking-widest" for="password_confirmation">Confirm Hash</label>
+                                <input id="password_confirmation" type="password" name="password_confirmation" required
+                                    class="w-full bg-surface-container-low border border-outline-variant/20 rounded px-5 py-3.5 text-sm font-mono font-bold text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
+                                    placeholder="********">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            {{-- Account Info --}}
-            <div class="p-6 space-y-5">
-                <p class="text-xs uppercase font-black tracking-widest text-slate-400">Account Credentials</p>
-
-                <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="email">Email Address <span class="text-red-400">*</span></label>
-                    <input id="email" type="email" name="email" value="{{ old('email') }}"
-                        class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all @error('email') border-red-400 @enderror"
-                        placeholder="john@programmersin.com">
-                    @error('email') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+            <!-- Form Actions -->
+            <div class="px-10 py-8 bg-surface-container-low border-t border-outline-variant/10 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+                    <span class="label-mono text-[9px] opacity-40 uppercase tracking-widest">Node Activation Ready</span>
                 </div>
-
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="password">Password <span class="text-red-400">*</span></label>
-                        <input id="password" type="password" name="password"
-                            class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all @error('password') border-red-400 @enderror"
-                            placeholder="Min. 8 characters">
-                        @error('password') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
-                    </div>
-
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="password_confirmation">Confirm Password <span class="text-red-400">*</span></label>
-                        <input id="password_confirmation" type="password" name="password_confirmation"
-                            class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
-                            placeholder="Repeat password">
-                    </div>
-                </div>
-            </div>
-
-            {{-- Status & Submit --}}
-            <div class="p-6 flex items-center justify-between gap-4">
-                <label class="flex items-center gap-3 cursor-pointer">
-                    <div class="relative">
-                        <input type="hidden" name="is_active" value="0">
-                        <input id="is_active" type="checkbox" name="is_active" value="1" checked
-                            class="sr-only peer">
-                        <div class="w-10 h-6 bg-slate-200 dark:bg-slate-700 rounded-full peer-checked:bg-primary transition-colors"></div>
-                        <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-all peer-checked:translate-x-4"></div>
-                    </div>
-                    <span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Active account</span>
-                </label>
-
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('admin.employees.index') }}"
-                        class="px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-500 hover:bg-surface-container-low transition-colors">
-                        Cancel
-                    </a>
-                    <button type="submit"
-                        class="inline-flex items-center gap-2 bg-primary text-on-primary px-6 py-2.5 rounded-xl font-semibold text-sm shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
-                        <span class="material-symbols-outlined text-base">save</span>
-                        Create Employee
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('admin.employees.index') }}" class="label-mono text-[10px] font-black uppercase tracking-widest opacity-40 hover:opacity-100 transition-opacity">Abort Deploy</a>
+                    <button type="submit" class="bg-primary text-white px-8 py-3 rounded font-black text-xs tracking-tight hover:brightness-110 shadow-lg shadow-primary/20 transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">person_add</span>
+                        Compute Initialization
                     </button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
+@endsection
 @endsection

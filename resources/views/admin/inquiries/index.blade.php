@@ -1,85 +1,98 @@
 @extends('layouts.backend')
 
 @section('content')
-<!-- Header Section -->
-<header class="mb-10 flex items-end justify-between">
-    <div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-on-surface mb-1">Incoming Inquiries</h1>
-        <p class="text-on-surface-variant font-medium italic">Lead management and customer engagement portal.</p>
-    </div>
-</header>
 
-<!-- Inquiries Table -->
-<div class="bg-surface-container-lowest rounded-2xl shadow-xl shadow-slate-200/50 overflow-hidden border border-outline-variant/10">
-    <div class="px-8 py-6 flex items-center justify-between border-b border-outline-variant/10">
-        <h2 class="text-lg font-black text-on-surface tracking-tight">Lead Activity</h2>
+<!-- Incoming Inquiries Header -->
+<div class="mb-14">
+    <div class="flex justify-between items-end mb-10">
+        <div>
+            <h1 class="text-3xl font-black tracking-tighter text-slate-900 uppercase italic">
+                <span class="text-gradient">Lead Activity Stream</span>
+            </h1>
+            <p class="text-[10px] text-slate-400 font-extrabold uppercase tracking-[0.3em] mt-2 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                Lead management and customer engagement telemetry
+            </p>
+        </div>
     </div>
-    <div class="overflow-x-auto @if($inquiries->isEmpty()) p-20 text-center @endif">
-        @if($inquiries->isNotEmpty())
-        <table class="w-full border-collapse">
-            <thead>
-                <tr class="bg-surface-container-low italic text-[10px] uppercase font-black tracking-widest text-on-surface-variant">
-                    <th class="px-8 py-4 text-left">Sender</th>
-                    <th class="px-8 py-4 text-left">Contact Info</th>
-                    <th class="px-8 py-4 text-left">Subject</th>
-                    <th class="px-8 py-4 text-left">Received</th>
-                    <th class="px-8 py-4 text-right">Status</th>
-                    <th class="px-8 py-4 text-right">Actions</th>
-                </tr>
-            </thead>
-            <tbody class="divide-y-0">
-                @foreach($inquiries as $inquiry)
-                <tr class="group hover:bg-surface-container transition-colors">
-                    <td class="px-8 py-5">
+</div>
+
+<!-- Ledger Table -->
+<div class="glass-surface rounded-stellar overflow-hidden border border-white/80 animate-in-fade">
+    <div class="px-10 py-6 bg-slate-50/30 border-b border-slate-100 flex items-center justify-between">
+        <h2 class="text-[10px] font-black uppercase tracking-widest text-slate-400 italic">Global Engagement Node</h2>
+    </div>
+    
+    <table class="ledger-table">
+        <thead>
+            <tr>
+                <th>Lead Identity</th>
+                <th>Communication Node</th>
+                <th>Subject Protocol</th>
+                <th>Telemetry Time</th>
+                <th>Status Node</th>
+                <th class="text-right">Execution</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($inquiries as $inquiry)
+                <tr class="group">
+                    <td>
                         <div class="flex flex-col">
-                            <span class="font-black text-sm text-on-surface tracking-tight">{{ $inquiry->name }}</span>
-                            <span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest italic leading-none">{{ $inquiry->company ?? 'Personal Account' }}</span>
+                            <span class="font-black text-slate-900 tracking-tight leading-none mb-1">{{ $inquiry->name }}</span>
+                            <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest italic">{{ $inquiry->company ?? 'PERSONAL_ACCOUNT' }}</span>
                         </div>
                     </td>
-                    <td class="px-8 py-5">
-                        <div class="flex flex-col gap-1">
-                            <div class="flex items-center gap-2 text-xs font-bold text-on-surface-variant">
-                                <span class="material-symbols-outlined text-[14px]">mail</span>
+                    <td>
+                        <div class="flex flex-col gap-1.5">
+                            <div class="flex items-center gap-2 text-[10px] font-black text-primary uppercase tracking-wider">
+                                <span class="material-symbols-outlined text-[14px]">alternate_email</span>
                                 {{ $inquiry->email }}
                             </div>
                             @if($inquiry->phone)
-                            <div class="flex items-center gap-2 text-xs font-bold text-on-surface-variant">
+                            <div class="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-wider">
                                 <span class="material-symbols-outlined text-[14px]">call</span>
                                 {{ $inquiry->phone }}
                             </div>
                             @endif
                         </div>
                     </td>
-                    <td class="px-8 py-5 text-sm text-on-surface-variant font-medium">{{ $inquiry->subject }}</td>
-                    <td class="px-8 py-5 text-sm font-bold text-slate-400 font-mono tracking-tighter">{{ $inquiry->created_at->diffForHumans() }}</td>
-                    <td class="px-8 py-5 text-right">
-                        <span class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full text-[10px] font-black uppercase tracking-widest text-on-surface-variant border border-outline-variant/10">
-                            <span class="w-1.5 h-1.5 rounded-full @if($inquiry->status == 'new') bg-primary @elseif($inquiry->status == 'closed') bg-slate-400 @else bg-emerald-500 @endif"></span>
-                            {{ str_replace('_', ' ', $inquiry->status) }}
+                    <td>
+                        <span class="text-xs font-bold text-slate-500 italic truncate max-w-xs block">{{ $inquiry->subject }}</span>
+                    </td>
+                    <td>
+                        <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">{{ $inquiry->created_at->diffForHumans() }}</span>
+                    </td>
+                    <td>
+                        <span class="badge-stellar {{ $inquiry->status == 'new' ? 'badge-live' : ($inquiry->status == 'closed' ? 'badge-warning' : 'badge-live opacity-80') }}">
+                            {{ strtoupper(str_replace('_', ' ', $inquiry->status)) }}
                         </span>
                     </td>
-                    <td class="px-8 py-5 text-right">
-                        <a href="{{ route('admin.inquiries.show', $inquiry->id) }}" class="p-2 hover:bg-primary-container hover:text-primary rounded-xl transition-all inline-block group/btn">
-                            <span class="material-symbols-outlined text-lg group-hover/btn:scale-110 transition-transform">visibility</span>
+                    <td class="text-right">
+                        <a href="{{ route('admin.inquiries.show', $inquiry->id) }}" class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-slate-50 text-slate-300 hover:text-primary hover:bg-primary/5 transition-all">
+                            <span class="material-symbols-outlined text-xl">visibility</span>
                         </a>
                     </td>
                 </tr>
-                @endforeach
-            </tbody>
-        </table>
-        @else
-        <div class="space-y-4">
-            <span class="material-symbols-outlined text-6xl text-slate-200">contact_mail</span>
-            <p class="text-on-surface font-black text-xl tracking-tight">No inquiries recorded.</p>
-            <p class="text-on-surface-variant text-sm italic font-medium">Marketing efforts will usually populate this list in due time.</p>
-        </div>
-        @endif
-    </div>
-    
-    @if($inquiries->hasPages())
-    <div class="px-8 py-6 border-t border-outline-variant/10 bg-surface-container-low/30">
+            @endforeach
+            @if($inquiries->isEmpty())
+                <tr>
+                    <td colspan="6" class="px-6 py-32 text-center">
+                        <div class="w-20 h-20 rounded-3xl bg-slate-50 flex items-center justify-center mx-auto mb-6">
+                            <span class="material-symbols-outlined text-4xl text-slate-200">contact_mail</span>
+                        </div>
+                        <p class="text-[10px] font-extrabold uppercase tracking-[0.3em] text-slate-300 italic">No inquiries recorded in the activity stream.</p>
+                    </td>
+                </tr>
+            @endif
+        </tbody>
+    </table>
+</div>
+
+@if($inquiries->hasPages())
+    <div class="mt-12">
         {{ $inquiries->links() }}
     </div>
-    @endif
-</div>
+@endif
+
 @endsection

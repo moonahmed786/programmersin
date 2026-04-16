@@ -7,7 +7,10 @@ use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\ProjectController;
 
 Route::get('/', function () {
-    return view('pages.landing-page'); // Use the homepage
+    $services = \App\Models\Service::where('is_active', true)->orderBy('order')->get();
+    $employees = \App\Models\User::where('role', 'employee')->where('is_active', true)->get();
+    
+    return view('pages.landing-page', compact('services', 'employees'));
 });
 
 // Auth Routes
@@ -15,53 +18,33 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+// Public Portfolio/Showcase Routes
+Route::get('/portfolio', [ProjectController::class, 'portfolio'])->name('portfolio.index');
+Route::get('/portfolio/{slug}', [ProjectController::class, 'showcase'])->name('portfolio.show');
+
 Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
 
 // Grouped Protected Routes
 Route::middleware(['auth'])->group(function () {
     
     // SuperAdmin Routes
-    Route::middleware(['role:superadmin'])->group(function () {
-        Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
-        Route::resource('admin/projects', ProjectController::class)->names([
-            'index' => 'admin.projects.index',
-            'create' => 'admin.projects.create',
-            'store' => 'admin.projects.store',
-            'show' => 'admin.projects.show',
-            'edit' => 'admin.projects.edit',
-            'update' => 'admin.projects.update',
-            'destroy' => 'admin.projects.destroy',
-        ]);
+    Route::middleware(['role:superadmin'])->prefix('admin')->as('admin.')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'admin'])->name('dashboard');
+        
+        Route::resource('projects', ProjectController::class);
+        Route::resource('employees', \App\Http\Controllers\Admin\EmployeeController::class);
+        Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class);
+        Route::resource('menus', \App\Http\Controllers\Admin\MenuController::class);
+        Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
 
-        Route::resource('admin/employees', \App\Http\Controllers\Admin\EmployeeController::class)->names([
-            'index' => 'admin.employees.index',
-            'create' => 'admin.employees.create',
-            'store' => 'admin.employees.store',
-            'show' => 'admin.employees.show',
-            'edit' => 'admin.employees.edit',
-            'update' => 'admin.employees.update',
-            'destroy' => 'admin.employees.destroy',
-        ]);
-
-        Route::resource('admin/services', \App\Http\Controllers\Admin\ServiceController::class)->names([
-            'index' => 'admin.services.index',
-            'create' => 'admin.services.create',
-            'store' => 'admin.services.store',
-            'show' => 'admin.services.show',
-            'edit' => 'admin.services.edit',
-            'update' => 'admin.services.update',
-            'destroy' => 'admin.services.destroy',
-        ]);
-
-        Route::resource('admin/inquiries', InquiryController::class)->only(['index', 'show'])->names([
-            'index' => 'admin.inquiries.index',
-            'show' => 'admin.inquiries.show',
-        ]);
-        Route::patch('admin/inquiries/{inquiry}/status', [InquiryController::class, 'updateStatus'])->name('admin.inquiries.update_status');
+        Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
+        Route::get('/inquiries/{inquiry}', [InquiryController::class, 'show'])->name('inquiries.show');
+        Route::post('/inquiries/{inquiry}/notes', [InquiryController::class, 'storeNote'])->name('inquiries.store_note');
+        Route::patch('/inquiries/{inquiry}/status', [InquiryController::class, 'updateStatus'])->name('inquiries.update_status');
 
         // Settings Routes
-        Route::get('admin/settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('admin.settings.index');
-        Route::post('admin/settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('admin.settings.update');
+        Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
+        Route::post('settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
     });
 
     // Employee Routes
@@ -84,12 +67,10 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
-// Static Page Routes from Stitch
-Route::prefix('pages')->group(function () {
-    Route::get('/product-gallery', function () { return view('pages.product-gallery'); });
-    Route::get('/product-showcase', function () { return view('pages.product-showcase'); });
-    Route::get('/dashboard-overview', function () { return view('pages.dashboard-overview'); });
-    Route::get('/public-pricing', function () { return view('pages.public-pricing'); });
-    Route::get('/landing-page', function () { return view('pages.landing-page'); });
-    Route::get('/services-catalog', function () { return view('pages.services-catalog'); });
-});
+// Static Page Routes
+// Public Services Catalog
+Route::get('/services-catalog', [\App\Http\Controllers\Admin\ServiceController::class, 'publicCatalog'])->name('services.catalog');
+
+
+// Dynamic Page Catch-all
+Route::get('{slug}', [\App\Http\Controllers\PageController::class, 'show'])->name('pages.public_show')->where('slug', '.*');

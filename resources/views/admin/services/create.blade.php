@@ -1,102 +1,125 @@
 @extends('layouts.backend')
 
 @section('content')
-<div class="max-w-2xl space-y-6">
 
-    {{-- Page Header --}}
-    <div class="flex items-center gap-4">
-        <a href="{{ route('admin.services.index') }}"
-            class="p-2 rounded-xl text-slate-500 hover:bg-surface-container-low transition-colors">
-            <span class="material-symbols-outlined">arrow_back</span>
+<!-- Service Initialization Header -->
+<div class="mb-14">
+    <div class="flex items-center gap-6 mb-4">
+        <a href="{{ route('admin.services.index') }}" class="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-slate-300 hover:text-primary hover:border-primary/20 transition-all shadow-sm">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
         </a>
+        <div class="h-6 w-px bg-slate-100 mx-2"></div>
         <div>
-            <h1 class="text-2xl font-black text-slate-900 dark:text-white tracking-tight">Add Service</h1>
-            <p class="text-sm text-slate-400 mt-1">Define a new agency service offering</p>
+            <h1 class="text-3xl font-black tracking-tighter text-slate-900 uppercase italic">
+                <span class="text-gradient">Initialize Module</span>
+            </h1>
+            <p class="text-[10px] text-slate-400 font-extrabold uppercase tracking-[0.3em] mt-2">Initializing new service capability registry node</p>
         </div>
     </div>
+</div>
 
-    {{-- Form Card --}}
-    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
-        <form action="{{ route('admin.services.store') }}" method="POST" class="divide-y divide-outline-variant/10">
+<div class="max-w-4xl animate-in-fade">
+    <div class="glass-surface rounded-stellar overflow-hidden border border-white/80">
+        <form action="{{ route('admin.services.store') }}" method="POST">
             @csrf
 
-            {{-- Service Details --}}
-            <div class="p-6 space-y-5">
-                <p class="text-xs uppercase font-black tracking-widest text-slate-400">Basic Information</p>
-
-                <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="title">Service Title <span class="text-red-400">*</span></label>
-                    <input id="title" type="text" name="title" value="{{ old('title') }}"
-                        class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all @error('title') border-red-400 @enderror"
-                        placeholder="e.g. Web Development">
-                    @error('title') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="description">Description</label>
-                    <textarea id="description" name="description" rows="4"
-                        class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all resize-none @error('description') border-red-400 @enderror"
-                        placeholder="Detailed description of the service...">{{ old('description') }}</textarea>
-                    @error('description') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="icon">Icon Name</label>
-                        <div class="relative">
-                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">category</span>
-                            <input id="icon" type="text" name="icon" value="{{ old('icon', 'settings_suggest') }}"
-                                class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl pl-10 pr-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
-                                placeholder="Material Symbol Name">
-                        </div>
-                        <p class="text-[10px] text-slate-400 mt-1 font-bold">Use <a href="https://fonts.google.com/icons" target="_blank" class="text-primary hover:underline">Material Symbols</a> (e.g. rocket_launch)</p>
+            <div class="p-12 space-y-14">
+                <!-- Group 01: Core Identification -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    <div>
+                        <span class="text-[10px] font-black text-primary uppercase tracking-[0.3em] block mb-2">PHASE 01</span>
+                        <h3 class="font-black text-slate-900 tracking-tight uppercase text-sm italic">Architectural Core</h3>
                     </div>
+                    <div class="lg:col-span-2 space-y-10">
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="title">Capability Identifier (Title)</label>
+                            <input id="title" type="text" name="title" required value="{{ old('title') }}"
+                                class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all @error('title') border-red-200 @enderror"
+                                placeholder="ENTER_MODULE_TITLE">
+                            @error('title') <p class="text-[9px] text-red-500 font-bold uppercase tracking-widest mt-2">{{ $message }}</p> @enderror
+                        </div>
 
-                    <div class="space-y-1.5">
-                        <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="price">Starting Price ($)</label>
-                        <div class="relative">
-                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">$</span>
-                            <input id="price" type="number" step="0.01" name="price" value="{{ old('price') }}"
-                                class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl pl-7 pr-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
-                                placeholder="0.00">
+                        <div class="space-y-3">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="description">Module Specification (Description)</label>
+                            <textarea id="description" name="description" rows="5"
+                                class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-5 text-sm font-medium text-slate-600 focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all resize-none italic @error('description') border-red-200 @enderror"
+                                placeholder="Awaiting manual input...">{{ old('description') }}</textarea>
+                            @error('description') <p class="text-[9px] text-red-500 font-bold uppercase tracking-widest mt-2">{{ $message }}</p> @enderror
                         </div>
                     </div>
                 </div>
 
-                <div class="space-y-1.5">
-                    <label class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest" for="order">Display Order</label>
-                    <input id="order" type="number" name="order" value="{{ old('order', 0) }}"
-                        class="w-full bg-surface-container-low dark:bg-slate-800 border border-outline-variant/30 rounded-xl px-4 py-3 text-sm text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
-                        placeholder="0">
+                <div class="h-px bg-slate-100/50"></div>
+
+                <!-- Group 02: Technical Telemetry -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                    <div>
+                        <span class="text-[10px] font-black text-tertiary uppercase tracking-[0.3em] block mb-2">PHASE 02</span>
+                        <h3 class="font-black text-slate-900 tracking-tight uppercase text-sm italic">Technical Telemetry</h3>
+                    </div>
+                    <div class="lg:col-span-2 space-y-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div class="space-y-3">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="icon">Registry Icon Identifier</label>
+                                <div class="relative group">
+                                    <span class="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 text-lg group-focus-within:text-primary transition-all">category</span>
+                                    <input id="icon" type="text" name="icon" value="{{ old('icon', 'settings_suggest') }}"
+                                        class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl pl-14 pr-6 py-4 text-xs font-mono font-bold text-slate-900 focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all"
+                                        placeholder="SYMBOL_ID">
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="price">Starting Threshold ($)</label>
+                                <div class="relative group">
+                                    <span class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-300 font-black text-xs group-focus-within:text-primary transition-all">$</span>
+                                    <input id="price" type="number" step="0.01" name="price" value="{{ old('price') }}"
+                                        class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl pl-12 pr-6 py-4 text-sm font-black text-slate-900 focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all"
+                                        placeholder="0.00">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div class="space-y-3">
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="order">Registry Sequence (Order)</label>
+                                <input id="order" type="number" name="order" value="{{ old('order', 0) }}"
+                                    class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-sm font-black text-slate-900 focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all">
+                            </div>
+
+                            <div class="pt-6 flex flex-col justify-end">
+                                <label class="flex items-center gap-6 cursor-pointer group">
+                                    <div class="relative">
+                                        <input type="hidden" name="is_active" value="0">
+                                        <input id="is_active" type="checkbox" name="is_active" value="1" checked
+                                            class="sr-only peer">
+                                        <div class="w-14 h-7 bg-slate-100 rounded-full peer-checked:bg-primary transition-all shadow-inner"></div>
+                                        <div class="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-lg transition-all peer-checked:translate-x-7"></div>
+                                    </div>
+                                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 group-hover:text-primary transition-colors italic">Public Broadcast Protocol</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            {{-- Status & Submit --}}
-            <div class="p-6 flex items-center justify-between gap-4">
-                <label class="flex items-center gap-3 cursor-pointer">
-                    <div class="relative">
-                        <input type="hidden" name="is_active" value="0">
-                        <input id="is_active" type="checkbox" name="is_active" value="1" checked
-                            class="sr-only peer">
-                        <div class="w-10 h-6 bg-slate-200 dark:bg-slate-700 rounded-full peer-checked:bg-primary transition-colors"></div>
-                        <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-all peer-checked:translate-x-4"></div>
-                    </div>
-                    <span class="text-sm font-semibold text-slate-700 dark:text-slate-300">Set as Public</span>
-                </label>
-
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('admin.services.index') }}"
-                        class="px-5 py-2.5 rounded-xl text-sm font-semibold text-slate-500 hover:bg-surface-container-low transition-colors">
-                        Cancel
-                    </a>
-                    <button type="submit"
-                        class="inline-flex items-center gap-2 bg-primary text-on-primary px-6 py-2.5 rounded-xl font-semibold text-sm shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
-                        <span class="material-symbols-outlined text-base">cloud_upload</span>
-                        Save Service
+            <!-- Form Actions -->
+            <div class="px-12 py-10 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.3)]"></div>
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">Awaiting Commitment</span>
+                </div>
+                <div class="flex items-center gap-6">
+                    <a href="{{ route('admin.services.index') }}" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 hover:text-red-500 transition-colors">Abort Init</a>
+                    <button type="submit" class="btn-stellar px-10">
+                        <span class="material-symbols-outlined text-sm">cloud_upload</span>
+                        Initialize Module
                     </button>
                 </div>
             </div>
         </form>
     </div>
 </div>
+
 @endsection

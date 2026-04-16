@@ -22,142 +22,133 @@
         }
     </style>
 
+    <link rel="icon" type="image/svg+xml" href="{{ \App\Models\Setting::get('site_logo', asset('uploads/assets/logo.svg')) }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-background text-on-surface antialiased font-inter">
+<body class="bg-[#F8FAFC] text-slate-800 antialiased font-inter">
 
     <!-- Sidebar -->
     <aside
-        class="h-screen w-64 fixed left-0 top-0 bg-white dark:bg-slate-900 flex flex-col border-r border-outline-variant/30 tracking-tight z-50">
-        <div class="p-6 flex flex-col gap-1">
-            <div class="flex items-center gap-3 px-2">
-                <div
-                    class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-on-primary shadow-lg shadow-primary/20">
-                    <span class="material-symbols-outlined text-lg">terminal</span>
-                </div>
-                <div class="flex flex-col">
-                    <span
-                        class="text-lg font-bold tracking-tighter text-slate-900 dark:text-slate-50">Programmers.in</span>
-                    <span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold leading-none">
-                        @if(auth()->user()->isSuperAdmin()) Agency Admin
-                        @elseif(auth()->user()->isEmployee()) Team Portal
-                        @else Client Space @endif
-                    </span>
-                </div>
+        class="h-screen w-72 min-w-[288px] fixed left-0 top-0 bg-white flex flex-col border-r border-slate-100 tracking-tight z-50">
+        <!-- Logo Area -->
+        <div class="px-10 py-10 flex items-center gap-5">
+            <div class="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-2xl shadow-slate-900/10 overflow-hidden flex-shrink-0 group hover:scale-110 transition-transform duration-500">
+                <img alt="Pi Logo" class="w-2/3 h-2/3 object-contain group-hover:rotate-12 transition-transform duration-500" src="{{ \App\Models\Setting::get('site_logo', asset('uploads/assets/logo.svg')) }}" />
+            </div>
+            <div class="flex flex-col">
+                <span class="text-xl font-black tracking-tighter text-slate-900 uppercase italic">
+                    <span class="text-gradient">Agency</span>
+                </span>
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] -mt-0.5">Intelligence</span>
             </div>
         </div>
 
-        <nav class="flex-1 px-4 mt-4 space-y-1 overflow-y-auto">
-            @php
-                $role = auth()->user()->role;
-                $currentRoute = request()->route()->getName();
-            @endphp
-
-            <!-- Dashboard Link (Common) -->
+        <nav class="flex-1 overflow-y-auto pb-8 flex flex-col mt-4">
+            <div class="px-10 flex items-center justify-between mb-6">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">Command Center</span>
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+            
+            @php $currentRoute = Route::currentRouteName(); @endphp
+            
             <a href="{{ auth()->user()->dashboardRoute() }}"
-                class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ str_contains($currentRoute, 'dashboard') ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-slate-500 hover:bg-surface-container-low hover:text-primary' }}">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span class="text-sm font-semibold">Overview</span>
+                class="sidebar-link {{ str_contains($currentRoute, 'dashboard') ? 'active' : '' }}">
+                <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' {{ str_contains($currentRoute, 'dashboard') ? '1' : '0' }};">grid_view</span>
+                <span class="text-sm tracking-tight">Velocity Hub</span>
+            </a>
+            
+            <a href="{{ route('admin.projects.index') }}"
+                class="sidebar-link {{ str_contains($currentRoute, 'projects') ? 'active' : '' }}">
+                <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' {{ str_contains($currentRoute, 'projects') ? '1' : '0' }};">rocket_launch</span>
+                <span class="text-sm tracking-tight">Engagements</span>
+            </a>
+            
+            <a href="{{ route('admin.inquiries.index') }}"
+                class="sidebar-link {{ str_contains($currentRoute, 'inquiries') ? 'active' : '' }}">
+                <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' {{ str_contains($currentRoute, 'inquiries') ? '1' : '0' }};">monitor_heart</span>
+                <span class="text-sm tracking-tight">Registry Feed</span>
             </a>
 
-            @if(auth()->user()->isSuperAdmin())
-                <div class="pt-4 pb-2 px-4 text-[10px] uppercase font-bold text-slate-400 tracking-widest">Management</div>
-                <a href="{{ route('admin.projects.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ str_contains($currentRoute, 'projects') ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-slate-500 hover:bg-surface-container-low hover:text-primary' }}">
-                    <span class="material-symbols-outlined">rocket_launch</span>
-                    <span class="text-sm font-semibold">Projects</span>
-                </a>
-                <a href="{{ route('admin.employees.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ str_contains($currentRoute, 'employees') ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-slate-500 hover:bg-surface-container-low hover:text-primary' }}">
-                    <span class="material-symbols-outlined">badge</span>
-                    <span class="text-sm font-semibold">Employees</span>
-                </a>
-                <a href="{{ route('admin.services.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ str_contains($currentRoute, 'services') ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-slate-500 hover:bg-surface-container-low hover:text-primary' }}">
-                    <span class="material-symbols-outlined">settings_suggest</span>
-                    <span class="text-sm font-semibold">Services</span>
-                </a>
-                <a href="{{ route('admin.inquiries.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ str_contains($currentRoute, 'inquiries') ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-slate-500 hover:bg-surface-container-low hover:text-primary' }}">
-                    <span class="material-symbols-outlined">mail</span>
-                    <span class="text-sm font-semibold">Inquiries</span>
-                </a>
-            @endif
+            <div class="mt-12 px-10 mb-6">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">Engineering</span>
+            </div>
+            
+            <a href="{{ route('admin.services.index') }}"
+                class="sidebar-link {{ str_contains($currentRoute, 'services') ? 'active' : '' }}">
+                <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' {{ str_contains($currentRoute, 'services') ? '1' : '0' }};">layers</span>
+                <span class="text-sm tracking-tight">Service Units</span>
+            </a>
+            
+            <a href="{{ route('portfolio.index') }}"
+                class="sidebar-link">
+                <span class="material-symbols-outlined text-xl">auto_awesome_motion</span>
+                <span class="text-sm tracking-tight">Public Nodes</span>
+            </a>
 
-            @if(auth()->user()->isEmployee())
-                <div class="pt-4 pb-2 px-4 text-[10px] uppercase font-bold text-slate-400 tracking-widest">Production</div>
-                <a href="{{ route('employee.projects.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ str_contains($currentRoute, 'projects') ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-slate-500 hover:bg-surface-container-low hover:text-primary' }}">
-                    <span class="material-symbols-outlined">work</span>
-                    <span class="text-sm font-semibold">Assigned Projects</span>
-                </a>
-            @endif
-
-            @if(auth()->user()->isCustomer())
-                <div class="pt-4 pb-2 px-4 text-[10px] uppercase font-bold text-slate-400 tracking-widest">Workspace</div>
-                <a href="{{ route('customer.projects.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 {{ str_contains($currentRoute, 'projects') ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-slate-500 hover:bg-surface-container-low hover:text-primary' }}">
-                    <span class="material-symbols-outlined">rocket_launch</span>
-                    <span class="text-sm font-semibold">My Projects</span>
-                </a>
-            @endif
+            <a href="{{ route('admin.settings.index') }}"
+                class="sidebar-link {{ str_contains($currentRoute, 'settings') ? 'active' : '' }}">
+                <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' {{ str_contains($currentRoute, 'settings') ? '1' : '0' }};">settings_input_component</span>
+                <span class="text-sm tracking-tight">Core Protocol</span>
+            </a>
         </nav>
 
-        <!-- Logout Section -->
-        <div class="p-6 border-t border-outline-variant/20">
-            <form action="{{ route('logout') }}" method="POST">
+        <!-- User Profile Card -->
+        <div class="px-6 py-8 border-t border-slate-50 mt-auto">
+            <div class="flex items-center gap-4 p-5 rounded-3xl bg-slate-50 border border-slate-100 transition-all cursor-pointer group hover:bg-white hover:shadow-2xl hover:shadow-primary/10">
+                <div class="w-11 h-11 rounded-2xl glass-surface flex items-center justify-center text-primary font-black text-xs shadow-lg group-hover:scale-110 transition-transform duration-500">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span class="text-xs font-black text-slate-900 truncate">Lead Specialist</span>
+                    <span class="text-[10px] text-slate-400 font-bold truncate opacity-60">{{ Auth::user()->name }}</span>
+                </div>
+            </div>
+            
+            <form action="{{ route('logout') }}" method="POST" class="mt-6">
                 @csrf
-                <button type="submit"
-                    class="flex items-center gap-3 w-full px-4 py-3 text-slate-500 hover:text-error hover:bg-error-container/20 rounded-xl transition-all">
-                    <span class="material-symbols-outlined text-sm">logout</span>
-                    <span class="text-sm font-bold">Logout</span>
+                <button type="submit" class="w-full flex items-center justify-center gap-3 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 hover:text-red-500 transition-all group">
+                    <span class="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">logout</span>
+                    Disconnect Node
                 </button>
             </form>
         </div>
     </aside>
 
-    <!-- Header Section -->
-    <header
-        class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-between px-8 h-16 border-b border-outline-variant/20 transition-all">
-        <div class="flex items-center flex-1 max-w-lg">
-            <div class="relative w-full group">
-                <span
-                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg group-focus-within:text-primary transition-colors">search</span>
-                <input
-                    class="w-full bg-surface-container-low border-none rounded-xl pl-10 pr-4 py-2 focus:ring-4 focus:ring-primary/10 transition-all text-on-surface text-sm"
-                    placeholder="Search and navigate..." type="text" />
+    <!-- Main Content Area -->
+    <main class="ml-72 flex-1 flex flex-col min-h-screen">
+        <!-- Floating Glass Header -->
+        <header class="floating-header">
+            <div class="flex items-center gap-6">
+                <!-- Breadcrumbs -->
+                <nav class="flex items-center gap-3">
+                    <a href="#" class="text-xs font-bold text-primary tracking-tight">System Registry</a>
+                    <span class="text-slate-300 transform rotate-12 text-[10px]">/</span>
+                    <span class="text-xs font-semibold text-slate-400 tracking-tight italic">Root Console</span>
+                </nav>
             </div>
-        </div>
-        <div class="flex items-center gap-4">
-            <button
-                class="p-2 text-slate-500 dark:text-slate-400 hover:bg-surface-container rounded-xl relative transition-all">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
-                <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-error rounded-full ring-2 ring-white"></span>
-            </button>
-            <div class="h-8 w-[px] bg-outline-variant/30 mx-2"></div>
 
-            <div class="flex items-center gap-3 pl-2">
-                <div class="text-right hidden sm:block">
-                    <p class="text-xs font-black text-slate-900 dark:text-white leading-none">{{ auth()->user()->name }}
-                    </p>
-                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">
-                        {{ auth()->user()->role }}
-                    </p>
+            <div class="flex items-center gap-8">
+                <!-- Systems Nominal Indicator -->
+                <div class="flex items-center gap-3 bg-emerald-50 border border-emerald-100 px-5 py-2 rounded-full">
+                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="text-[9px] font-black uppercase tracking-[0.2em] text-emerald-600">Operational</span>
                 </div>
-                <div
-                    class="h-9 w-9 rounded-xl bg-surface-container flex items-center justify-center border border-outline-variant/20 overflow-hidden shadow-sm">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ auth()->user()->name }}" alt="Avatar">
-                </div>
+
+                <div class="h-6 w-px bg-slate-100"></div>
+                
+                <button class="btn-stellar">
+                    <span class="material-symbols-outlined text-xs">add</span>
+                    New Engagement
+                </button>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- Content Area -->
-    <main class="ml-64 pt-24 pb-12 px-8 min-h-screen">
-        @yield('content')
+        <!-- Scrollable Content -->
+        <div class="flex-1 p-10 mt-2 animate-in-fade">
+            @yield('content')
+        </div>
     </main>
-
 </body>
-
 </html>
