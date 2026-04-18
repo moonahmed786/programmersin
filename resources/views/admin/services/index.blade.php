@@ -3,20 +3,20 @@
 @section('content')
 
 <!-- Service Registry Header -->
-<div class="mb-14">
+<div class="mb-14 px-2">
     <div class="flex justify-between items-end mb-10">
-        <div>
-            <h1 class="text-3xl font-black tracking-tighter text-white uppercase italic">
-                Service <span class="text-primary">Registry</span>
+        <div class="flex flex-col gap-3">
+            <h1 class="text-4xl font-black tracking-tighter text-on-surface uppercase italic">
+                Service <span class="text-primary opacity-90">Registry</span>
             </h1>
-            <p class="text-[10px] text-slate-500 font-extrabold uppercase tracking-[.4em] mt-3 flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(0,118,255,0.5)]"></span>
-                Global engineering catalog and architectural unit pricing
+            <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.4em] flex items-center gap-3">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(0,118,255,0.4)] animate-pulse"></span>
+                Global catalog of architectural capabilities and deployment nodes
             </p>
         </div>
         <div class="flex gap-4">
-            <a href="{{ route('admin.services.create') }}" class="bg-primary text-white px-8 py-3 rounded-xl font-black text-xs tracking-tight hover:brightness-110 shadow-xl shadow-primary/20 transition-all flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">add_box</span>
+            <a href="{{ route('admin.services.create') }}" class="btn-stellar">
+                <span class="material-symbols-outlined text-base">add_box</span>
                 Initialize Module
             </a>
         </div>
@@ -25,79 +25,94 @@
 
 {{-- Success Indicators --}}
 @if(session('success'))
-    <div class="mb-10 flex items-center gap-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 px-8 py-5 rounded-node text-[11px] font-black uppercase tracking-widest animate-in-fade shadow-sm">
-        <span class="material-symbols-outlined text-lg">check_circle</span>
+    <div class="mb-10 flex items-center gap-6 bg-emerald-50 border border-emerald-100 text-emerald-900 px-8 py-5 rounded-stellar text-[11px] font-black uppercase tracking-widest animate-in-fade shadow-sm">
+        <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-emerald-500 shadow-sm border border-emerald-100">
+            <span class="material-symbols-outlined text-xl">verified</span>
+        </div>
         {{ session('success') }}
     </div>
 @endif
 
-<!-- Ledger Table -->
-<div class="bg-node-dark/40 backdrop-blur-sm rounded-node overflow-hidden border border-white/5 shadow-2xl">
-    <table class="ledger-table">
-        <thead>
-            <tr class="bg-white/5 border-b border-white/5">
-                <th class="px-8 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.15em]">Service Module Info</th>
-                <th class="px-8 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.15em]">Price Point</th>
-                <th class="px-8 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.15em]">Priority</th>
-                <th class="px-8 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.15em]">Status</th>
-                <th class="px-8 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.15em] text-right">Execution</th>
-            </tr>
-        </thead>
-        <tbody class="divide-y divide-white/5">
-            @foreach($services as $service)
-                <tr class="hover:bg-white/[0.03] transition-colors group">
-                    <td class="px-8 py-5">
-                        <div class="flex items-center gap-5">
-                            <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform shadow-2xl">
-                                <span class="material-symbols-outlined text-2xl">{{ $service->icon ?? 'settings_suggest' }}</span>
+<!-- Intelligence Ledger -->
+<div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm">
+    <div class="overflow-x-auto">
+        <table class="ledger-table">
+            <thead>
+                <tr class="bg-slate-50/50 border-b border-slate-50">
+                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Service Module Info</th>
+                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Price Point</th>
+                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Sequence</th>
+                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Registry Status</th>
+                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Execution</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-50">
+                @foreach($services as $service)
+                    <tr class="hover:bg-slate-50/50 transition-all group">
+                        <td class="px-8 py-6">
+                            <div class="flex items-center gap-6">
+                                <div class="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-all duration-500">
+                                    <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">{{ $service->icon ?? 'settings_suggest' }}</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-black text-on-surface tracking-tight leading-none mb-1.5">{{ $service->title }}</span>
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">{{ $service->slug }}</span>
+                                </div>
                             </div>
+                        </td>
+                        <td class="px-8 py-6">
                             <div class="flex flex-col">
-                                <span class="font-black text-white tracking-tight leading-none mb-1.5">{{ $service->title }}</span>
-                                <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest italic">{{ $service->slug }}</span>
+                                <span class="text-sm font-black text-on-surface tracking-tight">
+                                    {{ $service->price ? '$' . number_format($service->price, 2) : 'CUSTOM_NODE' }}
+                                </span>
+                                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Market Valuation</span>
                             </div>
-                        </div>
-                    </td>
-                    <td class="px-8 py-5">
-                        <span class="text-sm font-black text-white">
-                            {{ $service->price ? '$' . number_format($service->price, 2) : 'CUSTOM' }}
-                        </span>
-                    </td>
-                    <td class="px-8 py-5">
-                        <span class="text-[11px] font-black text-slate-500 font-mono tracking-widest">{{ str_pad($service->order ?? 0, 2, '0', STR_PAD_LEFT) }}</span>
-                    </td>
-                    <td class="px-8 py-5">
-                        <span class="badge-node {{ $service->is_active ? 'badge-live' : 'badge-draft' }} tracking-[.15em] font-black text-[9px]">
-                            {{ $service->is_active ? 'ENABLED' : 'DRAFT' }}
-                        </span>
-                    </td>
-                    <td class="px-8 py-5 text-right">
-                        <div class="flex items-center justify-end gap-5 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
-                            <a href="{{ route('admin.services.edit', $service) }}" class="p-2 text-slate-500 hover:text-primary transition-colors hover:bg-white/5 rounded-lg border border-transparent hover:border-white/10">
-                                <span class="material-symbols-outlined text-base">edit</span>
-                            </a>
-                            <form action="{{ route('admin.services.destroy', $service) }}" method="POST" onsubmit="return confirm('Archive this service node permanently?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="p-2 text-slate-500 hover:text-rose-500 transition-colors hover:bg-rose-500/5 rounded-lg border border-transparent hover:border-rose-500/10">
-                                    <span class="material-symbols-outlined text-base">delete</span>
-                                </button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-            @if($services->isEmpty())
-                <tr>
-                    <td colspan="5" class="px-8 py-32 text-center">
-                        <div class="w-20 h-20 rounded-3xl bg-white/5 flex items-center justify-center mx-auto mb-6 border border-white/5">
-                            <span class="material-symbols-outlined text-4xl text-slate-600">settings_suggest</span>
-                        </div>
-                        <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-600 italic">No software modules detected in the registry.</p>
-                    </td>
-                </tr>
-            @endif
-        </tbody>
-    </table>
+                        </td>
+                        <td class="px-8 py-6">
+                            <span class="text-[10px] font-black text-slate-400 font-mono tracking-[0.3em] bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                                {{ str_pad($service->order ?? 0, 2, '0', STR_PAD_LEFT) }}
+                            </span>
+                        </td>
+                        <td class="px-8 py-6">
+                            <span class="badge-node {{ $service->is_active ? 'badge-live' : 'badge-draft' }} font-black text-[9px] tracking-widest">
+                                {{ $service->is_active ? 'DEPLOYED' : 'INACTIVE' }}
+                            </span>
+                        </td>
+                        <td class="px-8 py-6 text-right">
+                            <div class="flex items-center justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-4 group-hover:translate-x-0">
+                                <a href="{{ route('admin.services.edit', $service) }}" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-primary transition-all hover:bg-primary/5 rounded-xl border border-transparent hover:border-primary/10">
+                                    <span class="material-symbols-outlined text-lg">edit</span>
+                                </a>
+                                <form action="{{ route('admin.services.destroy', $service) }}" method="POST" onsubmit="return confirm('Securely archive this service module?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-rose-600 transition-all hover:bg-rose-50 rounded-xl border border-transparent hover:border-rose-100">
+                                        <span class="material-symbols-outlined text-lg">delete</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                @if($services->isEmpty())
+                    <tr>
+                        <td colspan="5" class="px-8 py-32 text-center">
+                            <div class="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-6 border border-slate-100">
+                                <span class="material-symbols-outlined text-4xl text-slate-200">settings_suggest</span>
+                            </div>
+                            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 italic">No services detected in the global registry node.</p>
+                        </td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
+    </div>
 </div>
+
+@if($services->hasPages())
+    <div class="mt-12">
+        {{ $services->links() }}
+    </div>
+@endif
 
 @if($services->hasPages())
     <div class="mt-12">

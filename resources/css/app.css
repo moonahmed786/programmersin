@@ -3,50 +3,35 @@
 [x-cloak] { display: none !important; }
 
 @theme {
-    /* Vibrant Stellar Palette */
+    /* Vibrant Material Light Palette */
     --color-primary: #0076FF; /* Electric Blue */
     --color-primary-dark: #0056CC;
+    --color-primary-tonal: color-mix(in srgb, var(--color-primary), transparent 92%);
+    --color-primary-tonal-high: color-mix(in srgb, var(--color-primary), transparent 85%);
     --color-on-primary: #ffffff;
-    --color-primary-container: #e6f1ff;
     
-    --color-secondary: #00E5FF; /* Cyan Glow */
-    --color-on-secondary: #00363D;
-    
-    --color-tertiary: #7C4DFF; /* Royal Violet */
-    --color-on-tertiary: #ffffff;
+    --color-secondary: #00E5FF;
+    --color-tertiary: #7C4DFF;
 
     --color-surface: #ffffff;
-    --color-on-surface: #1E293B; /* Slate 800 */
-    --color-surface-container: #F8FAFC;
-    --color-surface-container-low: #F1F5F9;
-    --color-surface-container-high: #E2E8F0;
+    --color-on-surface: #0F172A; /* Slate 900 */
+    --color-on-surface-variant: #64748B; /* Slate 500 */
     
-    --color-background: #F8FAFC;
+    --color-background: #F8FAFC; /* Slate 50 */
     --color-on-background: #0F172A;
 
-    --color-node-dark: #0F172A; /* Deep Rich Slate */
-    --color-on-node-dark: #F1F5F9;
-
-    --color-outline: #CBD5E1;
-    --color-outline-variant: #E2E8F0;
+    --color-outline: #E2E8F0; /* Slate 200 */
+    --color-outline-variant: #F1F5F9; /* Slate 100 */
 
     --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
 
-    /* Glass Effects */
-    --glass-blur: blur(24px);
-    --glass-background: rgba(255, 255, 255, 0.7);
-    --glass-border: 1px solid rgba(255, 255, 255, 0.4);
-    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+    /* Shadow Elevations (M3 Style) */
+    --shadow-material-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
+    --shadow-material-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+    --shadow-material-lg: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.03);
 
-    --glass-card-blur: blur(20px);
-    --glass-card-background: rgba(255, 255, 255, 0.8);
-    --glass-card-border: 1px solid rgba(255, 255, 255, 0.6);
-    --glass-card-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
-
-    /* Sidebar & Radius */
-    --sidebar-active-gradient: linear-gradient(to right, color-mix(in srgb, var(--color-primary), transparent 90%), color-mix(in srgb, var(--color-primary), transparent 95%), transparent);
-    --radius-stellar: 1.25rem;
-    --radius-node: 1rem;
+    --radius-stellar: 1.5rem; /* M3 Extra Large */
+    --radius-node: 1rem;    /* M3 Large */
 }
 
 /* Explicit source scanning for performance and accuracy */
@@ -55,26 +40,16 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
 @layer utilities {
-    .glass-surface {
-        background: var(--glass-background);
-        backdrop-filter: var(--glass-blur);
-        -webkit-backdrop-filter: var(--glass-blur);
-        border: var(--glass-border);
-        box-shadow: var(--glass-shadow);
+    .material-surface {
+        @apply bg-white border border-outline-variant shadow-sm;
     }
     
-    .glass-card {
-        background: var(--glass-card-background);
-        backdrop-filter: var(--glass-card-blur);
-        -webkit-backdrop-filter: var(--glass-card-blur);
-        border: var(--glass-card-border);
-        box-shadow: var(--glass-card-shadow);
-        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    .material-card {
+        @apply bg-white border border-outline-variant shadow-sm transition-all duration-300 rounded-node;
     }
 
-    .glass-card:hover {
-        box-shadow: 0 20px 60px -15px rgba(0, 118, 255, 0.15);
-        transform: translateY(-6px);
+    .material-card:hover {
+        @apply shadow-md -translate-y-1 border-primary/20;
     }
 
     .gradient-primary {
@@ -91,97 +66,74 @@
     }
 
     @keyframes fadeInScale {
-        from { opacity: 0; transform: translateY(20px) scale(0.98); }
+        from { opacity: 0; transform: translateY(12px) scale(0.99); }
         to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .sidebar-active-gradient {
-        background-image: var(--sidebar-active-gradient);
-        border-right-width: 2px;
-        border-color: var(--color-primary);
-    }
-
-    /* --- Stellar Cloud Design System --- */
+    /* --- Material Light Design System --- */
     .bg-node-dark {
-        background-color: var(--color-node-dark);
-        color: var(--color-on-node-dark);
+        @apply bg-background text-on-background;
     }
 
-    .rounded-node {
-        border-radius: var(--radius-node);
-    }
-
-    .rounded-stellar {
-        border-radius: var(--radius-stellar);
-    }
+    .rounded-node { border-radius: var(--radius-node); }
+    .rounded-stellar { border-radius: var(--radius-stellar); }
 
     .card-metric {
-        background: var(--glass-card-background);
-        backdrop-filter: var(--glass-card-blur);
-        -webkit-backdrop-filter: var(--glass-card-blur);
-        border: var(--glass-card-border);
-        box-shadow: var(--glass-card-shadow);
-        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        border-radius: var(--radius-stellar);
-        @apply p-8;
-        border-color: rgba(255, 255, 255, 0.8);
+        @apply bg-white border border-outline-variant shadow-sm p-8 transition-all duration-300 rounded-stellar;
+    }
+
+    .card-metric:hover {
+        @apply shadow-md border-primary/20;
     }
 
     .ledger-table {
-        @apply w-full border-collapse;
+        @apply w-full border-collapse bg-white rounded-node overflow-hidden shadow-sm border border-outline-variant;
     }
 
     .ledger-table th {
-        @apply px-8 py-5 text-left text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400 border-b border-slate-100 bg-slate-50/50;
-        border-top-left-radius: var(--radius-stellar);
-        border-top-right-radius: var(--radius-stellar);
+        @apply px-8 py-5 text-left text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant border-b border-outline-variant bg-background/50;
     }
 
     .ledger-table td {
-        @apply px-8 py-6 text-sm text-slate-600 border-b border-slate-50 align-middle transition-colors;
+        @apply px-8 py-6 text-sm text-on-surface-variant border-b border-outline-variant align-middle transition-colors;
     }
-
-    .ledger-table tr:last-child td:first-child { border-bottom-left-radius: var(--radius-stellar); }
-    .ledger-table tr:last-child td:last-child { border-bottom-right-radius: var(--radius-stellar); }
 
     .ledger-table tr:hover td {
-        @apply bg-slate-50/30;
+        @apply bg-primary-tonal;
     }
 
-    .badge-stellar {
-        @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all;
+    .badge-node {
+        @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border;
     }
 
-    .badge-live {
-        @apply bg-emerald-50 text-emerald-600 border border-emerald-100;
-    }
-
-    .badge-warning {
-        @apply bg-amber-50 text-amber-600 border border-amber-100;
-    }
+    .badge-live { @apply bg-emerald-50 text-emerald-700 border-emerald-200; }
+    .badge-draft { @apply bg-slate-50 text-slate-600 border-slate-200; }
+    .badge-warning { @apply bg-amber-50 text-amber-700 border-amber-200; }
 
     .sidebar-link {
-        @apply flex items-center gap-4 px-6 py-4 mx-4 rounded-xl transition-all duration-300 text-slate-500 font-semibold hover:bg-slate-50 hover:text-primary;
+        @apply flex items-center gap-4 px-6 py-4 mx-4 rounded-xl transition-all duration-300 text-on-surface-variant font-bold hover:bg-slate-100 hover:text-primary;
     }
 
     .sidebar-link.active {
-        @apply bg-primary/5 text-primary font-bold mx-0 rounded-l-none rounded-r-xl;
-        background-image: var(--sidebar-active-gradient);
-        border-right-width: 2px;
+        @apply bg-primary-tonal text-primary font-black;
+        border-right-width: 3px;
         border-color: var(--color-primary);
     }
 
     .floating-header {
-        background: var(--glass-background);
-        backdrop-filter: var(--glass-blur);
-        -webkit-backdrop-filter: var(--glass-blur);
-        border: var(--glass-border);
-        box-shadow: var(--glass-shadow);
-        @apply rounded-2xl mx-10 mt-6 px-10 py-4 top-6 sticky z-50 flex items-center justify-between;
+        @apply bg-white/80 backdrop-blur-md border border-outline-variant shadow-sm rounded-2xl mx-10 mt-6 px-10 py-4 top-6 sticky z-50 flex items-center justify-between;
     }
 
     .btn-stellar {
-        background-image: linear-gradient(to bottom right, var(--color-primary), var(--color-secondary));
-        @apply text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 active:scale-95 transition-all text-xs tracking-tight flex items-center gap-2;
+        @apply bg-primary text-white font-black px-8 py-4 rounded-xl shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/20 hover:brightness-110 active:scale-95 transition-all text-[11px] uppercase tracking-widest flex items-center gap-3;
+    }
+
+    /* Form Elements - Material Outlined */
+    .input-material {
+        @apply w-full bg-slate-50/50 border border-outline rounded-2xl px-6 py-4 text-sm font-bold text-on-surface focus:ring-4 focus:ring-primary/5 focus:border-primary focus:bg-white transition-all shadow-sm placeholder:text-slate-400;
+    }
+
+    .label-material {
+        @apply text-[10px] font-black text-on-surface-variant uppercase tracking-widest px-1 block mb-3 opacity-70;
     }
 }

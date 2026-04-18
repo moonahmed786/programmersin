@@ -2,259 +2,291 @@
 
 @section('content')
 
-<!-- Architect Unit Configuration Header -->
-<div class="mb-12">
-    <div class="flex items-center gap-4 mb-4">
-        <a href="{{ route('admin.employees.index') }}" class="p-2 rounded-full hover:bg-white/5 transition-colors text-slate-400">
-            <span class="material-symbols-outlined text-xl">arrow_back</span>
+<!-- Personnel Configuration Header -->
+<div class="mb-14 px-2">
+    <div class="flex items-center gap-6 mb-4">
+        <a href="{{ route('admin.employees.index') }}" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-white border border-slate-100 shadow-sm text-slate-400 hover:text-primary transition-all hover:shadow-md">
+            <span class="material-symbols-outlined text-2xl">arrow_back</span>
         </a>
-        <div class="h-4 w-px bg-white/10 mx-2"></div>
-        <div>
-            <h1 class="text-2xl font-black tracking-tighter text-white uppercase">Architect Unit Configuration</h1>
-            <p class="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-widest mt-1">Refining personnel node: {{ $employee->email }}</p>
+        <div class="flex flex-col gap-2">
+            <h1 class="text-3xl font-black tracking-tighter text-on-surface uppercase italic">
+                Unit <span class="text-primary opacity-90">Configuration</span>
+            </h1>
+            <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center gap-3">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                Refining personnel node: <span class="text-on-surface">{{ $employee->email }}</span>
+            </p>
         </div>
     </div>
 </div>
 
-<div class="max-w-4xl">
-    <div class="bg-node-dark/40 backdrop-blur-sm rounded-node overflow-hidden border border-white/5 shadow-2xl">
+<div class="max-w-5xl">
+    <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm">
         <form action="{{ route('admin.employees.update', $employee) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div class="p-10 space-y-12">
-                <!-- Group 01: Profile -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    <div>
-                        <span class="label-mono text-[9px] text-slate-500 font-black uppercase tracking-widest block mb-1">Section 01</span>
-                        <h3 class="font-black text-white tracking-tight uppercase text-xs">Personnel Profile</h3>
+            <div class="p-12 space-y-16">
+                <!-- Group 01: Core Profile -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+                    <div class="lg:col-span-1">
+                        <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 01</span>
+                        <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight">Identity & Authority</h3>
                     </div>
-                    <div class="md:col-span-2 space-y-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div class="space-y-2">
-                                <label class="label-mono text-[10px] text-slate-400 font-black uppercase tracking-widest" for="name">Legal Identifier (Name)</label>
+                    <div class="lg:col-span-3 space-y-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div class="space-y-1">
+                                <label class="label-material" for="name">Legal Identifier</label>
                                 <input id="name" type="text" name="name" value="{{ old('name', $employee->name) }}"
-                                    class="w-full bg-white/5 border border-white/5 rounded px-5 py-3.5 text-sm font-bold text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all @error('name') border-error @enderror"
-                                    placeholder="Input name...">
-                                @error('name') <p class="text-[9px] text-error font-bold uppercase tracking-widest mt-2">{{ $message }}</p> @enderror
+                                    class="input-material @error('name') border-rose-300 ring-rose-50 ring-4 @enderror"
+                                    placeholder="Input full name...">
+                                @error('name') <p class="text-[10px] text-rose-600 font-black uppercase tracking-widest mt-3 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-xs">error</span>
+                                    {{ $message }}
+                                </p> @enderror
                             </div>
 
-                            <div class="space-y-2">
-                                <label class="label-mono text-[10px] text-slate-400 font-black uppercase tracking-widest" for="position">Technical Specialization</label>
+                            <div class="space-y-1">
+                                <label class="label-material" for="position">Technical Specialization</label>
                                 <input id="position" type="text" name="position" value="{{ old('position', $employee->position) }}"
-                                    class="w-full bg-white/5 border border-white/5 rounded px-5 py-3.5 text-sm font-bold text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
-                                    placeholder="e.g. Full Stack Architect">
+                                    class="input-material"
+                                    placeholder="e.g. Lead Solutions Architect">
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div class="space-y-2">
-                                <label class="label-mono text-[10px] text-slate-400 font-black uppercase tracking-widest" for="phone">Communication Node (Phone)</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div class="space-y-1">
+                                <label class="label-material" for="phone">Comm Link (Phone)</label>
                                 <input id="phone" type="text" name="phone" value="{{ old('phone', $employee->phone) }}"
-                                    class="w-full bg-white/5 border border-white/5 rounded px-5 py-3.5 text-xs font-mono font-bold text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
+                                    class="input-material font-mono"
                                     placeholder="+XX XXX XXXXXXX">
                             </div>
 
-                            <div class="space-y-2">
-                                <label class="label-mono text-[10px] text-slate-400 font-black uppercase tracking-widest" for="location">Geographic Node (Location)</label>
+                            <div class="space-y-1">
+                                <label class="label-material" for="location">Deployment Zone (Location)</label>
                                 <input id="location" type="text" name="location" value="{{ old('location', $employee->location) }}"
-                                    class="w-full bg-white/5 border border-white/5 rounded px-5 py-3.5 text-xs font-mono font-bold text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
-                                    placeholder="City, Province, Country">
+                                    class="input-material"
+                                    placeholder="City, Region, Node">
                             </div>
                         </div>
 
-                        <div class="space-y-2">
-                            <label class="label-mono text-[10px] text-slate-400 font-black uppercase tracking-widest" for="bio">Architectural Biography</label>
-                            <textarea id="bio" name="bio" rows="4"
-                                class="w-full bg-white/5 border border-white/5 rounded px-5 py-3.5 text-sm font-bold text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all resize-none"
-                                placeholder="Historical operational data...">{{ old('bio', $employee->bio) }}</textarea>
+                        <div class="space-y-1">
+                            <label class="label-material" for="bio">Architectural Dossier (Bio)</label>
+                            <textarea id="bio" name="bio" rows="6"
+                                class="input-material h-44 resize-none italic leading-relaxed">{{ old('bio', $employee->bio) }}</textarea>
                         </div>
                     </div>
                 </div>
 
-                <div class="h-px bg-white/5"></div>
+                <div class="h-px bg-slate-50"></div>
 
-                <!-- Section 02: Education (Repeater) -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10" x-data="{ 
+                <!-- Section 02: Knowledge Matrix (Repeater) -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start" x-data="{ 
                     education: {{ json_encode($employee->education ?? []) }},
                     addEducation() { this.education.push({ university: '', info: '' }) },
                     removeEducation(index) { this.education.splice(index, 1) }
                 }">
-                    <div>
-                        <span class="label-mono text-[9px] text-slate-500 font-black uppercase tracking-widest block mb-1">Section 02</span>
-                        <h3 class="font-black text-white tracking-tight uppercase text-xs">Knowledge Matrix</h3>
+                    <div class="lg:col-span-1">
+                        <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 02</span>
+                        <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight">Academic Integrity</h3>
                     </div>
-                    <div class="md:col-span-2 space-y-6">
+                    <div class="lg:col-span-3 space-y-6">
                         <template x-for="(item, index) in education" :key="index">
-                            <div class="p-6 bg-white/5 border border-white/5 rounded-xl relative group">
-                                <button type="button" @click="removeEducation(index)" class="absolute top-4 right-4 text-slate-500 hover:text-rose-500 transition-colors">
-                                    <span class="material-symbols-outlined text-sm">delete</span>
+                            <div class="p-8 bg-slate-50 border border-slate-100 rounded-2xl relative group transition-all hover:bg-white hover:shadow-sm">
+                                <button type="button" @click="removeEducation(index)" class="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-lg text-slate-300 hover:text-rose-500 hover:bg-rose-50 transition-all">
+                                    <span class="material-symbols-outlined text-lg">delete</span>
                                 </button>
-                                <div class="grid grid-cols-1 gap-4">
-                                    <input type="text" :name="'education['+index+'][university]'" x-model="item.university" 
-                                        class="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-xs font-bold text-white placeholder:text-slate-600" placeholder="University / Institution">
-                                    <input type="text" :name="'education['+index+'][info]'" x-model="item.info" 
-                                        class="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-xs text-slate-300" placeholder="Degree / Year Range (e.g. 2020-2022 Master of Science)">
+                                <div class="grid grid-cols-1 gap-6">
+                                    <div class="space-y-1">
+                                        <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Institution</label>
+                                        <input type="text" :name="'education['+index+'][university]'" x-model="item.university" 
+                                            class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs font-black text-on-surface focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all" placeholder="Enter University/Institution Name">
+                                    </div>
+                                    <div class="space-y-1">
+                                        <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Credentials | Tenure</label>
+                                        <input type="text" :name="'education['+index+'][info]'" x-model="item.info" 
+                                            class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-on-surface-variant italic" placeholder="e.g. MS in Advanced Architecture (2018-2022)">
+                                    </div>
                                 </div>
                             </div>
                         </template>
-                        <button type="button" @click="addEducation()" class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary hover:text-white transition-colors">
-                            <span class="material-symbols-outlined text-sm">add_circle</span>
-                            Append Education Entry
+                        <button type="button" @click="addEducation()" class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-primary hover:text-on-surface transition-all bg-primary/5 px-6 py-3 rounded-xl border border-primary/10">
+                            <span class="material-symbols-outlined text-lg">add_circle</span>
+                            Append Education Record
                         </button>
                     </div>
                 </div>
 
-                <div class="h-px bg-white/5"></div>
+                <div class="h-px bg-slate-50"></div>
 
-                <!-- Section 03: Skills Matrix -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10" x-data="{ 
+                <!-- Section 03: Capability Mapping -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start" x-data="{ 
                     skills: {{ json_encode($employee->skills ?? ['Architecture' => '', 'Backend' => '', 'Frontend' => '', 'Databases' => '', 'AI' => '', 'Cloud' => '', 'DevOps' => '']) }},
                 }">
-                    <div>
-                        <span class="label-mono text-[9px] text-slate-500 font-black uppercase tracking-widest block mb-1">Section 03</span>
-                        <h3 class="font-black text-white tracking-tight uppercase text-xs">Capability Mapping</h3>
+                    <div class="lg:col-span-1">
+                        <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 03</span>
+                        <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight">Capability Node Mapping</h3>
                     </div>
-                    <div class="md:col-span-2 space-y-4">
-                        <template x-for="(value, key) in skills" :key="key">
-                            <div class="space-y-1">
-                                <label class="label-mono text-[9px] text-slate-400 uppercase tracking-widest" x-text="key"></label>
-                                <input type="text" :name="'skills['+key+']'" x-model="skills[key]" 
-                                    class="w-full bg-white/5 border border-white/5 rounded px-5 py-2.5 text-xs font-bold text-white placeholder:text-slate-600" 
-                                    placeholder="e.g. PHP, Laravel, Node.js">
-                            </div>
-                        </template>
+                    <div class="lg:col-span-3">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+                            <template x-for="(value, key) in skills" :key="key">
+                                <div class="space-y-3">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" x-text="key"></label>
+                                    <div class="group relative">
+                                        <input type="text" :name="'skills['+key+']'" x-model="skills[key]" 
+                                            class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-xs font-black text-on-surface focus:ring-4 focus:ring-primary/5 focus:border-primary focus:bg-white transition-all shadow-sm" 
+                                            placeholder="e.g. PHP, Laravel, PostgreSQL...">
+                                        <span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-200 group-focus-within:text-primary opacity-40 transition-all text-lg">bolt</span>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
                     </div>
                 </div>
 
-                <div class="h-px bg-white/5"></div>
+                <div class="h-px bg-slate-50"></div>
 
-                <!-- Section 04: Experience (Repeater) -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10" x-data="{ 
+                <!-- Section 04: Experience Timeline (Repeater) -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start" x-data="{ 
                     experience: {{ json_encode($employee->experience ?? []) }},
                     addExperience() { this.experience.push({ company: '', range: '', role: '', bullets: [''] }) },
                     removeExperience(index) { this.experience.splice(index, 1) },
                     addBullet(expIndex) { this.experience[expIndex].bullets.push('') },
                     removeBullet(expIndex, bulletIndex) { this.experience[expIndex].bullets.splice(bulletIndex, 1) }
                 }">
-                    <div>
-                        <span class="label-mono text-[9px] text-slate-500 font-black uppercase tracking-widest block mb-1">Section 04</span>
-                        <h3 class="font-black text-white tracking-tight uppercase text-xs">Operation History</h3>
+                    <div class="lg:col-span-1">
+                        <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 04</span>
+                        <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight">Operational Chronicles</h3>
                     </div>
-                    <div class="md:col-span-2 space-y-8">
+                    <div class="lg:col-span-3 space-y-10">
                         <template x-for="(exp, expIdx) in experience" :key="expIdx">
-                            <div class="p-8 bg-white/5 border border-white/5 rounded-2xl relative group">
-                                <button type="button" @click="removeExperience(expIdx)" class="absolute top-6 right-6 text-slate-500 hover:text-rose-500 transition-colors">
-                                    <span class="material-symbols-outlined text-sm">delete</span>
+                            <div class="p-10 bg-slate-50 border border-slate-100 rounded-3xl relative group transition-all hover:bg-white hover:shadow-md">
+                                <button type="button" @click="removeExperience(expIdx)" class="absolute top-8 right-8 w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 hover:text-rose-600 hover:bg-rose-50 transition-all">
+                                    <span class="material-symbols-outlined text-xl">delete</span>
                                 </button>
                                 
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                                     <div class="space-y-1">
-                                        <label class="label-mono text-[9px] text-slate-500 uppercase font-black uppercase tracking-widest">Node (Company)</label>
+                                        <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Node Entity (Company)</label>
                                         <input type="text" :name="'experience['+expIdx+'][company]'" x-model="exp.company" 
-                                            class="w-full bg-white/5 border border-white/10 rounded px-4 py-2 text-xs font-bold text-white placeholder:text-slate-600" placeholder="Company Name">
+                                            class="w-full bg-white border border-slate-200 rounded-xl px-5 py-3.5 text-sm font-black text-on-surface focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all shadow-sm" placeholder="e.g. Global Tech Hub">
                                     </div>
                                     <div class="space-y-1">
-                                        <label class="label-mono text-[9px] text-slate-500 uppercase font-black uppercase tracking-widest">Timeline</label>
+                                        <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Chronicle Span (Range)</label>
                                         <input type="text" :name="'experience['+expIdx+'][range]'" x-model="exp.range" 
-                                            class="w-full bg-white/5 border border-white/10 rounded px-4 py-2 text-xs font-mono text-slate-300" placeholder="Jul 2017 - PRESENT">
+                                            class="w-full bg-white border border-slate-200 rounded-xl px-5 py-3.5 text-xs font-mono font-bold text-primary italic" placeholder="e.g. JAN 2022 - PRESENT">
                                     </div>
                                 </div>
 
-                                <div class="space-y-1 mb-6">
-                                    <label class="label-mono text-[9px] text-slate-500 uppercase font-black uppercase tracking-widest">Designation (Role)</label>
+                                <div class="space-y-1 mb-10">
+                                    <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Authority Profile (Role)</label>
                                     <input type="text" :name="'experience['+expIdx+'][role]'" x-model="exp.role" 
-                                        class="w-full bg-white/5 border border-white/10 rounded px-4 py-2 text-sm font-black text-white" placeholder="Lead Architect & Solutions Lead">
+                                        class="w-full bg-white border border-slate-200 rounded-xl px-6 py-4 text-base font-black text-on-surface tracking-tight" placeholder="e.g. Senior Architectural Analyst">
                                 </div>
 
-                                <div class="space-y-3">
-                                    <label class="label-mono text-[9px] text-slate-500 uppercase font-black uppercase tracking-widest">Operational Bulletins</label>
+                                <div class="space-y-4">
+                                    <label class="text-[10px] font-black text-slate-600 uppercase tracking-widest pl-1 border-b border-slate-100 pb-2 flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-sm text-primary">analytics</span>
+                                        Mission Bulletins
+                                    </label>
                                     <template x-for="(bullet, bIdx) in exp.bullets" :key="bIdx">
-                                        <div class="flex items-center gap-3">
-                                            <span class="w-1 h-1 rounded-full bg-primary flex-shrink-0 shadow-[0_0_8px_rgba(0,118,255,0.5)]"></span>
+                                        <div class="flex items-center gap-4 group/bullet">
+                                            <div class="w-2 h-2 rounded-full bg-primary/20 flex-shrink-0 group-focus-within/bullet:bg-primary transition-colors"></div>
                                             <input type="text" :name="'experience['+expIdx+'][bullets]['+bIdx+']'" x-model="exp.bullets[bIdx]" 
-                                                class="flex-1 bg-white/5 border border-white/10 rounded px-3 py-2 text-[11px] font-bold text-slate-300" placeholder="Describe accomplishment...">
-                                            <button type="button" @click="removeBullet(expIdx, bIdx)" class="text-slate-500 hover:text-rose-500">
-                                                <span class="material-symbols-outlined text-[10px]">close</span>
+                                                class="flex-1 bg-white border border-slate-100 rounded-2xl px-5 py-3.5 text-xs font-bold text-on-surface-variant focus:ring-2 focus:ring-primary/5 focus:border-primary/40 focus:bg-white transition-all" placeholder="Describe operational success node...">
+                                            <button type="button" @click="removeBullet(expIdx, bIdx)" class="text-slate-200 hover:text-rose-500 transition-colors">
+                                                <span class="material-symbols-outlined text-lg">close</span>
                                             </button>
                                         </div>
                                     </template>
-                                    <button type="button" @click="addBullet(expIdx)" class="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-1 mt-2 hover:text-white transition-colors">
-                                        <span class="material-symbols-outlined text-xs">add</span>
-                                        Add Bulletin
+                                    <button type="button" @click="addBullet(expIdx)" class="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-2 mt-4 hover:translate-x-1 transition-transform bg-primary/5 px-4 py-2 rounded-lg border border-primary/10">
+                                        <span class="material-symbols-outlined text-base">add</span>
+                                        Append Bulletin
                                     </button>
                                 </div>
                             </div>
                         </template>
 
-                        <button type="button" @click="addExperience()" class="w-full py-5 border-2 border-dashed border-white/5 rounded-2xl flex items-center justify-center gap-2 text-slate-500 hover:text-primary hover:border-primary/20 transition-all font-black text-[10px] uppercase tracking-[0.2em]">
-                            <span class="material-symbols-outlined text-sm">add_circle</span>
-                            Initialize New Experience Node
+                        <button type="button" @click="addExperience()" class="w-full py-8 border-2 border-dashed border-slate-100 rounded-3xl flex flex-col items-center justify-center gap-3 text-slate-300 hover:text-primary hover:border-primary/30 transition-all group bg-slate-50/50">
+                            <span class="material-symbols-outlined text-4xl opacity-40 group-hover:scale-110 transition-transform">add_circle</span>
+                            <span class="font-black text-[11px] uppercase tracking-[0.3em]">Initialize Operational Chronic Node</span>
                         </button>
                     </div>
                 </div>
 
-                <div class="h-px bg-white/5"></div>
+                <div class="h-px bg-slate-50"></div>
 
-                <!-- Group 02: Credentials -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    <div>
-                        <span class="label-mono text-[9px] text-slate-500 font-black uppercase tracking-widest block mb-1">Section 05</span>
-                        <h3 class="font-black text-white tracking-tight uppercase text-xs">System Access</h3>
+                <!-- Group 05: System Authority Access -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+                    <div class="lg:col-span-1">
+                        <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 05</span>
+                        <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight">Authority & Credentials</h3>
                     </div>
-                    <div class="md:col-span-2 space-y-8">
-                        <div class="space-y-2">
-                            <label class="label-mono text-[10px] text-slate-400 font-black uppercase tracking-widest" for="email">Primary Auth Node (Email)</label>
+                    <div class="lg:col-span-3 space-y-10">
+                        <div class="space-y-1">
+                            <label class="label-material" for="email">Primary Auth Node (Email)</label>
                             <input id="email" type="email" name="email" value="{{ old('email', $employee->email) }}"
-                                class="w-full bg-white/5 border border-white/5 rounded px-5 py-3.5 text-sm font-mono font-bold text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all @error('email') border-error @enderror"
-                                placeholder="access@vector.ai">
-                            @error('email') <p class="text-[9px] text-rose-500 font-bold uppercase tracking-widest mt-2">{{ $message }}</p> @enderror
+                                class="input-material font-mono @error('email') border-rose-300 ring-rose-50 ring-4 @enderror"
+                                placeholder="access@vector.hub">
+                            @error('email') <p class="text-[10px] text-rose-600 font-black uppercase tracking-widest mt-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-xs">error</span>
+                                {{ $message }}
+                            </p> @enderror
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div class="space-y-2">
-                                <label class="label-mono text-[10px] text-slate-400 font-black uppercase tracking-widest" for="password">Security Hash (Password)</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div class="space-y-1">
+                                <label class="label-material" for="password">System Hash Override (Password)</label>
                                 <input id="password" type="password" name="password"
-                                    class="w-full bg-white/5 border border-white/5 rounded px-5 py-3.5 text-sm font-mono text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all @error('password') border-error @enderror"
-                                    placeholder="[REDACTED]">
-                                @error('password') <p class="text-[9px] text-rose-500 font-bold uppercase tracking-widest mt-2">{{ $message }}</p> @enderror
+                                    class="input-material font-mono @error('password') border-rose-300 @enderror"
+                                    placeholder="[ENCRYPTED]">
+                                @error('password') <p class="text-[10px] text-rose-600 font-black uppercase tracking-widest mt-3 flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-xs">lock</span>
+                                    {{ $message }}
+                                </p> @enderror
                             </div>
 
-                            <div class="space-y-2">
-                                <label class="label-mono text-[10px] text-slate-400 font-black uppercase tracking-widest" for="password_confirmation">Confirm Hash</label>
+                            <div class="space-y-1">
+                                <label class="label-material" for="password_confirmation">Hash Validation</label>
                                 <input id="password_confirmation" type="password" name="password_confirmation"
-                                    class="w-full bg-white/5 border border-white/5 rounded px-5 py-3.5 text-sm font-mono text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
-                                    placeholder="Repeat Hash">
+                                    class="input-material font-mono"
+                                    placeholder="Confirm Hash Sequence">
                             </div>
                         </div>
 
-                        <div class="pt-4 flex flex-col justify-end">
-                            <label class="flex items-center gap-4 cursor-pointer group">
+                        <div class="pt-6">
+                            <label class="flex items-center gap-5 cursor-pointer group">
                                 <div class="relative">
                                     <input type="hidden" name="is_active" value="0">
                                     <input id="is_active" type="checkbox" name="is_active" value="1" {{ old('is_active', $employee->is_active) ? 'checked' : '' }}
                                         class="sr-only peer">
-                                    <div class="w-12 h-6 bg-white/10 rounded-full peer-checked:bg-emerald-500 transition-all"></div>
-                                    <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-lg transition-all peer-checked:translate-x-6"></div>
+                                    <div class="w-16 h-8 bg-slate-100 rounded-full peer-checked:bg-primary transition-all shadow-inner border border-slate-200"></div>
+                                    <div class="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transition-all border border-slate-100 peer-checked:translate-x-8"></div>
                                 </div>
-                                <span class="label-mono text-[10px] font-black uppercase tracking-widest text-slate-500 group-hover:text-white transition-colors">Node is Active and Authenticated</span>
+                                <div class="flex flex-col">
+                                    <span class="text-xs font-black uppercase tracking-widest text-on-surface group-hover:text-primary transition-colors leading-none">Authority Protocol Active</span>
+                                    <span class="text-[9px] text-slate-400 font-bold uppercase tracking-tighter mt-1">Personnel unit has global read/write access to system nodes</span>
+                                </div>
                             </label>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Form Actions -->
-            <div class="px-10 py-10 bg-white/5 border-t border-white/5 flex items-center justify-between">
+            <!-- Form Runtime Controls -->
+            <div class="px-12 py-12 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)] animate-pulse"></div>
-                    <span class="label-mono text-[9px] text-slate-500 font-bold uppercase tracking-widest">Awaiting Runtime Commit</span>
+                    <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
+                    <div class="flex flex-col leading-none">
+                        <span class="text-[9px] font-black text-on-surface uppercase tracking-widest">Awaiting Runtime Commit</span>
+                        <span class="text-[8px] text-slate-400 font-bold uppercase tracking-widest mt-1">Integrity: VERIFIED</span>
+                    </div>
                 </div>
-                <div class="flex items-center gap-6">
-                    <a href="{{ route('admin.employees.index') }}" class="label-mono text-[10px] font-black uppercase tracking-widest text-slate-500 hover:text-white transition-colors">Abort Configuration</a>
-                    <button type="submit" class="bg-primary text-white px-10 py-4 rounded-xl font-black text-xs tracking-tight hover:brightness-110 shadow-xl shadow-primary/20 transition-all flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">terminal</span>
-                        Commit Changes
+                <div class="flex items-center gap-8">
+                    <a href="{{ route('admin.employees.index') }}" class="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-rose-600 transition-colors">Abort Sequence</a>
+                    <button type="submit" class="btn-stellar px-12 py-5">
+                        <span class="material-symbols-outlined text-lg">terminal</span>
+                        Commit Protocol
                     </button>
                 </div>
             </div>

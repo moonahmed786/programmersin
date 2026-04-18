@@ -3,46 +3,53 @@
 @section('content')
 
 <!-- Project Deployment Configuration Header -->
-<div class="mb-14">
+<div class="mb-14 px-2">
     <div class="flex items-center gap-6 mb-4">
-        <a href="{{ route('admin.projects.index') }}" class="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-slate-300 hover:text-primary hover:border-primary/20 transition-all shadow-sm">
-            <span class="material-symbols-outlined text-lg">arrow_back</span>
+        <a href="{{ route('admin.projects.index') }}" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-white border border-slate-100 shadow-sm text-slate-400 hover:text-primary transition-all hover:shadow-md">
+            <span class="material-symbols-outlined text-2xl">arrow_back</span>
         </a>
-        <div class="h-6 w-px bg-slate-100 mx-2"></div>
-        <div>
-            <h1 class="text-3xl font-black tracking-tighter text-slate-900 uppercase italic">
-                <span class="text-gradient">Deployment Config</span>
+        <div class="flex flex-col gap-2">
+            <h1 class="text-3xl font-black tracking-tighter text-on-surface uppercase italic">
+                Deployment <span class="text-primary opacity-90">Configuration</span>
             </h1>
-            <p class="text-[10px] text-slate-400 font-extrabold uppercase tracking-[0.3em] mt-2">Refining operational node: ARCH-{{ str_pad($project->id, 4, '0', STR_PAD_LEFT) }}</p>
+            <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center gap-3">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                Refining operational node: <span class="text-on-surface">ARCH-{{ str_pad($project->id, 4, '0', STR_PAD_LEFT) }}</span>
+            </p>
         </div>
     </div>
 </div>
 
-<div class="max-w-4xl animate-in-fade">
+<div class="max-w-5xl animate-in-fade">
     <form action="{{ route('admin.projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         
         <div class="space-y-12">
             <!-- Group 01: Internal Core -->
-            <div class="glass-surface rounded-stellar overflow-hidden border border-white/80 p-12">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                    <div>
-                        <span class="text-[10px] font-black text-primary uppercase tracking-[0.3em] block mb-2">PHASE 01</span>
-                        <h3 class="font-black text-slate-900 tracking-tight uppercase text-sm italic">Core Framework</h3>
+            <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm p-12">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+                    <div class="lg:col-span-1">
+                        <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 01</span>
+                        <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight italic">Framework Core</h3>
                     </div>
-                    <div class="lg:col-span-2 space-y-10">
-                        <div class="space-y-3">
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="title">Project Identity (Title)</label>
+                    <div class="lg:col-span-3 space-y-10">
+                        <div class="space-y-1">
+                            <label class="label-material" for="title">Project Identity (Title)</label>
                             <input id="title" type="text" name="title" value="{{ old('title', $project->title) }}" required
-                                class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all shadow-sm"
+                                class="input-material @error('title') border-rose-300 ring-rose-50 ring-4 @enderror"
                                 placeholder="ENTER_PROJECT_TITLE">
+                            @error('title') <p class="text-[10px] text-rose-600 font-black uppercase tracking-widest mt-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-xs">error</span>
+                                {{ $message }}
+                            </p> @enderror
                         </div>
-                        <div class="space-y-3">
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="status">Operational Status</label>
+
+                        <div class="space-y-1">
+                            <label class="label-material" for="status">Operational Lifecycle Status</label>
                             <div class="relative group">
                                 <select id="status" name="status" required 
-                                    class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-[11px] font-black text-primary uppercase tracking-widest appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all shadow-sm cursor-pointer">
+                                    class="input-material appearance-none cursor-pointer uppercase tracking-widest font-black text-[11px] text-primary">
                                     <option value="pending" {{ $project->status == 'pending' ? 'selected' : '' }}>PENDING_INIT</option>
                                     <option value="in_progress" {{ $project->status == 'in_progress' ? 'selected' : '' }}>DEPLOYING_ACTIVE</option>
                                     <option value="review" {{ $project->status == 'review' ? 'selected' : '' }}>SYSTEM_AUDIT</option>
@@ -57,75 +64,76 @@
             </div>
 
             <!-- Group 02: Showcase Module -->
-            <div class="glass-surface rounded-stellar overflow-hidden border border-white/80 p-12">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                    <div>
-                        <span class="text-[10px] font-black text-tertiary uppercase tracking-[0.3em] block mb-2">PHASE 02</span>
-                        <h3 class="font-black text-slate-900 tracking-tight uppercase text-sm italic">Showcase Overlay</h3>
+            <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm p-12">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+                    <div class="lg:col-span-1">
+                        <span class="text-[9px] font-black text-secondary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 02</span>
+                        <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight italic">Public Overlay</h3>
                     </div>
-                    <div class="lg:col-span-2 space-y-12">
-                        <div class="flex items-center justify-between p-8 bg-slate-50/50 rounded-2xl border border-slate-100">
-                            <div class="flex flex-col">
-                                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-900">Visibility Protocol</span>
-                                <span class="text-[9px] text-slate-400 font-extrabold uppercase tracking-widest mt-1 opacity-60">Deploy to public portfolio node</span>
+                    <div class="lg:col-span-3 space-y-12">
+                        <div class="flex items-center justify-between p-8 bg-slate-50 border border-slate-100 rounded-3xl">
+                            <div class="flex flex-col gap-1">
+                                <span class="text-xs font-black uppercase tracking-widest text-on-surface leading-none">Visibility Protocol</span>
+                                <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Personnel unit deployment to public portfolio node</span>
                             </div>
                             <label class="relative inline-flex items-center cursor-pointer group">
                                 <input type="checkbox" name="is_public" value="1" {{ $project->is_public ? 'checked' : '' }} class="sr-only peer">
-                                <div class="w-14 h-7 bg-slate-100 rounded-full peer-checked:bg-primary transition-all shadow-inner"></div>
-                                <div class="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-lg transition-all peer-checked:translate-x-7"></div>
+                                <div class="w-16 h-8 bg-slate-200 rounded-full peer-checked:bg-primary transition-all shadow-inner border border-slate-200"></div>
+                                <div class="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transition-all border border-slate-100 peer-checked:translate-x-8"></div>
                             </label>
                         </div>
 
                         <div class="space-y-4">
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Telemetry Thumbnail</label>
-                            <div class="flex items-center gap-10">
+                            <label class="label-material px-1">Telemetry Thumbnail Asset</label>
+                            <div class="flex items-start gap-12">
                                 @if($project->featured_image)
-                                <div class="w-40 h-24 rounded-2xl bg-slate-900 overflow-hidden border border-slate-800 flex items-center justify-center p-1 shadow-2xl">
-                                    <img src="{{ asset('storage/' . $project->featured_image) }}" class="object-cover w-full h-full opacity-70 group-hover:scale-110 transition-transform duration-700">
+                                <div class="w-48 h-32 rounded-2xl bg-slate-900 overflow-hidden border border-slate-200 flex items-center justify-center p-1 shadow-md group">
+                                    <img src="{{ asset('storage/' . $project->featured_image) }}" class="object-cover w-full h-full opacity-80 group-hover:scale-110 transition-transform duration-700">
                                 </div>
                                 @endif
-                                <div class="flex-1 space-y-4">
+                                <div class="flex-1 space-y-5">
                                     <div class="relative group/file">
                                         <input type="file" name="featured_image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                                        <div class="bg-white border border-slate-100 rounded-2xl px-8 py-4 flex items-center justify-between group-hover/file:border-primary/40 transition-all shadow-sm">
-                                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Inject New Asset...</span>
-                                            <span class="material-symbols-outlined text-lg text-slate-300 group-hover/file:text-primary transition-all">upload_file</span>
+                                        <div class="bg-slate-50 border border-slate-200 border-dashed rounded-2xl px-8 py-6 flex flex-col items-center justify-center gap-3 group-hover/file:border-primary group-hover/file:bg-primary/5 transition-all">
+                                            <span class="material-symbols-outlined text-3xl text-slate-300 group-hover/file:text-primary group-hover/file:scale-110 transition-all">cloud_upload</span>
+                                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Inject New Media Asset...</span>
                                         </div>
                                     </div>
-                                    <p class="text-[9px] text-slate-400 font-extrabold tracking-tighter uppercase italic leading-loose opacity-60">RES_1200x800_MIN // ALPHA_CHANNEL_READY</p>
+                                    <p class="text-[9px] text-slate-400 font-bold tracking-tighter uppercase italic leading-loose px-2">RES_1200x800_MIN // ALPHA_CHANNEL_READY // MIME: IMG/WEBP</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="space-y-3">
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="showcase_description">Execution Blueprint (Description)</label>
-                            <textarea id="showcase_description" name="showcase_description" rows="8" 
-                                class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-5 text-sm font-medium text-slate-600 focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all resize-none italic shadow-sm"
-                                placeholder="Describe the engineering challenge and systemic impact...">{{ old('showcase_description', $project->showcase_description) }}</textarea>
+                            <label class="label-material px-1" for="showcase_description">Execution Blueprint (Description)</label>
+                            <textarea id="showcase_description" name="showcase_description" rows="10" 
+                                class="input-material h-56 resize-none italic leading-relaxed py-6">{{ old('showcase_description', $project->showcase_description) }}</textarea>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Execution Footer -->
-            <div class="bg-slate-900 rounded-stellar overflow-hidden border border-slate-800 shadow-2xl p-12 flex items-center justify-between mt-12 group">
+            <!-- Execution Runtime Controls -->
+            <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm p-12 flex items-center justify-between mt-12">
                 <div class="flex items-center gap-6">
-                    <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_12px_rgba(52,211,153,0.5)]"></div>
-                    <div>
-                        <h4 class="text-white font-black text-sm uppercase tracking-tight italic leading-none">Node Stabilized // Ready for Commit</h4>
-                        <p class="text-slate-500 text-[9px] font-black uppercase tracking-[0.2em] mt-2">Committing update protocol to central core</p>
+                    <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.3)]"></div>
+                    <div class="flex flex-col leading-none">
+                        <h4 class="text-on-surface font-black text-sm uppercase tracking-tight italic">Node Stabilized // Ready</h4>
+                        <p class="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] mt-1.5 opacity-60">Committing update protocol to central core</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-8">
-                    <a href="{{ route('admin.projects.index') }}" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-red-500 transition-colors">Abort Init</a>
-                    <button type="submit" class="btn-stellar px-12 py-5 text-[11px]">
-                        <span class="material-symbols-outlined text-base">terminal</span>
-                        Commit Deployment
+                <div class="flex items-center gap-10">
+                    <a href="{{ route('admin.projects.index') }}" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-rose-600 transition-colors">Abort Init</a>
+                    <button type="submit" class="btn-stellar px-14 py-5">
+                        <span class="material-symbols-outlined text-lg">terminal</span>
+                        Commit Protocol
                     </button>
                 </div>
             </div>
         </div>
     </form>
 </div>
+
+@endsection
 
 @endsection

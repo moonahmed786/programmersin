@@ -1,7 +1,7 @@
 @props(['route', 'icon', 'active' => false, 'fill' => false])
 
 @php
-    $isActive = $active ?: (request()->routeIs($route) || str_contains(Route::currentRouteName(), explode('.', $route)[0]));
+    $isActive = $active ?: (request()->routeIs($route) || request()->routeIs($route . '.*'));
 @endphp
 
 <a href="{{ Route::has($route) ? route($route) : '#' }}"

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="dark" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -7,7 +7,7 @@
     <title>{{ config('app.name', 'Programmers.in') }} | Backend</title>
 
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
@@ -28,20 +28,20 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-node-dark text-slate-300 antialiased font-inter" x-data="{ sidebarOpen: false }">
+<body class="bg-background text-on-surface antialiased font-inter overflow-x-hidden" x-data="{ sidebarOpen: false }">
 
     <x-admin.sidebar />
 
     <!-- Main Content Area -->
-    <main class="flex-1 flex flex-col min-h-screen relative overflow-hidden transition-all duration-300 lg:ml-72">
-        <!-- Abstract background elements for atmosphere -->
-        <div class="absolute -top-24 -right-24 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[150px] pointer-events-none"></div>
-        <div class="absolute bottom-0 -left-24 w-[600px] h-[600px] bg-tertiary/10 rounded-full blur-[150px] pointer-events-none"></div>
+    <main class="flex-1 flex flex-col min-h-screen relative transition-all duration-300 lg:ml-72">
+        <!-- Tonal background elements for depth -->
+        <div class="absolute -top-40 -right-40 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute top-1/2 -left-40 w-[600px] h-[600px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none"></div>
 
         <x-admin.navbar :title="$title ?? 'Dashboard'" :subtitle="$subtitle ?? 'Overview'" />
 
         <!-- Scrollable Content -->
-        <div class="flex-1 p-6 md:p-10 mt-2 animate-in-fade relative z-10">
+        <div class="flex-1 p-6 md:p-10 animate-in-fade relative z-10 w-full max-w-full">
             @yield('content')
         </div>
     </main>
@@ -55,7 +55,7 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
          @click="sidebarOpen = false"
-         class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden">
+         class="fixed inset-0 bg-slate-900/10 backdrop-blur-sm z-40 lg:hidden">
     </div>
 </body>
 </html>
