@@ -47,11 +47,20 @@
                             </div>
                         </div>
 
-                        <div class="space-y-2">
-                            <label class="label-mono text-[10px] text-on-surface opacity-60 uppercase tracking-widest" for="phone">Communication Node (Phone)</label>
-                            <input id="phone" type="text" name="phone" value="{{ old('phone', $employee->phone) }}"
-                                class="w-full bg-surface-container-low border border-outline-variant/20 rounded px-5 py-3.5 text-xs font-mono font-bold text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
-                                placeholder="+XX XXX XXXXXXX">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="label-mono text-[10px] text-on-surface opacity-60 uppercase tracking-widest" for="phone">Communication Node (Phone)</label>
+                                <input id="phone" type="text" name="phone" value="{{ old('phone', $employee->phone) }}"
+                                    class="w-full bg-surface-container-low border border-outline-variant/20 rounded px-5 py-3.5 text-xs font-mono font-bold text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
+                                    placeholder="+XX XXX XXXXXXX">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="label-mono text-[10px] text-on-surface opacity-60 uppercase tracking-widest" for="location">Geographic Node (Location)</label>
+                                <input id="location" type="text" name="location" value="{{ old('location', $employee->location) }}"
+                                    class="w-full bg-surface-container-low border border-outline-variant/20 rounded px-5 py-3.5 text-xs font-mono font-bold text-on-surface focus:ring-4 focus:ring-primary/10 focus:border-primary/40 transition-all"
+                                    placeholder="City, Province, Country">
+                            </div>
                         </div>
 
                         <div class="space-y-2">
@@ -65,10 +74,132 @@
 
                 <div class="h-px bg-outline-variant/10"></div>
 
+                <!-- Section 02: Education (Repeater) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10" x-data="{ 
+                    education: {{ json_encode($employee->education ?? []) }},
+                    addEducation() { this.education.push({ university: '', info: '' }) },
+                    removeEducation(index) { this.education.splice(index, 1) }
+                }">
+                    <div>
+                        <span class="label-mono text-[9px] opacity-40 uppercase tracking-widest block mb-1">Section 02</span>
+                        <h3 class="font-black text-on-surface tracking-tight uppercase text-xs">Knowledge Matrix (Education)</h3>
+                    </div>
+                    <div class="md:col-span-2 space-y-6">
+                        <template x-for="(item, index) in education" :key="index">
+                            <div class="p-6 bg-slate-50 border border-slate-100 rounded-xl relative group">
+                                <button type="button" @click="removeEducation(index)" class="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition-colors">
+                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                </button>
+                                <div class="grid grid-cols-1 gap-4">
+                                    <input type="text" :name="'education['+index+'][university]'" x-model="item.university" 
+                                        class="w-full bg-white border border-slate-200 rounded px-4 py-2 text-xs font-bold" placeholder="University / Institution">
+                                    <input type="text" :name="'education['+index+'][info]'" x-model="item.info" 
+                                        class="w-full bg-white border border-slate-200 rounded px-4 py-2 text-xs" placeholder="Degree / Year Range (e.g. 2020-2022 Master of Science)">
+                                </div>
+                            </div>
+                        </template>
+                        <button type="button" @click="addEducation()" class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-primary hover:opacity-70 transition-opacity">
+                            <span class="material-symbols-outlined text-sm">add_circle</span>
+                            Append Education Entry
+                        </button>
+                    </div>
+                </div>
+
+                <div class="h-px bg-outline-variant/10"></div>
+
+                <!-- Section 03: Skills Matrix -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10" x-data="{ 
+                    skills: {{ json_encode($employee->skills ?? ['Architecture' => '', 'Backend' => '', 'Frontend' => '', 'Databases' => '', 'AI' => '', 'Cloud' => '', 'DevOps' => '']) }},
+                }">
+                    <div>
+                        <span class="label-mono text-[9px] opacity-40 uppercase tracking-widest block mb-1">Section 03</span>
+                        <h3 class="font-black text-on-surface tracking-tight uppercase text-xs">Capability Mapping (Skills)</h3>
+                    </div>
+                    <div class="md:col-span-2 space-y-4">
+                        <template x-for="(value, key) in skills" :key="key">
+                            <div class="space-y-1">
+                                <label class="label-mono text-[9px] text-slate-400 uppercase tracking-widest" x-text="key"></label>
+                                <input type="text" :name="'skills['+key+']'" x-model="skills[key]" 
+                                    class="w-full bg-surface-container-low border border-outline-variant/20 rounded px-5 py-2 text-xs font-medium" 
+                                    placeholder="e.g. PHP, Laravel, Node.js">
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <div class="h-px bg-outline-variant/10"></div>
+
+                <!-- Section 04: Experience (Repeater) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10" x-data="{ 
+                    experience: {{ json_encode($employee->experience ?? []) }},
+                    addExperience() { this.experience.push({ company: '', range: '', role: '', bullets: [''] }) },
+                    removeExperience(index) { this.experience.splice(index, 1) },
+                    addBullet(expIndex) { this.experience[expIndex].bullets.push('') },
+                    removeBullet(expIndex, bulletIndex) { this.experience[expIndex].bullets.splice(bulletIndex, 1) }
+                }">
+                    <div>
+                        <span class="label-mono text-[9px] opacity-40 uppercase tracking-widest block mb-1">Section 04</span>
+                        <h3 class="font-black text-on-surface tracking-tight uppercase text-xs">Operation History (Experience)</h3>
+                    </div>
+                    <div class="md:col-span-2 space-y-8">
+                        <template x-for="(exp, expIdx) in experience" :key="expIdx">
+                            <div class="p-8 bg-slate-50 border border-slate-100 rounded-2xl relative group">
+                                <button type="button" @click="removeExperience(expIdx)" class="absolute top-6 right-6 text-slate-300 hover:text-red-500 transition-colors">
+                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                </button>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                    <div class="space-y-1">
+                                        <label class="label-mono text-[9px] text-slate-400 uppercase opacity-60">Node (Company)</label>
+                                        <input type="text" :name="'experience['+expIdx+'][company]'" x-model="exp.company" 
+                                            class="w-full bg-white border border-slate-200 rounded px-4 py-2 text-xs font-bold" placeholder="Company Name">
+                                    </div>
+                                    <div class="space-y-1">
+                                        <label class="label-mono text-[9px] text-slate-400 uppercase opacity-60">Timeline</label>
+                                        <input type="text" :name="'experience['+expIdx+'][range]'" x-model="exp.range" 
+                                            class="w-full bg-white border border-slate-200 rounded px-4 py-2 text-xs font-mono" placeholder="Jul 2017 - PRESENT">
+                                    </div>
+                                </div>
+
+                                <div class="space-y-1 mb-6">
+                                    <label class="label-mono text-[9px] text-slate-400 uppercase opacity-60">Designation (Role)</label>
+                                    <input type="text" :name="'experience['+expIdx+'][role]'" x-model="exp.role" 
+                                        class="w-full bg-white border border-slate-200 rounded px-4 py-2 text-sm font-black" placeholder="Lead Architect & Solutions Lead">
+                                </div>
+
+                                <div class="space-y-3">
+                                    <label class="label-mono text-[9px] text-slate-400 uppercase opacity-60">Operational Bulletins</label>
+                                    <template x-for="(bullet, bIdx) in exp.bullets" :key="bIdx">
+                                        <div class="flex items-center gap-3">
+                                            <span class="w-1 h-1 rounded-full bg-slate-300 flex-shrink-0"></span>
+                                            <input type="text" :name="'experience['+expIdx+'][bullets]['+bIdx+']'" x-model="exp.bullets[bIdx]" 
+                                                class="flex-1 bg-white border border-slate-200 rounded px-3 py-1.5 text-[11px] font-medium" placeholder="Describe accomplishment...">
+                                            <button type="button" @click="removeBullet(expIdx, bIdx)" class="text-slate-300 hover:text-red-500">
+                                                <span class="material-symbols-outlined text-[10px]">close</span>
+                                            </button>
+                                        </div>
+                                    </template>
+                                    <button type="button" @click="addBullet(expIdx)" class="text-[9px] font-bold text-primary flex items-center gap-1 mt-2">
+                                        <span class="material-symbols-outlined text-xs">add</span>
+                                        Add Bulletin
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+
+                        <button type="button" @click="addExperience()" class="w-full py-4 border-2 border-dashed border-slate-100 rounded-2xl flex items-center justify-center gap-2 text-slate-400 hover:text-primary hover:border-primary/20 transition-all font-bold text-[10px] uppercase tracking-widest">
+                            <span class="material-symbols-outlined text-sm">add_circle</span>
+                            Initialize New Experience Node
+                        </button>
+                    </div>
+                </div>
+
+                <div class="h-px bg-outline-variant/10"></div>
+
                 <!-- Group 02: Credentials -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                     <div>
-                        <span class="label-mono text-[9px] opacity-40 uppercase tracking-widest block mb-1">Section 02</span>
+                        <span class="label-mono text-[9px] opacity-40 uppercase tracking-widest block mb-1">Section 05</span>
                         <h3 class="font-black text-on-surface tracking-tight uppercase text-xs">System Access</h3>
                     </div>
                     <div class="md:col-span-2 space-y-8">
@@ -131,5 +262,4 @@
     </div>
 </div>
 
-@endsection
 @endsection

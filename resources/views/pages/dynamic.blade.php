@@ -8,7 +8,7 @@
     @isset($page->content)
         @foreach($page->content as $block)
             @php $type = $block['type']; @endphp
-            @includeIf("pages.blocks.{$type}", ['data' => $block['data']])
+            @includeIf("pages.blocks.{$type}", ['data' => $block['data'] ?? []])
         @endforeach
     @endisset
 </main>

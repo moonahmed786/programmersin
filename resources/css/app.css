@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+[x-cloak] { display: none !important; }
+
 @theme {
     /* Vibrant Stellar Palette */
     --color-primary: #0076FF; /* Electric Blue */
@@ -22,10 +24,29 @@
     --color-background: #F8FAFC;
     --color-on-background: #0F172A;
 
+    --color-node-dark: #0F172A; /* Deep Rich Slate */
+    --color-on-node-dark: #F1F5F9;
+
     --color-outline: #CBD5E1;
     --color-outline-variant: #E2E8F0;
 
     --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+    /* Glass Effects */
+    --glass-blur: blur(24px);
+    --glass-background: rgba(255, 255, 255, 0.7);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.4);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+
+    --glass-card-blur: blur(20px);
+    --glass-card-background: rgba(255, 255, 255, 0.8);
+    --glass-card-border: 1px solid rgba(255, 255, 255, 0.6);
+    --glass-card-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+
+    /* Sidebar & Radius */
+    --sidebar-active-gradient: linear-gradient(to right, color-mix(in srgb, var(--color-primary), transparent 90%), color-mix(in srgb, var(--color-primary), transparent 95%), transparent);
+    --radius-stellar: 1.25rem;
+    --radius-node: 1rem;
 }
 
 /* Explicit source scanning for performance and accuracy */
@@ -35,19 +56,19 @@
 
 @layer utilities {
     .glass-surface {
-        background: rgba(255, 255, 255, 0.7);
-        backdrop-filter: blur(24px);
-        -webkit-backdrop-filter: blur(24px);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        background: var(--glass-background);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        border: var(--glass-border);
+        box-shadow: var(--glass-shadow);
     }
     
     .glass-card {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.6);
-        box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+        background: var(--glass-card-background);
+        backdrop-filter: var(--glass-card-blur);
+        -webkit-backdrop-filter: var(--glass-card-blur);
+        border: var(--glass-card-border);
+        box-shadow: var(--glass-card-shadow);
         transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -57,11 +78,12 @@
     }
 
     .gradient-primary {
-        @apply bg-gradient-to-br from-primary to-secondary;
+        background-image: linear-gradient(to bottom right, var(--color-primary), var(--color-secondary));
     }
 
     .text-gradient {
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-tertiary;
+        @apply bg-clip-text text-transparent;
+        background-image: linear-gradient(to right, var(--color-primary), var(--color-tertiary));
     }
 
     .animate-in-fade {
@@ -74,17 +96,34 @@
     }
 
     .sidebar-active-gradient {
-        @apply bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border-r-2 border-primary;
+        background-image: var(--sidebar-active-gradient);
+        border-right-width: 2px;
+        border-color: var(--color-primary);
     }
 
     /* --- Stellar Cloud Design System --- */
+    .bg-node-dark {
+        background-color: var(--color-node-dark);
+        color: var(--color-on-node-dark);
+    }
+
+    .rounded-node {
+        border-radius: var(--radius-node);
+    }
 
     .rounded-stellar {
-        border-radius: 1.25rem; /* 20px */
+        border-radius: var(--radius-stellar);
     }
 
     .card-metric {
-        @apply glass-card rounded-stellar p-8;
+        background: var(--glass-card-background);
+        backdrop-filter: var(--glass-card-blur);
+        -webkit-backdrop-filter: var(--glass-card-blur);
+        border: var(--glass-card-border);
+        box-shadow: var(--glass-card-shadow);
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        border-radius: var(--radius-stellar);
+        @apply p-8;
         border-color: rgba(255, 255, 255, 0.8);
     }
 
@@ -93,15 +132,17 @@
     }
 
     .ledger-table th {
-        @apply px-8 py-5 text-left text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400 border-b border-slate-100 bg-slate-50/50 first:rounded-tl-stellar last:rounded-tr-stellar;
+        @apply px-8 py-5 text-left text-[11px] font-extrabold uppercase tracking-[0.15em] text-slate-400 border-b border-slate-100 bg-slate-50/50;
+        border-top-left-radius: var(--radius-stellar);
+        border-top-right-radius: var(--radius-stellar);
     }
 
     .ledger-table td {
         @apply px-8 py-6 text-sm text-slate-600 border-b border-slate-50 align-middle transition-colors;
     }
 
-    .ledger-table tr:last-child td:first-child { @apply rounded-bl-stellar; }
-    .ledger-table tr:last-child td:last-child { @apply rounded-br-stellar; }
+    .ledger-table tr:last-child td:first-child { border-bottom-left-radius: var(--radius-stellar); }
+    .ledger-table tr:last-child td:last-child { border-bottom-right-radius: var(--radius-stellar); }
 
     .ledger-table tr:hover td {
         @apply bg-slate-50/30;
@@ -124,14 +165,23 @@
     }
 
     .sidebar-link.active {
-        @apply bg-primary/5 text-primary sidebar-active-gradient font-bold mx-0 rounded-l-none rounded-r-xl;
+        @apply bg-primary/5 text-primary font-bold mx-0 rounded-l-none rounded-r-xl;
+        background-image: var(--sidebar-active-gradient);
+        border-right-width: 2px;
+        border-color: var(--color-primary);
     }
 
     .floating-header {
-        @apply glass-surface rounded-2xl mx-10 mt-6 px-10 py-4 top-6 sticky z-50 flex items-center justify-between;
+        background: var(--glass-background);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        border: var(--glass-border);
+        box-shadow: var(--glass-shadow);
+        @apply rounded-2xl mx-10 mt-6 px-10 py-4 top-6 sticky z-50 flex items-center justify-between;
     }
 
     .btn-stellar {
-        @apply gradient-primary text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 active:scale-95 transition-all text-xs tracking-tight flex items-center gap-2;
+        background-image: linear-gradient(to bottom right, var(--color-primary), var(--color-secondary));
+        @apply text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 hover:brightness-110 active:scale-95 transition-all text-xs tracking-tight flex items-center gap-2;
     }
 }

@@ -1,4 +1,4 @@
-<section class="relative overflow-hidden bg-white pt-24 pb-32">
+<section class="relative overflow-hidden bg-transparent pt-24 pb-32">
   <div class="max-w-7xl mx-auto px-8 grid lg:grid-cols-2 gap-20 items-center">
     <div class="z-10">
       <div class="flex items-center gap-3 mb-8">
@@ -27,7 +27,7 @@
         <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent"></div>
         
         <!-- Floating Badge: Delivery Window -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 w-fit bg-white p-5 rounded shadow-2xl border-node flex items-center gap-4 animate-in-fade" style="animation-delay: 0.5s">
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 w-fit bg-transparent p-5 rounded shadow-2xl border-node flex items-center gap-4 animate-in-fade" style="animation-delay: 0.5s">
             <div class="w-10 h-10 rounded bg-secondary/10 flex items-center justify-center text-secondary">
                 <span class="material-symbols-outlined text-xl">timer</span>
             </div>

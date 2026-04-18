@@ -14,7 +14,7 @@
         {{ $data['button_text'] ?? 'Start 14-Day Sprint' }}
       </a>
       @if(!empty($data['secondary_url']))
-      <a href="{{ $data['secondary_url'] }}" class="border border-white/20 text-white px-10 py-5 rounded font-bold text-lg hover:bg-white/5 transition-all">
+      <a href="{{ $data['secondary_url'] }}" class="border border-white/20 text-white px-10 py-5 rounded font-bold text-lg hover:bg-transparent/5 transition-all">
         {{ $data['secondary_text'] ?? 'Speak with an Architect' }}
       </a>
       @endif

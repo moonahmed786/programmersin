@@ -28,8 +28,12 @@ class EmployeeController extends Controller
             'email'             => 'required|email|unique:users,email',
             'password'          => 'required|string|min:8|confirmed',
             'phone'             => 'nullable|string|max:30',
+            'location'          => 'nullable|string|max:255',
             'position'          => 'nullable|string|max:255',
             'bio'               => 'nullable|string',
+            'education'         => 'nullable|array',
+            'skills'            => 'nullable|array',
+            'experience'        => 'nullable|array',
         ]);
 
         $validated['role']      = 'employee';
@@ -59,8 +63,12 @@ class EmployeeController extends Controller
             'email'    => ['required', 'email', Rule::unique('users')->ignore($employee->id)],
             'password' => 'nullable|string|min:8|confirmed',
             'phone'    => 'nullable|string|max:30',
+            'location' => 'nullable|string|max:255',
             'position' => 'nullable|string|max:255',
             'bio'      => 'nullable|string',
+            'education' => 'nullable|array',
+            'skills'    => 'nullable|array',
+            'experience' => 'nullable|array',
         ]);
 
         if (!empty($validated['password'])) {

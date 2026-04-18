@@ -1,4 +1,4 @@
-<section class="py-24 bg-white">
+<section class="py-24 bg-transparent">
     <div class="max-w-4xl mx-auto px-8 relative">
         @if(!empty($data['title']))
         <div class="mb-12">

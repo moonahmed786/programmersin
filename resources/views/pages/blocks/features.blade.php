@@ -15,7 +15,7 @@
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
       @foreach($data['items'] ?? [] as $item)
-        <div class="p-10 rounded border-node bg-white/5 hover:bg-white/[0.07] transition-all group">
+        <div class="p-10 rounded border-node bg-transparent/5 hover:bg-transparent/[0.07] transition-all group">
           <div class="text-primary mb-8">
             <span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">{{ $item['icon'] ?? 'token' }}</span>
           </div>

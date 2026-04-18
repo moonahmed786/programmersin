@@ -1,4 +1,4 @@
-<section class="py-32 bg-white">
+<section class="py-32 bg-transparent">
   <div class="max-w-7xl mx-auto px-8">
     <div class="text-center mb-24">
       <h3 class="text-4xl font-extrabold tracking-tighter text-on-surface">{{ $data['title'] ?? 'Capability Ledger' }}</h3>

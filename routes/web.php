@@ -21,6 +21,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // Public Portfolio/Showcase Routes
 Route::get('/portfolio', [ProjectController::class, 'portfolio'])->name('portfolio.index');
 Route::get('/portfolio/{slug}', [ProjectController::class, 'showcase'])->name('portfolio.show');
+Route::get('/team/{employee}', [\App\Http\Controllers\PortfolioController::class, 'show'])->name('employee.portfolio');
 
 Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
 
