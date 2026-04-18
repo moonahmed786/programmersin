@@ -5,21 +5,24 @@
 <!-- Navigation Node Configuration Header -->
 <div class="mb-14">
     <div class="flex items-center gap-6 mb-4">
-        <a href="{{ route('admin.menus.index') }}" class="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-slate-300 hover:text-primary hover:border-primary/20 transition-all shadow-sm">
+        <a href="{{ route('admin.menus.index') }}" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 hover:text-primary transition-all shadow-2xl">
             <span class="material-symbols-outlined text-lg">arrow_back</span>
         </a>
-        <div class="h-6 w-px bg-slate-100 mx-2"></div>
+        <div class="h-6 w-px bg-white/10 mx-2"></div>
         <div>
-            <h1 class="text-3xl font-black tracking-tighter text-slate-900 uppercase italic">
-                <span class="text-gradient">Configure Node</span>
+            <h1 class="text-3xl font-black tracking-tighter text-white uppercase italic">
+                Configure <span class="text-primary">Node</span>
             </h1>
-            <p class="text-[10px] text-slate-400 font-extrabold uppercase tracking-[0.3em] mt-2">Refining connectivity unit: {{ $menu->title }}</p>
+            <p class="text-[10px] text-slate-500 font-extrabold uppercase tracking-[0.4em] mt-3 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(0,118,255,0.6)] animate-pulse"></span>
+                Refining connectivity unit: {{ $menu->title }}
+            </p>
         </div>
     </div>
 </div>
 
 <div class="max-w-4xl animate-in-fade">
-    <div class="glass-surface rounded-stellar overflow-hidden border border-white/80">
+    <div class="bg-node-dark/40 backdrop-blur-sm rounded-node overflow-hidden border border-white/5 shadow-2xl">
         <form action="{{ route('admin.menus.update', $menu) }}" method="POST">
             @csrf
             @method('PUT')
@@ -28,70 +31,70 @@
                 <!-- Group 01: Core Resolution -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     <div>
-                        <span class="text-[10px] font-black text-primary uppercase tracking-[0.3em] block mb-2">PHASE 01</span>
-                        <h3 class="font-black text-slate-900 tracking-tight uppercase text-sm italic">Connectivity Core</h3>
+                        <span class="text-[10px] font-black text-primary uppercase tracking-[0.3em] block mb-2 font-mono">PHASE 01</span>
+                        <h3 class="font-black text-white tracking-tight uppercase text-sm italic">Connectivity Core</h3>
                     </div>
                     <div class="lg:col-span-2 space-y-10">
                         <div class="space-y-3">
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="title">Display Label (Title)</label>
+                            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1" for="title">Display Label (Title)</label>
                             <input id="title" type="text" name="title" required value="{{ old('title', $menu->title) }}"
-                                class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-sm font-bold text-slate-900 focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all shadow-sm @error('title') border-red-200 @enderror"
+                                class="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-sm font-bold text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 focus:bg-white/10 transition-all shadow-inner @error('title') border-rose-500/50 @enderror"
                                 placeholder="ENTER_NODE_TITLE">
-                            @error('title') <p class="text-[9px] text-red-500 font-bold uppercase tracking-widest mt-2">{{ $message }}</p> @enderror
+                            @error('title') <p class="text-[9px] text-rose-500 font-bold uppercase tracking-widest mt-2">{{ $message }}</p> @enderror
                         </div>
 
                         <div class="space-y-3">
-                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="url">Resolution Path (URL)</label>
+                            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1" for="url">Resolution Path (URL)</label>
                             <input id="url" type="text" name="url" value="{{ old('url', $menu->url) }}"
-                                class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-xs font-mono font-bold text-primary focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all shadow-sm"
+                                class="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-xs font-mono font-bold text-primary focus:ring-4 focus:ring-primary/10 focus:border-primary/40 focus:bg-white/10 transition-all shadow-inner"
                                 placeholder="/#services or https://...">
-                            <p class="text-[9px] text-slate-400 font-extrabold uppercase tracking-widest mt-3 opacity-60">Leave NULL for parent dropdown nodes</p>
+                            <p class="text-[9px] text-slate-700 font-extrabold uppercase tracking-widest mt-3 opacity-60 italic">Leave NULL for parent dropdown nodes</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="h-px bg-slate-100/50"></div>
+                <div class="h-px bg-white/5"></div>
 
                 <!-- Group 02: Hierarchy Matrix -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     <div>
-                        <span class="text-[10px] font-black text-tertiary uppercase tracking-[0.3em] block mb-2">PHASE 02</span>
-                        <h3 class="font-black text-slate-900 tracking-tight uppercase text-sm italic">Architectural Matrix</h3>
+                        <span class="text-[10px] font-black text-primary uppercase tracking-[0.3em] block mb-2 font-mono opacity-80">PHASE 02</span>
+                        <h3 class="font-black text-white tracking-tight uppercase text-sm italic">Architectural Matrix</h3>
                     </div>
                     <div class="lg:col-span-2 space-y-10">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                             <div class="space-y-3">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="location">Zone Location</label>
+                                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1" for="location">Zone Location</label>
                                 <div class="relative group">
                                     <select id="location" name="location" required 
-                                        class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-[11px] font-black uppercase tracking-widest appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all shadow-sm cursor-pointer">
-                                        <option value="header" {{ $menu->location === 'header' ? 'selected' : '' }}>HEADER_PRIMARY</option>
-                                        <option value="footer" {{ $menu->location === 'footer' ? 'selected' : '' }}>FOOTER_SITE_MAP</option>
+                                        class="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-[11px] font-black uppercase tracking-widest appearance-none focus:ring-4 focus:ring-primary/10 focus:border-primary/40 focus:bg-white/10 text-white transition-all shadow-inner cursor-pointer">
+                                        <option value="header" {{ $menu->location === 'header' ? 'selected' : '' }} class="bg-node-dark">HEADER_PRIMARY</option>
+                                        <option value="footer" {{ $menu->location === 'footer' ? 'selected' : '' }} class="bg-node-dark">FOOTER_SITE_MAP</option>
                                     </select>
-                                    <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none text-lg">unfold_more</span>
+                                    <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-slate-600 pointer-events-none text-lg">unfold_more</span>
                                 </div>
                             </div>
 
                             <div class="space-y-3">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="parent_id">Parent Hub (Optional)</label>
+                                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1" for="parent_id">Parent Hub (Optional)</label>
                                 <div class="relative group">
                                     <select id="parent_id" name="parent_id" 
-                                        class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-[11px] font-black uppercase tracking-widest appearance-none focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all shadow-sm cursor-pointer">
-                                        <option value="">-- RESOLVED_TOP_LEVEL --</option>
+                                        class="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-[11px] font-black uppercase tracking-widest appearance-none focus:ring-4 focus:ring-primary/10 focus:border-primary/40 focus:bg-white/10 text-white transition-all shadow-inner cursor-pointer">
+                                        <option value="" class="bg-node-dark">-- RESOLVED_TOP_LEVEL --</option>
                                         @foreach($parentMenus as $parent)
-                                            <option value="{{ $parent->id }}" {{ $menu->parent_id === $parent->id ? 'selected' : '' }}>NODE: {{ strtoupper($parent->title) }}</option>
+                                            <option value="{{ $parent->id }}" {{ $menu->parent_id === $parent->id ? 'selected' : '' }} class="bg-node-dark">NODE: {{ strtoupper($parent->title) }}</option>
                                         @endforeach
                                     </select>
-                                    <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none text-lg">unfold_more</span>
+                                    <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-slate-600 pointer-events-none text-lg">unfold_more</span>
                                 </div>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                             <div class="space-y-3">
-                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" for="order">Sequence Order</label>
+                                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1" for="order">Sequence Order</label>
                                 <input id="order" type="number" name="order" value="{{ old('order', $menu->order) }}"
-                                    class="w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-sm font-black text-slate-900 focus:ring-4 focus:ring-primary/5 focus:border-primary/20 focus:bg-white transition-all shadow-sm">
+                                    class="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-sm font-mono font-black text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 focus:bg-white/10 transition-all shadow-inner">
                             </div>
 
                             <div class="pt-6 flex flex-col justify-end">
@@ -100,10 +103,10 @@
                                         <input type="hidden" name="is_active" value="0">
                                         <input id="is_active" type="checkbox" name="is_active" value="1" {{ old('is_active', $menu->is_active) ? 'checked' : '' }}
                                             class="sr-only peer">
-                                        <div class="w-14 h-7 bg-slate-100 rounded-full peer-checked:bg-primary transition-all shadow-inner"></div>
+                                        <div class="w-14 h-7 bg-white/10 rounded-full peer-checked:bg-primary transition-all shadow-inner"></div>
                                         <div class="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-lg transition-all peer-checked:translate-x-7"></div>
                                     </div>
-                                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 group-hover:text-primary transition-colors italic">Broadcast Protocol</span>
+                                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-primary transition-colors italic">Broadcast Protocol</span>
                                 </label>
                             </div>
                         </div>
@@ -112,15 +115,15 @@
             </div>
 
             <!-- Form Actions -->
-            <div class="px-12 py-10 bg-slate-50/50 border-t border-slate-100 flex items-center justify-between">
+            <div class="px-12 py-10 bg-white/5 border-t border-white/5 flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                    <div class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(0,118,255,0.3)]"></div>
-                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300">Network Topology Stabilized</span>
+                    <div class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(0,118,255,0.4)]"></div>
+                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">Network Topology Stabilized</span>
                 </div>
-                <div class="flex items-center gap-6">
-                    <a href="{{ route('admin.menus.index') }}" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-300 hover:text-red-500 transition-colors">Abort Sync</a>
-                    <button type="submit" class="btn-stellar px-10">
-                        <span class="material-symbols-outlined text-sm">terminal</span>
+                <div class="flex items-center gap-8">
+                    <a href="{{ route('admin.menus.index') }}" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-rose-500 transition-colors">Abort Sync</a>
+                    <button type="submit" class="bg-primary text-white border border-primary/20 px-12 py-4 rounded-xl font-black text-[11px] uppercase tracking-widest hover:brightness-110 shadow-2xl shadow-primary/20 transition-all flex items-center gap-3">
+                        <span class="material-symbols-outlined text-base">terminal</span>
                         Commit Connectivity
                     </button>
                 </div>

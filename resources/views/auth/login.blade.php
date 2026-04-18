@@ -38,37 +38,37 @@
         }
 
         .login-card {
-            background: rgba(255,255,255,0.88);
+            background: rgba(15, 23, 42, 0.4);
             backdrop-filter: blur(40px);
             -webkit-backdrop-filter: blur(40px);
-            border: 1px solid rgba(255,255,255,0.95);
-            box-shadow: 0 24px 80px rgba(0,0,0,0.09), 0 0 0 1px rgba(255,255,255,0.6) inset, 0 1px 0 rgba(255,255,255,0.9) inset;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.02) inset;
             border-radius: 28px;
             animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both;
         }
 
         .logo-ring {
-            box-shadow: 0 0 0 4px rgba(255,255,255,1), 0 0 0 6px rgba(0,118,255,0.15), 0 12px 40px rgba(0,118,255,0.25);
-            animation: spin-slow 0s linear infinite; /* removed spin, keep glow */
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.1), 0 12px 40px rgba(0,118,255,0.2);
+            background: rgba(15, 23, 42, 0.4);
         }
 
         .field-input {
             width: 100%;
-            padding: 14px 16px 14px 48px;
-            background: rgba(248,250,252,0.9);
-            border: 1.5px solid rgba(203,213,225,0.7);
+            padding: 16px 16px 16px 48px;
+            background: rgba(255,255,255,0.03);
+            border: 1.5px solid rgba(255,255,255,0.05);
             border-radius: 16px;
             font-size: 0.875rem;
-            font-weight: 600;
-            color: #1e293b;
+            font-weight: 700;
+            color: #fff;
             letter-spacing: -0.01em;
             transition: all 0.25s cubic-bezier(0.16,1,0.3,1);
             outline: none;
         }
         .field-input:focus {
-            background: #fff;
+            background: rgba(255,255,255,0.07);
             border-color: #0076FF;
-            box-shadow: 0 0 0 4px rgba(0,118,255,0.1);
+            box-shadow: 0 0 0 4px rgba(0,118,255,0.15);
         }
         .field-input.has-toggle { padding-right: 48px; }
 
@@ -78,7 +78,7 @@
             top: 50%;
             transform: translateY(-50%);
             font-size: 20px;
-            color: #94a3b8;
+            color: #475569;
             pointer-events: none;
             transition: color 0.25s;
             font-family: 'Material Symbols Outlined';
@@ -131,22 +131,22 @@
             background: linear-gradient(90deg, #0076FF, #7C4DFF, #00E5FF);
         }
         .fade-divider {
-            background: linear-gradient(to right, transparent, rgba(203,213,225,0.5), transparent);
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
         }
         .status-dot {
             width: 8px; height: 8px;
             border-radius: 50%;
-            background: #34d399;
-            box-shadow: 0 0 0 3px rgba(52,211,153,0.2);
+            background: #0076FF;
+            box-shadow: 0 0 15px rgba(0,118,255,0.5);
             animation: ping-glow 2s ease-in-out infinite;
         }
         @keyframes ping-glow {
-            0%, 100% { box-shadow: 0 0 0 3px rgba(52,211,153,0.2); }
-            50% { box-shadow: 0 0 0 6px rgba(52,211,153,0.08); }
+            0%, 100% { box-shadow: 0 0 8px rgba(0,118,255,0.4); }
+            50% { box-shadow: 0 0 16px rgba(0,118,255,0.6); }
         }
     </style>
 </head>
-<body style="min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; background: linear-gradient(135deg, #EEF3FF 0%, #F8FAFC 50%, #EEF0FF 100%);">
+<body style="min-height:100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; background: #0F172A;">
 
     <!-- Background -->
     <div class="dot-grid" style="position:absolute;inset:0;pointer-events:none;opacity:0.7;"></div>
@@ -167,18 +167,18 @@
                 <div style="text-align:center;margin-bottom:32px;">
                     <!-- Logo -->
                     <div style="display:inline-flex;position:relative;margin-bottom:20px;">
-                        <div class="logo-ring" style="width:80px;height:80px;border-radius:20px;overflow:hidden;background:#fff;">
-                            <img src="{{ asset('uploads/assets/logo.svg') }}" alt="ProgrammersIn" style="width:100%;height:100%;object-fit:contain;">
+                        <div class="logo-ring" style="width:80px;height:80px;border-radius:20px;overflow:hidden;">
+                            <img src="{{ asset('uploads/assets/logo.svg') }}" alt="ProgrammersIn" style="width:100%;height:100%;object-fit:contain;filter:brightness(2);">
                         </div>
-                        <div style="position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:#34d399;border-radius:50%;border:2.5px solid #fff;box-shadow:0 0 10px rgba(52,211,153,0.6);animation:ping-glow 2s ease-in-out infinite;"></div>
+                        <div style="position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:#0076FF;border-radius:50%;border:2.5px solid #0f172a;box-shadow:0 0 10px rgba(0,118,255,0.6);animation:ping-glow 2s ease-in-out infinite;"></div>
                     </div>
 
                     <h1 style="margin:0 0 6px;font-size:2.4rem;font-weight:900;letter-spacing:-0.04em;line-height:1;font-style:italic;">
                         <span class="text-shimmer">Protocol</span>
-                        <span style="color:#0f172a;"> Access</span>
+                        <span style="color:#fff;"> Access</span>
                     </h1>
 
-                    <p style="margin:0;display:flex;align-items:center;justify-content:center;gap:8px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.35em;color:#94a3b8;">
+                    <p style="margin:0;display:flex;align-items:center;justify-content:center;gap:12px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.4em;color:#475569;">
                         <span class="status-dot"></span>
                         Central Command Node
                         <span class="status-dot"></span>
@@ -190,9 +190,9 @@
 
                 <!-- Error Alert -->
                 @if ($errors->any())
-                <div style="margin-bottom:20px;background:#fff1f2;border:1.5px solid #fecdd3;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:10px;">
+                <div style="margin-bottom:24px;background:rgba(244,63,94,0.1);border:1px solid rgba(244,63,94,0.2);border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px;">
                     <span class="material-symbols-outlined" style="color:#f43f5e;font-size:18px;flex-shrink:0;">error</span>
-                    <p style="margin:0;font-size:11px;font-weight:700;color:#e11d48;text-transform:uppercase;letter-spacing:0.08em;">{{ $errors->first() }}</p>
+                    <p style="margin:0;font-size:11px;font-weight:800;color:#f43f5e;text-transform:uppercase;letter-spacing:0.1em;">{{ $errors->first() }}</p>
                 </div>
                 @endif
 
@@ -202,8 +202,8 @@
 
                     <!-- Email -->
                     <div>
-                        <label for="email" style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.22em;color:#94a3b8;margin-bottom:8px;">
-                            <span style="width:3px;height:12px;border-radius:2px;background:linear-gradient(#0076FF,#7C4DFF);display:inline-block;"></span>
+                        <label for="email" style="display:flex;align-items:center;gap:8px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.25em;color:#475569;margin-bottom:10px;">
+                            <span style="width:3px;height:12px;border-radius:2px;background:#0076FF;display:inline-block;box-shadow:0 0 10px rgba(0,118,255,0.5);"></span>
                             Personnel Email
                         </label>
                         <div style="position:relative;">
@@ -221,8 +221,8 @@
 
                     <!-- Password -->
                     <div>
-                        <label for="password" style="display:flex;align-items:center;gap:6px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.22em;color:#94a3b8;margin-bottom:8px;">
-                            <span style="width:3px;height:12px;border-radius:2px;background:linear-gradient(#7C4DFF,#00E5FF);display:inline-block;"></span>
+                        <label for="password" style="display:flex;align-items:center;gap:8px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.25em;color:#475569;margin-bottom:10px;">
+                            <span style="width:3px;height:12px;border-radius:2px;background:#7C4DFF;display:inline-block;box-shadow:0 0 10px rgba(124,77,255,0.5);"></span>
                             Access Key
                         </label>
                         <div style="position:relative;">
@@ -235,8 +235,8 @@
                                 onblur="this.previousElementSibling.style.color=''"
                             >
                             <button type="button" id="toggle-pass"
-                                style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;padding:4px;display:flex;align-items:center;transition:color 0.2s;"
-                                onmouseenter="this.style.color='#0076FF'" onmouseleave="this.style.color='#94a3b8'"
+                                style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#475569;padding:4px;display:flex;align-items:center;transition:color 0.2s;"
+                                onmouseenter="this.style.color='#fff'" onmouseleave="this.style.color='#475569'"
                                 onclick="var p=document.getElementById('password');var i=this.querySelector('span');if(p.type==='password'){p.type='text';i.textContent='visibility_off';}else{p.type='password';i.textContent='visibility';}">
                                 <span class="material-symbols-outlined" style="font-size:20px;">visibility</span>
                             </button>
@@ -246,10 +246,10 @@
                     <!-- Remember & Forgot -->
                     <div style="display:flex;align-items:center;justify-content:space-between;">
                         <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
-                            <input type="checkbox" name="remember" style="width:16px;height:16px;accent-color:#0076FF;cursor:pointer;border-radius:4px;">
-                            <span style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:#94a3b8;">Remember Me</span>
+                            <input type="checkbox" name="remember" style="width:16px;height:16px;accent-color:#0076FF;cursor:pointer;border-radius:4px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);">
+                            <span style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;color:#475569;">Remember Me</span>
                         </label>
-                        <a href="#" style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:#0076FF;text-decoration:none;font-style:italic;" onmouseenter="this.style.textDecoration='underline'" onmouseleave="this.style.textDecoration='none'">Forgot?</a>
+                        <a href="#" style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.15em;color:#0076FF;text-decoration:none;font-style:italic;" onmouseenter="this.style.textDecoration='underline'" onmouseleave="this.style.textDecoration='none'">Forgot Key?</a>
                     </div>
 
                     <!-- Submit Button -->
@@ -262,12 +262,12 @@
 
                 <!-- Footer -->
                 <div style="margin-top:24px;">
-                    <div class="fade-divider" style="height:1px;width:100%;margin-bottom:20px;"></div>
+                    <div class="fade-divider" style="height:1px;width:100%;margin-bottom:24px;"></div>
                     <div style="display:flex;align-items:center;justify-content:space-between;">
-                        <p style="margin:0;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.3em;color:#cbd5e1;font-style:italic;">Encrypted · Secure</p>
-                        <a href="{{ url('/') }}" style="display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.15em;color:#94a3b8;text-decoration:none;transition:color 0.2s;" onmouseenter="this.style.color='#0076FF'" onmouseleave="this.style.color='#94a3b8'">
-                            <span class="material-symbols-outlined" style="font-size:14px;">west</span>
-                            Back to Site
+                        <p style="margin:0;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:0.3em;color:#334155;font-style:italic;">Encrypted · Secure</p>
+                        <a href="{{ url('/') }}" style="display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.2em;color:#475569;text-decoration:none;transition:color 0.2s;" onmouseenter="this.style.color='#fff'" onmouseleave="this.style.color='#475569'">
+                            <span class="material-symbols-outlined" style="font-size:16px;">west</span>
+                            Return Home
                         </a>
                     </div>
                 </div>
@@ -275,10 +275,10 @@
         </div>
 
         <!-- Below card -->
-        <p style="text-align:center;margin-top:20px;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.4em;color:#94a3b8;opacity:0.5;display:flex;align-items:center;justify-content:center;gap:12px;">
-            <span style="height:1px;width:32px;background:#cbd5e1;display:inline-block;"></span>
+        <p style="text-align:center;margin-top:24px;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:0.5em;color:#334155;opacity:0.8;display:flex;align-items:center;justify-content:center;gap:16px;">
+            <span style="height:1px;width:24px;background:#1e293b;display:inline-block;"></span>
             programmersin.com
-            <span style="height:1px;width:32px;background:#cbd5e1;display:inline-block;"></span>
+            <span style="height:1px;width:24px;background:#1e293b;display:inline-block;"></span>
         </p>
     </div>
 

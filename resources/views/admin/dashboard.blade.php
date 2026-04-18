@@ -5,14 +5,14 @@
     <!-- Welcome Header -->
     <div class="flex flex-col gap-2">
         <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-primary"></span>
-            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">System Overview</p>
+            <span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_10px_rgba(0,118,255,0.5)]"></span>
+            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">System Intelligence Console</p>
         </div>
-        <h1 class="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
-            Dashboard <span class="text-primary opacity-50 font-medium">Overview</span>
+        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tighter">
+            Dashboard <span class="text-primary opacity-80">Overview</span>
         </h1>
-        <p class="text-sm text-slate-500 font-medium max-w-2xl">
-            Welcome back. Monitor your project performance and recent inquiries through the central dashboard.
+        <p class="text-sm text-slate-500 font-bold max-w-2xl mt-2">
+            Welcome back. Monitor your project performance and recent inquiries through the central architectural nodes.
         </p>
     </div>
 
@@ -47,43 +47,43 @@
         <!-- Recent Inquiries -->
         <div class="lg:col-span-2 flex flex-col gap-6">
             <div class="flex items-center justify-between">
-                <h2 class="text-xl font-bold text-slate-900 tracking-tight">Recent Inquiries</h2>
-                <a href="{{ route('admin.inquiries.index') }}" class="text-[11px] font-bold text-primary uppercase tracking-wider hover:underline">
-                    View All
+                <h2 class="text-xl font-black text-white tracking-tighter uppercase">Recent Inquiries</h2>
+                <a href="{{ route('admin.inquiries.index') }}" class="text-[11px] font-black text-primary uppercase tracking-widest hover:text-white transition-colors">
+                    View Registry
                 </a>
             </div>
 
-            <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+            <div class="bg-node-dark/40 backdrop-blur-sm rounded-node border border-white/5 shadow-2xl overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left">
                         <thead>
-                            <tr class="bg-slate-50/50 border-b border-slate-100">
-                                <th class="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Name</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Service</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Status</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest text-right">Time</th>
+                            <tr class="bg-white/5 border-b border-white/5">
+                                <th class="px-8 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.15em]">Name</th>
+                                <th class="px-8 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.15em]">Service</th>
+                                <th class="px-8 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.15em]">Status</th>
+                                <th class="px-8 py-5 text-[10px] font-black text-slate-500 uppercase tracking-[0.15em] text-right">Time</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-50">
+                        <tbody class="divide-y divide-white/5">
                             @forelse($stats['recent_inquiries'] as $inquiry)
-                                <tr class="hover:bg-slate-50/30 transition-colors">
-                                    <td class="px-6 py-5 text-sm font-semibold text-slate-700">{{ $inquiry->name }}</td>
-                                    <td class="px-6 py-5">
-                                        <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded-md">
+                                <tr class="hover:bg-white/[0.03] transition-colors group">
+                                    <td class="px-8 py-5 text-sm font-bold text-white tracking-tight">{{ $inquiry->name }}</td>
+                                    <td class="px-8 py-5">
+                                        <span class="text-[11px] font-bold text-slate-400 bg-white/5 px-3 py-1 rounded-lg border border-white/5 uppercase tracking-widest">
                                             {{ $inquiry->service_type ?? 'Development' }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-5 text-sm">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $inquiry->status === 'new' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600' }}">
+                                    <td class="px-8 py-5 text-sm">
+                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest {{ $inquiry->status === 'new' ? 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-500 border border-amber-500/20' }}">
                                             {{ $inquiry->status }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-5 text-[11px] font-medium text-slate-400 text-right">{{ $inquiry->created_at->diffForHumans() }}</td>
+                                    <td class="px-8 py-5 text-[11px] font-bold text-slate-500 text-right uppercase tracking-widest">{{ $inquiry->created_at->diffForHumans() }}</td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="px-6 py-20 text-center">
-                                        <p class="text-sm font-medium text-slate-400 italic">No recent inquiries to display.</p>
+                                    <td colspan="4" class="px-8 py-20 text-center">
+                                        <p class="text-sm font-bold text-slate-600 italic">Registry is clear. No active inquiries.</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -95,33 +95,33 @@
 
         <!-- Ongoing Projects -->
         <div class="flex flex-col gap-6">
-            <h2 class="text-xl font-bold text-slate-900 tracking-tight">Ongoing Projects</h2>
+            <h2 class="text-xl font-black text-white tracking-tighter uppercase">Ongoing Projects</h2>
 
             <div class="flex flex-col gap-4">
                 @forelse($stats['ongoing_projects'] as $project)
-                    <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm transition-all duration-300 hover:shadow-md">
-                        <div class="flex items-start justify-between mb-4">
+                    <div class="bg-node-dark/40 backdrop-blur-sm p-6 rounded-node border border-white/5 shadow-2xl transition-all duration-500 hover:border-primary/30 group">
+                        <div class="flex items-start justify-between mb-5">
                             <div class="flex flex-col">
-                                <span class="text-sm font-bold text-slate-800">{{ $project->title }}</span>
-                                <span class="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">{{ $project->service->name ?? 'Service' }}</span>
+                                <span class="text-sm font-bold text-white tracking-tight">{{ $project->title }}</span>
+                                <span class="text-[10px] text-slate-500 font-black uppercase tracking-widest mt-1.5">{{ $project->service->name ?? 'Service' }}</span>
                             </div>
-                            <span class="px-2 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600">{{ $project->status }}</span>
+                            <span class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">Active</span>
                         </div>
-                        <div class="space-y-2">
-                            <div class="flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                                <span>Progress</span>
-                                <span class="text-slate-900">{{ $project->status === 'completed' ? '100%' : ($project->status === 'in_progress' ? '65%' : '15%') }}</span>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center text-[10px] font-black text-slate-500 uppercase tracking-[.15em]">
+                                <span>Deployment Progress</span>
+                                <span class="text-primary">{{ $project->status === 'completed' ? '100%' : ($project->status === 'in_progress' ? '65%' : '15%') }}</span>
                             </div>
-                            <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                <div class="h-full bg-primary transition-all duration-1000" 
+                            <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                                <div class="h-full bg-primary transition-all duration-1000 shadow-[0_0_10px_rgba(0,118,255,0.4)]" 
                                      style="width: {{ $project->status === 'completed' ? '100%' : ($project->status === 'in_progress' ? '65%' : '15%') }}">
                                 </div>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <div class="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm text-center">
-                        <p class="text-sm font-medium text-slate-400 italic">No active projects found.</p>
+                    <div class="bg-node-dark/40 backdrop-blur-sm p-10 rounded-node border border-white/5 text-center">
+                        <p class="text-sm font-bold text-slate-600 italic tracking-tight">No active deployment nodes identified.</p>
                     </div>
                 @endforelse
             </div>
