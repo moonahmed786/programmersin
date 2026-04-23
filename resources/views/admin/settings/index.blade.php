@@ -65,9 +65,12 @@
                                         @if($setting->value)
                                         <div class="w-20 h-20 rounded-xl bg-slate-50 flex items-center justify-center p-3 border border-slate-100 overflow-hidden">
                                             @php
-                                                $previewUrl = (str_starts_with($setting->value, 'settings/') || str_starts_with($setting->value, 'logos/')) 
-                                                    ? asset('storage/' . $setting->value) 
-                                                    : asset($setting->value);
+                                                $path = (str_starts_with($setting->value, 'settings/') || str_starts_with($setting->value, 'logos/')) 
+                                                    ? 'storage/' . $setting->value 
+                                                    : $setting->value;
+                                                $fullPath = public_path($path);
+                                                $v = file_exists($fullPath) ? filemtime($fullPath) : time();
+                                                $previewUrl = asset($path) . '?v=' . $v;
                                             @endphp
                                             <img src="{{ $previewUrl }}" alt="{{ $setting->label }}" class="max-w-full max-h-full object-contain">
                                         </div>

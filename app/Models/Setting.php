@@ -42,15 +42,22 @@ class Setting extends Model
     {
         $logo = self::get('site_logo');
         
-        if ($logo && (str_starts_with($logo, 'settings/') || str_starts_with($logo, 'logos/'))) {
-            return asset('storage/' . $logo);
+        if (!$logo) {
+            return asset('uploads/assets/logo.svg');
         }
 
-        if ($logo && str_contains($logo, 'uploads/')) {
-            return asset($logo);
+        // If it's a storage path (uploaded)
+        if (str_starts_with($logo, 'settings/') || str_starts_with($logo, 'logos/')) {
+            $path = 'storage/' . $logo;
+            $fullPath = public_path($path);
+            
+            // Add cache busting based on file modification time
+            $version = file_exists($fullPath) ? filemtime($fullPath) : time();
+            return asset($path) . '?v=' . $version;
         }
 
-        return asset($logo ?: 'uploads/assets/logo.svg');
+        // If it's a public path
+        return asset($logo);
     }
 
     /**
