@@ -1,90 +1,131 @@
 @extends('layouts.backend')
 
 @section('content')
-<!-- Header Section -->
-<header class="mb-10 flex items-end justify-between">
-    <div>
-        <div class="flex items-center gap-4 mb-2">
-            <a href="{{ route('admin.projects.index') }}" class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors">
-                <span class="material-symbols-outlined text-sm">arrow_back</span>
-            </a>
-            <h1 class="text-3xl font-extrabold tracking-tight text-on-surface">Initialize Engagement</h1>
+
+<div class="mb-8">
+    <div class="flex items-center gap-4 mb-4">
+        <a href="{{ route('admin.projects.index') }}" class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-primary transition-all">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+        </a>
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900">New Project</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Set up a new client project</p>
         </div>
-        <p class="text-on-surface-variant font-medium italic">Create a new architectural ledger for client delivery.</p>
     </div>
-</header>
+</div>
 
-<div class="max-w-4xl">
-    <form action="{{ route('admin.projects.store') }}" method="POST" class="space-y-8">
-        @csrf
-        
-        <div class="bg-surface-container-lowest rounded-3xl p-10 border border-outline-variant/10 shadow-2xl shadow-slate-200/50 space-y-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Title -->
-                <div class="space-y-2 col-span-1 md:col-span-2">
-                    <label class="text-[11px] font-black uppercase tracking-widest text-on-surface-variant ml-1">Engagment Name</label>
-                    <input type="text" name="title" required placeholder="e.g. Enterprise Cloud Infrastructure v2" 
-                           class="w-full bg-surface-container-low border-2 border-transparent focus:border-primary/20 focus:ring-4 focus:ring-primary/5 rounded-2xl px-6 py-4 text-on-surface font-bold tracking-tight transition-all placeholder:text-slate-300">
+<div>
+    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100">
+        <form action="{{ route('admin.projects.store') }}" method="POST">
+            @csrf
+
+            <div class="p-8 md:p-10 space-y-10">
+                <!-- Project Info -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div>
+                        <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Details</p>
+                        <h3 class="text-sm font-bold text-slate-900">Project Info</h3>
+                    </div>
+                    <div class="lg:col-span-2 space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5" for="title">Project Title *</label>
+                            <input id="title" type="text" name="title" required value="{{ old('title') }}"
+                                class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all @error('title') border-red-300 @enderror"
+                                placeholder="e.g. Company Website Redesign">
+                            @error('title') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="customer_id">Client *</label>
+                                <div class="relative">
+                                    <select id="customer_id" name="customer_id" required 
+                                        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                                        <option value="" disabled selected>Select a client</option>
+                                        @foreach($customers as $customer)
+                                            <option value="{{ $customer->id }}">{{ $customer->name }} ({{ $customer->email }})</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none text-lg">unfold_more</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="service_id">Service *</label>
+                                <div class="relative">
+                                    <select id="service_id" name="service_id" required 
+                                        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                                        <option value="" disabled selected>Select a service</option>
+                                        @foreach($services as $service)
+                                            <option value="{{ $service->id }}">{{ $service->title }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none text-lg">unfold_more</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Customer Selection -->
-                <div class="space-y-2">
-                    <label class="text-[11px] font-black uppercase tracking-widest text-on-surface-variant ml-1">Target Account</label>
-                    <select name="customer_id" required class="w-full bg-surface-container-low border-2 border-transparent focus:border-primary/20 focus:ring-4 focus:ring-primary/5 rounded-2xl px-6 py-4 text-on-surface font-black tracking-tight transition-all">
-                        <option value="" disabled selected>Select Customer</option>
-                        @foreach($customers as $customer)
-                            <option value="{{ $customer->id }}">{{ $customer->name }} ({{ $customer->email }})</option>
-                        @endforeach
-                    </select>
-                </div>
+                <div class="h-px bg-slate-100"></div>
 
-                <!-- Service Category -->
-                <div class="space-y-2">
-                    <label class="text-[11px] font-black uppercase tracking-widest text-on-surface-variant ml-1">Service Core</label>
-                    <select name="service_id" required class="w-full bg-surface-container-low border-2 border-transparent focus:border-primary/20 focus:ring-4 focus:ring-primary/5 rounded-2xl px-6 py-4 text-on-surface font-black tracking-tight transition-all">
-                        <option value="" disabled selected>Select Core Service</option>
-                        @foreach($services as $service)
-                            <option value="{{ $service->id }}">{{ $service->title }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Status & Budget -->
-                <div class="space-y-2">
-                    <label class="text-[11px] font-black uppercase tracking-widest text-on-surface-variant ml-1">Global Status</label>
-                    <select name="status" required class="w-full bg-surface-container-low border-2 border-transparent focus:border-primary/20 focus:ring-4 focus:ring-primary/5 rounded-2xl px-6 py-4 text-on-surface font-black tracking-tight transition-all">
-                        <option value="pending">Pending Strategy</option>
-                        <option value="in_progress">Live Build</option>
-                        <option value="review">Audit/Review</option>
-                        <option value="completed">Deployment Success</option>
-                        <option value="cancelled">Engagement Halt</option>
-                    </select>
-                </div>
-
-                <div class="space-y-2">
-                    <label class="text-[11px] font-black uppercase tracking-widest text-on-surface-variant ml-1">Allocated Budget ($)</label>
-                    <input type="number" step="0.01" name="budget" placeholder="0.00" 
-                           class="w-full bg-surface-container-low border-2 border-transparent focus:border-primary/20 focus:ring-4 focus:ring-primary/5 rounded-2xl px-6 py-4 text-on-surface font-mono font-black tracking-tight transition-all">
-                </div>
-
-                <div class="space-y-2">
-                    <label class="text-[11px] font-black uppercase tracking-widest text-on-surface-variant ml-1">Project Deadline</label>
-                    <input type="date" name="due_date" 
-                           class="w-full bg-surface-container-low border-2 border-transparent focus:border-primary/20 focus:ring-4 focus:ring-primary/5 rounded-2xl px-6 py-4 text-on-surface font-black tracking-tight transition-all">
-                </div>
-
-                <div class="space-y-2 col-span-1 md:col-span-2">
-                    <label class="text-[11px] font-black uppercase tracking-widest text-on-surface-variant ml-1">Project Scope & Directives</label>
-                    <textarea name="description" rows="4" placeholder="Clarify the core objectives and technical requirements..." 
-                           class="w-full bg-surface-container-low border-2 border-transparent focus:border-primary/20 focus:ring-4 focus:ring-primary/5 rounded-3xl px-6 py-4 text-on-surface font-medium leading-relaxed italic transition-all placeholder:text-slate-300"></textarea>
+                <!-- Timeline & Budget -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div>
+                        <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Planning</p>
+                        <h3 class="text-sm font-bold text-slate-900">Timeline & Budget</h3>
+                    </div>
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="status">Status</label>
+                                <div class="relative">
+                                    <select id="status" name="status" required 
+                                        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                                        <option value="pending">Pending</option>
+                                        <option value="in_progress">In Progress</option>
+                                        <option value="review">Under Review</option>
+                                        <option value="completed">Completed</option>
+                                        <option value="cancelled">Cancelled</option>
+                                    </select>
+                                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none text-lg">unfold_more</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="budget">Budget ($)</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">$</span>
+                                    <input id="budget" type="number" step="0.01" name="budget" value="{{ old('budget') }}"
+                                        class="w-full border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                                        placeholder="0.00">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="due_date">Due Date</label>
+                                <input id="due_date" type="date" name="due_date" value="{{ old('due_date') }}"
+                                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5" for="description">Notes</label>
+                            <textarea id="description" name="description" rows="4"
+                                class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
+                                placeholder="Project objectives, requirements, notes...">{{ old('description') }}</textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="flex items-center justify-end gap-4 pt-4">
-            <button type="reset" class="px-8 py-4 text-on-surface-variant font-black text-sm uppercase tracking-widest hover:text-error transition-colors">Reset Architecture</button>
-            <button type="submit" class="px-10 py-4 bg-on-surface text-surface rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl shadow-on-surface/30 transition-all hover:-translate-y-1 hover:shadow-on-surface/40">Deploy Project</button>
-        </div>
-    </form>
+            <!-- Footer -->
+            <div class="px-8 md:px-10 py-5 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+                <a href="{{ route('admin.projects.index') }}" class="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors px-4 py-2">Cancel</a>
+                <button type="submit" class="inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-6 py-2.5 rounded-xl hover:bg-primary-dark transition-colors">
+                    <span class="material-symbols-outlined text-lg">save</span>
+                    Create Project
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
+
 @endsection

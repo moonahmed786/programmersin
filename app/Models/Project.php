@@ -11,14 +11,28 @@ class Project extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'description',
         'customer_id',
         'service_id',
         'status',
+        'is_public',
+        'featured_image',
+        'showcase_description',
         'start_date',
         'due_date',
         'budget',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($project) {
+            if (empty($project->slug)) {
+                $project->slug = \Illuminate\Support\Str::slug($project->title) . '-' . uniqid();
+            }
+        });
+    }
 
     protected $casts = [
         'start_date' => 'date',
