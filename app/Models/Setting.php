@@ -34,6 +34,26 @@ class Setting extends Model
     }
 
     /**
+     * Get the logo URL properly handled (uploaded vs default).
+     *
+     * @return string
+     */
+    public static function logoUrl()
+    {
+        $logo = self::get('site_logo');
+        
+        if ($logo && (str_starts_with($logo, 'settings/') || str_starts_with($logo, 'logos/'))) {
+            return asset('storage/' . $logo);
+        }
+
+        if ($logo && str_contains($logo, 'uploads/')) {
+            return asset($logo);
+        }
+
+        return asset($logo ?: 'uploads/assets/logo.svg');
+    }
+
+    /**
      * Set a setting value by key.
      *
      * @param string $key

@@ -7,10 +7,16 @@
         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group">
             <div class="w-9 h-9 rounded-xl overflow-hidden flex-shrink-0 border border-slate-100 p-1.5 bg-white shadow-sm">
                 <img alt="Logo" class="w-full h-full object-contain"
-                     src="{{ asset(\App\Models\Setting::get('site_logo', 'uploads/assets/logo.svg')) }}" />
+                     src="{{ \App\Models\Setting::logoUrl() }}" />
             </div>
             <span class="text-lg font-extrabold tracking-tight text-slate-900">
-                Programmers<span class="text-primary">In</span>
+                @php
+                    $siteName = \App\Models\Setting::get('site_name', 'ProgrammersIn');
+                    $parts = preg_split('/(?=[A-Z])/', $siteName, -1, PREG_SPLIT_NO_EMPTY);
+                    $first = $parts[0] ?? $siteName;
+                    $rest = implode('', array_slice($parts, 1));
+                @endphp
+                {{ $first }}<span class="text-primary">{{ $rest }}</span>
             </span>
         </a>
     </div>

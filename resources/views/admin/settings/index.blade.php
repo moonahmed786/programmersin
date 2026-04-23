@@ -64,7 +64,12 @@
                                     <div class="flex items-center gap-6">
                                         @if($setting->value)
                                         <div class="w-20 h-20 rounded-xl bg-slate-50 flex items-center justify-center p-3 border border-slate-100 overflow-hidden">
-                                            <img src="{{ asset('storage/' . $setting->value) }}" alt="{{ $setting->label }}" class="max-w-full max-h-full object-contain">
+                                            @php
+                                                $previewUrl = (str_starts_with($setting->value, 'settings/') || str_starts_with($setting->value, 'logos/')) 
+                                                    ? asset('storage/' . $setting->value) 
+                                                    : asset($setting->value);
+                                            @endphp
+                                            <img src="{{ $previewUrl }}" alt="{{ $setting->label }}" class="max-w-full max-h-full object-contain">
                                         </div>
                                         @else
                                         <div class="w-20 h-20 rounded-xl bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center text-slate-300">

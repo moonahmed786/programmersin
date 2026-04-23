@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome Back — ProgrammersIn</title>
-    <link rel="icon" type="image/svg+xml" href="{{ asset('uploads/assets/logo.svg') }}">
+    <title>Welcome Back — {{ \App\Models\Setting::get('site_name', 'ProgrammersIn') }}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ \App\Models\Setting::logoUrl() }}">
     
     <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -185,7 +185,7 @@
             <div style="display: inline-block; position: relative; margin-bottom: 1.5rem;">
                 <div style="position: absolute; inset: -8px; background: linear-gradient(135deg, #0076FF, #00E5FF, #7C4DFF); border-radius: 2.5rem; filter: blur(16px); opacity: 0.2;"></div>
                 <div style="position: relative; width: 96px; height: 96px; border-radius: 2.5rem; background: #fff; border: 1px solid #f1f5f9; padding: 1.25rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                    <img src="{{ asset('uploads/assets/logo.svg') }}" alt="ProgrammersIn" 
+                    <img src="{{ \App\Models\Setting::logoUrl() }}" alt="{{ \App\Models\Setting::get('site_name', 'ProgrammersIn') }}" 
                          style="width: 100%; height: 100%; object-fit: contain;"
                          onerror="this.src='https://api.iconify.design/material-symbols:code-blocks.svg?color=%230076FF'">
                 </div>
@@ -194,7 +194,7 @@
                 Welcome <span style="background: linear-gradient(135deg, #0076FF, #7C4DFF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Back</span>
             </h1>
             <p style="font-size: 0.8125rem; color: #64748b; font-weight: 500; margin-top: 0.75rem;">
-                Continue your journey with ProgrammersIn
+                Continue your journey with {{ \App\Models\Setting::get('site_name', 'ProgrammersIn') }}
             </p>
         </div>
 
@@ -269,7 +269,7 @@
             </a>
 
             <p style="font-size: 0.625rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.25em; opacity: 0.6;">
-                &copy; {{ date('Y') }} ProgrammersIn. All rights reserved.
+                &copy; {{ date('Y') }} {{ \App\Models\Setting::get('site_name', 'ProgrammersIn') }}. All rights reserved.
             </p>
         </div>
     </div>

@@ -4,8 +4,8 @@
         <!-- Logo Section -->
         <div class="flex items-center">
             <a href="/" class="transition-transform duration-300 hover:scale-105 active:scale-95 block">
-                <img alt="ProgrammersIn Logo" class="h-14 w-auto object-contain brightness-110"
-                     src="{{ asset(\App\Models\Setting::get('site_logo', 'uploads/assets/logo.svg')) }}" />
+                <img alt="Logo" class="h-14 w-auto object-contain brightness-110"
+                     src="{{ \App\Models\Setting::logoUrl() }}" />
             </a>
         </div>
 

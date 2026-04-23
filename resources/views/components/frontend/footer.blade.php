@@ -4,7 +4,7 @@
         <div class="md:col-span-1">
             <div class="flex items-center mb-8">
                 <a href="/" class="transition-transform duration-300 hover:scale-105 block">
-                    <img alt="ProgrammersIn Logo" class="h-12 w-auto object-contain brightness-110" src="{{ asset('uploads/assets/logo.svg') }}" />
+                    <img alt="Logo" class="h-12 w-auto object-contain brightness-110" src="{{ \App\Models\Setting::logoUrl() }}" />
                 </a>
             </div>
             <p class="text-slate-500 text-sm leading-relaxed max-w-xs font-medium">

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name', 'Programmers.in') }} | Backend</title>
+    <title>{{ \App\Models\Setting::get('site_name', 'Programmers.in') }} | Backend</title>
 
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
@@ -31,7 +31,7 @@
         }
     </style>
 
-    <link rel="icon" type="image/svg+xml" href="{{ \App\Models\Setting::get('site_logo', asset('uploads/assets/logo.svg')) }}">
+    <link rel="icon" type="image/svg+xml" href="{{ \App\Models\Setting::logoUrl() }}">
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])

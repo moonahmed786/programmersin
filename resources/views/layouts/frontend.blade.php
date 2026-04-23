@@ -6,7 +6,7 @@
     <title>@yield('title', \App\Models\Setting::get('meta_title', 'ProgrammersIn | AI-First Software Velocity'))</title>
     <meta name="description" content="@yield('meta_description', \App\Models\Setting::get('meta_description'))">
     <meta name="keywords" content="@yield('meta_keywords', \App\Models\Setting::get('meta_keywords'))">
-    <link rel="icon" type="image/svg+xml" href="{{ \App\Models\Setting::get('site_logo', asset('uploads/assets/logo.svg')) }}">
+    <link rel="icon" type="image/svg+xml" href="{{ \App\Models\Setting::logoUrl() }}">
     
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet" />
