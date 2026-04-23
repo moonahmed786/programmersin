@@ -9,9 +9,31 @@ use Illuminate\Support\Str;
 
 class ServiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::orderBy('order')->orderBy('title')->paginate(15);
+        $query = Service::query();
+
+        // Search Implementation
+        if ($search = $request->input('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        // Sorting Implementation
+        $sort = $request->input('sort', 'order');
+        $direction = $request->input('direction', 'asc');
+        
+        $validSorts = ['title', 'price', 'order', 'is_active'];
+        if (in_array($sort, $validSorts)) {
+            $query->orderBy($sort, $direction);
+        } else {
+            $query->orderBy('order', 'asc');
+        }
+
+        $services = $query->paginate(15)->withQueryString();
+        
         return view('admin.services.index', compact('services'));
     }
 
@@ -74,5 +96,17 @@ class ServiceController extends Controller
 
         return redirect()->route('admin.services.index')
             ->with('success', 'Service deleted successfully.');
+    }
+
+    /**
+     * Public Services Catalog
+     */
+    public function publicCatalog()
+    {
+        $services = Service::where('is_active', true)->orderBy('order')->get();
+        $headerMenus = \App\Models\Menu::header()->with('children')->get();
+        $footerMenus = \App\Models\Menu::footer()->with('children')->get();
+
+        return view('pages.services-catalog', compact('services', 'headerMenus', 'footerMenus'));
     }
 }

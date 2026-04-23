@@ -1,87 +1,139 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+[x-cloak] { display: none !important; }
 
 @theme {
-    --color-surface-dim: #cbdbf5;
-    --color-surface-container-low: #eff4ff;
-    --color-surface-container-lowest: #ffffff;
-    --color-secondary-fixed-dim: #b9c7df;
-    --color-outline-variant: #c3c6d6;
-    --color-surface-variant: #d3e4fe;
-    --color-on-tertiary-container: #7fecde;
-    --color-surface-tint: #0056d2;
-    --color-error: #ba1a1a;
-    --color-on-secondary-fixed: #0d1c2e;
-    --color-surface-container-high: #dce9ff;
-    --color-surface-container: #e5eeff;
-    --color-on-surface-variant: #424654;
-    --color-surface: #f8f9ff;
-    --color-on-primary-fixed-variant: #0040a1;
-    --color-background: #f8f9ff;
-    --color-on-error-container: #93000a;
-    --color-surface-container-highest: #d3e4fe;
-    --color-inverse-primary: #b2c5ff;
-    --color-tertiary-container: #006b62;
-    --color-surface-bright: #f8f9ff;
-    --color-on-primary-container: #ccd8ff;
-    --color-primary-container: #0056d2;
-    --color-on-secondary-fixed-variant: #3a485b;
-    --color-secondary-fixed: #d5e3fc;
+    /* Vibrant Material Light Palette */
+    --color-primary: #0076FF; /* Electric Blue */
+    --color-primary-dark: #0056CC;
+    --color-primary-tonal: color-mix(in srgb, var(--color-primary), transparent 92%);
+    --color-primary-tonal-high: color-mix(in srgb, var(--color-primary), transparent 85%);
     --color-on-primary: #ffffff;
-    --color-outline: #737785;
-    --color-inverse-on-surface: #eaf1ff;
-    --color-tertiary-fixed: #89f5e7;
-    --color-primary-fixed: #dae2ff;
-    --color-on-surface: #0b1c30;
-    --color-primary-fixed-dim: #b2c5ff;
-    --color-error-container: #ffdad6;
-    --color-on-secondary-container: #57657a;
-    --color-on-tertiary-fixed-variant: #005049;
-    --color-on-primary-fixed: #001847;
-    --color-primary: #0040a1;
-    --color-tertiary: #00514a;
-    --color-on-tertiary: #ffffff;
-    --color-on-error: #ffffff;
-    --color-on-secondary: #ffffff;
-    --color-secondary-container: #d5e3fc;
-    --color-on-background: #0b1c30;
-    --color-secondary: #515f74;
-    --color-tertiary-fixed-dim: #6bd8cb;
-    --color-inverse-surface: #213145;
-    --color-on-tertiary-fixed: #00201d;
+    
+    --color-secondary: #00E5FF;
+    --color-tertiary: #7C4DFF;
+
+    --color-surface: #ffffff;
+    --color-on-surface: #0F172A; /* Slate 900 */
+    --color-on-surface-variant: #64748B; /* Slate 500 */
+    
+    --color-background: #F8FAFC; /* Slate 50 */
+    --color-on-background: #0F172A;
+
+    --color-outline: #E2E8F0; /* Slate 200 */
+    --color-outline-variant: #F1F5F9; /* Slate 100 */
+
     --font-inter: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    --font-headline: var(--font-inter);
-    --font-body: var(--font-inter);
-    --font-label: var(--font-inter);
+
+    /* Shadow Elevations (M3 Style) */
+    --shadow-material-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
+    --shadow-material-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+    --shadow-material-lg: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.03);
+
+    --radius-stellar: 1.5rem; /* M3 Extra Large */
+    --radius-node: 1rem;    /* M3 Large */
 }
 
+/* Explicit source scanning for performance and accuracy */
+@source '../views/**/*.blade.php';
+@source '../js/**/*.js';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
 @layer utilities {
-    .glass {
-        @apply bg-white/70 backdrop-blur-xl border border-white/20;
+    .material-surface {
+        @apply bg-white border border-outline-variant shadow-sm;
     }
     
-    .glass-dark {
-        @apply bg-slate-900/70 backdrop-blur-xl border border-white/5;
+    .material-card {
+        @apply bg-white border border-outline-variant shadow-sm transition-all duration-300 rounded-node;
     }
 
-    .neo-shadow {
-        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
+    .material-card:hover {
+        @apply shadow-md -translate-y-1 border-primary/20;
     }
 
-    .neo-shadow-primary {
-        box-shadow: 0 20px 40px -15px rgba(0, 64, 161, 0.2);
+    .gradient-primary {
+        background-image: linear-gradient(to bottom right, var(--color-primary), var(--color-secondary));
+    }
+
+    .text-gradient {
+        @apply bg-clip-text text-transparent;
+        background-image: linear-gradient(to right, var(--color-primary), var(--color-tertiary));
     }
 
     .animate-in-fade {
-        animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
+    @keyframes fadeInScale {
+        from { opacity: 0; transform: translateY(12px) scale(0.99); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* --- Material Light Design System --- */
+    .bg-node-dark {
+        @apply bg-background text-on-background;
+    }
+
+    .rounded-node { border-radius: var(--radius-node); }
+    .rounded-stellar { border-radius: var(--radius-stellar); }
+
+    .card-metric {
+        @apply bg-white border border-outline-variant shadow-sm p-8 transition-all duration-300 rounded-stellar;
+    }
+
+    .card-metric:hover {
+        @apply shadow-md border-primary/20;
+    }
+
+    .ledger-table {
+        @apply w-full border-collapse bg-white rounded-node overflow-hidden shadow-sm border border-outline-variant;
+    }
+
+    .ledger-table th {
+        @apply px-8 py-5 text-left text-[11px] font-black uppercase tracking-[0.15em] text-on-surface-variant border-b border-outline-variant bg-background/50;
+    }
+
+    .ledger-table td {
+        @apply px-8 py-6 text-sm text-on-surface-variant border-b border-outline-variant align-middle transition-colors;
+    }
+
+    .ledger-table tr:hover td {
+        @apply bg-primary-tonal;
+    }
+
+    .badge-node {
+        @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all border;
+    }
+
+    .badge-live { @apply bg-emerald-50 text-emerald-700 border-emerald-200; }
+    .badge-draft { @apply bg-slate-50 text-slate-600 border-slate-200; }
+    .badge-warning { @apply bg-amber-50 text-amber-700 border-amber-200; }
+
+    .sidebar-link {
+        @apply flex items-center gap-4 px-6 py-4 mx-4 rounded-xl transition-all duration-300 text-on-surface-variant font-bold hover:bg-slate-100 hover:text-primary;
+    }
+
+    .sidebar-link.active {
+        @apply bg-primary-tonal text-primary font-black;
+        border-right-width: 3px;
+        border-color: var(--color-primary);
+    }
+
+    .floating-header {
+        @apply bg-white/80 backdrop-blur-md border border-outline-variant shadow-sm rounded-2xl mx-10 mt-6 px-10 py-4 top-6 sticky z-50 flex items-center justify-between;
+    }
+
+    .btn-stellar {
+        @apply bg-primary text-white font-black px-8 py-4 rounded-xl shadow-lg shadow-primary/10 hover:shadow-xl hover:shadow-primary/20 hover:brightness-110 active:scale-95 transition-all text-[11px] uppercase tracking-widest flex items-center gap-3;
+    }
+
+    /* Form Elements - Material Outlined */
+    .input-material {
+        @apply w-full bg-slate-50/50 border border-outline rounded-2xl px-6 py-4 text-sm font-bold text-on-surface focus:ring-4 focus:ring-primary/5 focus:border-primary focus:bg-white transition-all shadow-sm placeholder:text-slate-400;
+    }
+
+    .label-material {
+        @apply text-[10px] font-black text-on-surface-variant uppercase tracking-widest px-1 block mb-3 opacity-70;
     }
 }

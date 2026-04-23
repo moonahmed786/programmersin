@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Illuminate\Support\Facades\View::composer(['layouts.frontend', 'components.frontend.*', 'pages.*'], function ($view) {
+            $view->with([
+                'headerMenus' => \App\Models\Menu::header()->with('children')->get(),
+                'footerMenus' => \App\Models\Menu::footer()->with('children')->get(),
+            ]);
+        });
     }
 }
