@@ -2,138 +2,118 @@
 
 @section('content')
 
-<!-- Project Deployment Configuration Header -->
-<div class="mb-14 px-2">
-    <div class="flex items-center gap-6 mb-4">
-        <a href="{{ route('admin.projects.index') }}" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-white border border-slate-100 shadow-sm text-slate-400 hover:text-primary transition-all hover:shadow-md">
-            <span class="material-symbols-outlined text-2xl">arrow_back</span>
+<div class="mb-8">
+    <div class="flex items-center gap-4 mb-4">
+        <a href="{{ route('admin.projects.index') }}" class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-primary transition-all">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
         </a>
-        <div class="flex flex-col gap-2">
-            <h1 class="text-3xl font-black tracking-tighter text-on-surface uppercase italic">
-                Deployment <span class="text-primary opacity-90">Configuration</span>
-            </h1>
-            <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center gap-3">
-                <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-                Refining operational node: <span class="text-on-surface">ARCH-{{ str_pad($project->id, 4, '0', STR_PAD_LEFT) }}</span>
-            </p>
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900">Edit Project</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Update <span class="font-medium text-slate-700">{{ $project->title }}</span></p>
         </div>
     </div>
 </div>
 
-<div class="max-w-5xl animate-in-fade">
+<div class="max-w-5xl">
     <form action="{{ route('admin.projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         
-        <div class="space-y-12">
-            <!-- Group 01: Internal Core -->
-            <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm p-12">
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+        <div class="space-y-8">
+            <!-- Project Details -->
+            <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 p-8 md:p-10">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     <div class="lg:col-span-1">
-                        <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 01</span>
-                        <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight italic">Framework Core</h3>
+                        <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Details</p>
+                        <h3 class="text-sm font-bold text-slate-900">Project Info</h3>
                     </div>
-                    <div class="lg:col-span-3 space-y-10">
-                        <div class="space-y-1">
-                            <label class="label-material" for="title">Project Identity (Title)</label>
+                    <div class="lg:col-span-3 space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5" for="title">Project Title *</label>
                             <input id="title" type="text" name="title" value="{{ old('title', $project->title) }}" required
-                                class="input-material @error('title') border-rose-300 ring-rose-50 ring-4 @enderror"
-                                placeholder="ENTER_PROJECT_TITLE">
-                            @error('title') <p class="text-[10px] text-rose-600 font-black uppercase tracking-widest mt-3 flex items-center gap-2">
-                                <span class="material-symbols-outlined text-xs">error</span>
-                                {{ $message }}
-                            </p> @enderror
+                                class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all @error('title') border-red-300 @enderror"
+                                placeholder="Project title">
+                            @error('title') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                         </div>
-
-                        <div class="space-y-1">
-                            <label class="label-material" for="status">Operational Lifecycle Status</label>
-                            <div class="relative group">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5" for="status">Status</label>
+                            <div class="relative">
                                 <select id="status" name="status" required 
-                                    class="input-material appearance-none cursor-pointer uppercase tracking-widest font-black text-[11px] text-primary">
-                                    <option value="pending" {{ $project->status == 'pending' ? 'selected' : '' }}>PENDING_INIT</option>
-                                    <option value="in_progress" {{ $project->status == 'in_progress' ? 'selected' : '' }}>DEPLOYING_ACTIVE</option>
-                                    <option value="review" {{ $project->status == 'review' ? 'selected' : '' }}>SYSTEM_AUDIT</option>
-                                    <option value="completed" {{ $project->status == 'completed' ? 'selected' : '' }}>FINALIZED_STABLE</option>
-                                    <option value="cancelled" {{ $project->status == 'cancelled' ? 'selected' : '' }}>ABORTED_NULL</option>
+                                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                                    <option value="pending" {{ $project->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="in_progress" {{ $project->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                    <option value="review" {{ $project->status == 'review' ? 'selected' : '' }}>Under Review</option>
+                                    <option value="completed" {{ $project->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                    <option value="cancelled" {{ $project->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                                 </select>
-                                <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-primary opacity-40 pointer-events-none text-lg">unfold_more</span>
+                                <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none text-lg">unfold_more</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Group 02: Showcase Module -->
-            <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm p-12">
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+            <!-- Portfolio -->
+            <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 p-8 md:p-10">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     <div class="lg:col-span-1">
-                        <span class="text-[9px] font-black text-secondary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 02</span>
-                        <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight italic">Public Overlay</h3>
+                        <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Portfolio</p>
+                        <h3 class="text-sm font-bold text-slate-900">Public Display</h3>
                     </div>
-                    <div class="lg:col-span-3 space-y-12">
-                        <div class="flex items-center justify-between p-8 bg-slate-50 border border-slate-100 rounded-3xl">
-                            <div class="flex flex-col gap-1">
-                                <span class="text-xs font-black uppercase tracking-widest text-on-surface leading-none">Visibility Protocol</span>
-                                <span class="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">Personnel unit deployment to public portfolio node</span>
+                    <div class="lg:col-span-3 space-y-8">
+                        <div class="flex items-center justify-between p-5 bg-slate-50 border border-slate-100 rounded-xl">
+                            <div>
+                                <span class="text-sm font-medium text-slate-900">Show in Portfolio</span>
+                                <p class="text-xs text-slate-400 mt-0.5">Display this project publicly on your website</p>
                             </div>
-                            <label class="relative inline-flex items-center cursor-pointer group">
+                            <label class="relative inline-flex items-center cursor-pointer">
                                 <input type="checkbox" name="is_public" value="1" {{ $project->is_public ? 'checked' : '' }} class="sr-only peer">
-                                <div class="w-16 h-8 bg-slate-200 rounded-full peer-checked:bg-primary transition-all shadow-inner border border-slate-200"></div>
-                                <div class="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transition-all border border-slate-100 peer-checked:translate-x-8"></div>
+                                <div class="w-11 h-6 bg-slate-200 rounded-full peer-checked:bg-primary transition-all"></div>
+                                <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all peer-checked:translate-x-5"></div>
                             </label>
                         </div>
 
-                        <div class="space-y-4">
-                            <label class="label-material px-1">Telemetry Thumbnail Asset</label>
-                            <div class="flex items-start gap-12">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5">Featured Image</label>
+                            <div class="flex items-start gap-6">
                                 @if($project->featured_image)
-                                <div class="w-48 h-32 rounded-2xl bg-slate-900 overflow-hidden border border-slate-200 flex items-center justify-center p-1 shadow-md group">
-                                    <img src="{{ asset('storage/' . $project->featured_image) }}" class="object-cover w-full h-full opacity-80 group-hover:scale-110 transition-transform duration-700">
+                                <div class="w-40 h-28 rounded-xl bg-slate-100 overflow-hidden border border-slate-200 flex-shrink-0">
+                                    <img src="{{ asset('storage/' . $project->featured_image) }}" class="object-cover w-full h-full">
                                 </div>
                                 @endif
-                                <div class="flex-1 space-y-5">
-                                    <div class="relative group/file">
+                                <div class="flex-1">
+                                    <div class="relative">
                                         <input type="file" name="featured_image" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
-                                        <div class="bg-slate-50 border border-slate-200 border-dashed rounded-2xl px-8 py-6 flex flex-col items-center justify-center gap-3 group-hover/file:border-primary group-hover/file:bg-primary/5 transition-all">
-                                            <span class="material-symbols-outlined text-3xl text-slate-300 group-hover/file:text-primary group-hover/file:scale-110 transition-all">cloud_upload</span>
-                                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Inject New Media Asset...</span>
+                                        <div class="border-2 border-dashed border-slate-200 rounded-xl px-6 py-5 flex flex-col items-center justify-center gap-2 hover:border-primary hover:bg-primary/5 transition-all">
+                                            <span class="material-symbols-outlined text-2xl text-slate-300">cloud_upload</span>
+                                            <span class="text-sm text-slate-400">Upload new image</span>
                                         </div>
                                     </div>
-                                    <p class="text-[9px] text-slate-400 font-bold tracking-tighter uppercase italic leading-loose px-2">RES_1200x800_MIN // ALPHA_CHANNEL_READY // MIME: IMG/WEBP</p>
+                                    <p class="text-xs text-slate-400 mt-2">Recommended: 1200×800px, WEBP or PNG</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="space-y-3">
-                            <label class="label-material px-1" for="showcase_description">Execution Blueprint (Description)</label>
-                            <textarea id="showcase_description" name="showcase_description" rows="10" 
-                                class="input-material h-56 resize-none italic leading-relaxed py-6">{{ old('showcase_description', $project->showcase_description) }}</textarea>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5" for="showcase_description">Description</label>
+                            <textarea id="showcase_description" name="showcase_description" rows="6" 
+                                class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
+                                placeholder="Describe this project for your portfolio...">{{ old('showcase_description', $project->showcase_description) }}</textarea>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Execution Runtime Controls -->
-            <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm p-12 flex items-center justify-between mt-12">
-                <div class="flex items-center gap-6">
-                    <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.3)]"></div>
-                    <div class="flex flex-col leading-none">
-                        <h4 class="text-on-surface font-black text-sm uppercase tracking-tight italic">Node Stabilized // Ready</h4>
-                        <p class="text-slate-400 text-[9px] font-black uppercase tracking-[0.2em] mt-1.5 opacity-60">Committing update protocol to central core</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-10">
-                    <a href="{{ route('admin.projects.index') }}" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-rose-600 transition-colors">Abort Init</a>
-                    <button type="submit" class="btn-stellar px-14 py-5">
-                        <span class="material-symbols-outlined text-lg">terminal</span>
-                        Commit Protocol
-                    </button>
-                </div>
+            <!-- Footer -->
+            <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 p-8 md:p-10 flex items-center justify-end gap-3">
+                <a href="{{ route('admin.projects.index') }}" class="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors px-4 py-2">Cancel</a>
+                <button type="submit" class="inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-6 py-2.5 rounded-xl hover:bg-primary-dark transition-colors">
+                    <span class="material-symbols-outlined text-lg">save</span>
+                    Save Changes
+                </button>
             </div>
         </div>
     </form>
 </div>
-
-@endsection
 
 @endsection

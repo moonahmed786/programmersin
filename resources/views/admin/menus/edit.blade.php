@@ -2,111 +2,100 @@
 
 @section('content')
 
-<!-- Navigation Node Configuration Header -->
-<div class="mb-14">
-    <div class="flex items-center gap-6 mb-4">
-        <a href="{{ route('admin.menus.index') }}" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 hover:text-primary transition-all shadow-2xl">
+<div class="mb-8">
+    <div class="flex items-center gap-4 mb-4">
+        <a href="{{ route('admin.menus.index') }}" class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-primary transition-all">
             <span class="material-symbols-outlined text-lg">arrow_back</span>
         </a>
-        <div class="h-6 w-px bg-white/10 mx-2"></div>
         <div>
-            <h1 class="text-3xl font-black tracking-tighter text-white uppercase italic">
-                Configure <span class="text-primary">Node</span>
-            </h1>
-            <p class="text-[10px] text-slate-500 font-extrabold uppercase tracking-[0.4em] mt-3 flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(0,118,255,0.6)] animate-pulse"></span>
-                Refining connectivity unit: {{ $menu->title }}
-            </p>
+            <h1 class="text-2xl font-bold text-slate-900">Edit Menu Item</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Editing: <span class="font-medium text-slate-700">{{ $menu->title }}</span></p>
         </div>
     </div>
 </div>
 
-<div class="max-w-4xl animate-in-fade">
-    <div class="bg-node-dark/40 backdrop-blur-sm rounded-node overflow-hidden border border-white/5 shadow-2xl">
+<div class="max-w-4xl">
+    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100">
         <form action="{{ route('admin.menus.update', $menu) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div class="p-12 space-y-14">
-                <!-- Group 01: Core Resolution -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div class="p-8 md:p-10 space-y-10">
+                <!-- Link Info -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div>
-                        <span class="text-[10px] font-black text-primary uppercase tracking-[0.3em] block mb-2 font-mono">PHASE 01</span>
-                        <h3 class="font-black text-white tracking-tight uppercase text-sm italic">Connectivity Core</h3>
+                        <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Details</p>
+                        <h3 class="text-sm font-bold text-slate-900">Link Info</h3>
                     </div>
-                    <div class="lg:col-span-2 space-y-10">
-                        <div class="space-y-3">
-                            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1" for="title">Display Label (Title)</label>
+                    <div class="lg:col-span-2 space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5" for="title">Label *</label>
                             <input id="title" type="text" name="title" required value="{{ old('title', $menu->title) }}"
-                                class="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-sm font-bold text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 focus:bg-white/10 transition-all shadow-inner @error('title') border-rose-500/50 @enderror"
-                                placeholder="ENTER_NODE_TITLE">
-                            @error('title') <p class="text-[9px] text-rose-500 font-bold uppercase tracking-widest mt-2">{{ $message }}</p> @enderror
+                                class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all @error('title') border-red-300 @enderror"
+                                placeholder="e.g. About Us">
+                            @error('title') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                         </div>
-
-                        <div class="space-y-3">
-                            <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1" for="url">Resolution Path (URL)</label>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5" for="url">URL</label>
                             <input id="url" type="text" name="url" value="{{ old('url', $menu->url) }}"
-                                class="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-xs font-mono font-bold text-primary focus:ring-4 focus:ring-primary/10 focus:border-primary/40 focus:bg-white/10 transition-all shadow-inner"
+                                class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 font-mono focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
                                 placeholder="/#services or https://...">
-                            <p class="text-[9px] text-slate-700 font-extrabold uppercase tracking-widest mt-3 opacity-60 italic">Leave NULL for parent dropdown nodes</p>
+                            <p class="text-xs text-slate-400 mt-1">Leave empty for parent dropdown items</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="h-px bg-white/5"></div>
+                <div class="h-px bg-slate-100"></div>
 
-                <!-- Group 02: Hierarchy Matrix -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <!-- Placement -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div>
-                        <span class="text-[10px] font-black text-primary uppercase tracking-[0.3em] block mb-2 font-mono opacity-80">PHASE 02</span>
-                        <h3 class="font-black text-white tracking-tight uppercase text-sm italic">Architectural Matrix</h3>
+                        <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Placement</p>
+                        <h3 class="text-sm font-bold text-slate-900">Position & Hierarchy</h3>
                     </div>
-                    <div class="lg:col-span-2 space-y-10">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <div class="space-y-3">
-                                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1" for="location">Zone Location</label>
-                                <div class="relative group">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="location">Location *</label>
+                                <div class="relative">
                                     <select id="location" name="location" required 
-                                        class="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-[11px] font-black uppercase tracking-widest appearance-none focus:ring-4 focus:ring-primary/10 focus:border-primary/40 focus:bg-white/10 text-white transition-all shadow-inner cursor-pointer">
-                                        <option value="header" {{ $menu->location === 'header' ? 'selected' : '' }} class="bg-node-dark">HEADER_PRIMARY</option>
-                                        <option value="footer" {{ $menu->location === 'footer' ? 'selected' : '' }} class="bg-node-dark">FOOTER_SITE_MAP</option>
+                                        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                                        <option value="header" {{ $menu->location === 'header' ? 'selected' : '' }}>Header</option>
+                                        <option value="footer" {{ $menu->location === 'footer' ? 'selected' : '' }}>Footer</option>
                                     </select>
-                                    <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-slate-600 pointer-events-none text-lg">unfold_more</span>
+                                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none text-lg">unfold_more</span>
                                 </div>
                             </div>
-
-                            <div class="space-y-3">
-                                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1" for="parent_id">Parent Hub (Optional)</label>
-                                <div class="relative group">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="parent_id">Parent Item</label>
+                                <div class="relative">
                                     <select id="parent_id" name="parent_id" 
-                                        class="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-[11px] font-black uppercase tracking-widest appearance-none focus:ring-4 focus:ring-primary/10 focus:border-primary/40 focus:bg-white/10 text-white transition-all shadow-inner cursor-pointer">
-                                        <option value="" class="bg-node-dark">-- RESOLVED_TOP_LEVEL --</option>
+                                        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm appearance-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                                        <option value="">None (Top Level)</option>
                                         @foreach($parentMenus as $parent)
-                                            <option value="{{ $parent->id }}" {{ $menu->parent_id === $parent->id ? 'selected' : '' }} class="bg-node-dark">NODE: {{ strtoupper($parent->title) }}</option>
+                                            <option value="{{ $parent->id }}" {{ $menu->parent_id === $parent->id ? 'selected' : '' }}>{{ $parent->title }} ({{ ucfirst($parent->location) }})</option>
                                         @endforeach
                                     </select>
-                                    <span class="material-symbols-outlined absolute right-6 top-1/2 -translate-y-1/2 text-slate-600 pointer-events-none text-lg">unfold_more</span>
+                                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none text-lg">unfold_more</span>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <div class="space-y-3">
-                                <label class="text-[10px] font-black text-slate-500 uppercase tracking-widest px-1" for="order">Sequence Order</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="order">Order</label>
                                 <input id="order" type="number" name="order" value="{{ old('order', $menu->order) }}"
-                                    class="w-full bg-white/5 border border-white/5 rounded-2xl px-6 py-4 text-sm font-mono font-black text-white focus:ring-4 focus:ring-primary/10 focus:border-primary/40 focus:bg-white/10 transition-all shadow-inner">
+                                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
                             </div>
-
-                            <div class="pt-6 flex flex-col justify-end">
-                                <label class="flex items-center gap-6 cursor-pointer group">
+                            <div class="flex items-center pt-6">
+                                <label class="flex items-center gap-3 cursor-pointer">
                                     <div class="relative">
                                         <input type="hidden" name="is_active" value="0">
                                         <input id="is_active" type="checkbox" name="is_active" value="1" {{ old('is_active', $menu->is_active) ? 'checked' : '' }}
                                             class="sr-only peer">
-                                        <div class="w-14 h-7 bg-white/10 rounded-full peer-checked:bg-primary transition-all shadow-inner"></div>
-                                        <div class="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-lg transition-all peer-checked:translate-x-7"></div>
+                                        <div class="w-11 h-6 bg-slate-200 rounded-full peer-checked:bg-primary transition-all"></div>
+                                        <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all peer-checked:translate-x-5"></div>
                                     </div>
-                                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-primary transition-colors italic">Broadcast Protocol</span>
+                                    <span class="text-sm font-medium text-slate-700">Active</span>
                                 </label>
                             </div>
                         </div>
@@ -114,19 +103,13 @@
                 </div>
             </div>
 
-            <!-- Form Actions -->
-            <div class="px-12 py-10 bg-white/5 border-t border-white/5 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(0,118,255,0.4)]"></div>
-                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">Network Topology Stabilized</span>
-                </div>
-                <div class="flex items-center gap-8">
-                    <a href="{{ route('admin.menus.index') }}" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-rose-500 transition-colors">Abort Sync</a>
-                    <button type="submit" class="bg-primary text-white border border-primary/20 px-12 py-4 rounded-xl font-black text-[11px] uppercase tracking-widest hover:brightness-110 shadow-2xl shadow-primary/20 transition-all flex items-center gap-3">
-                        <span class="material-symbols-outlined text-base">terminal</span>
-                        Commit Connectivity
-                    </button>
-                </div>
+            <!-- Footer -->
+            <div class="px-8 md:px-10 py-5 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+                <a href="{{ route('admin.menus.index') }}" class="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors px-4 py-2">Cancel</a>
+                <button type="submit" class="inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-6 py-2.5 rounded-xl hover:bg-primary-dark transition-colors">
+                    <span class="material-symbols-outlined text-lg">save</span>
+                    Save Changes
+                </button>
             </div>
         </form>
     </div>

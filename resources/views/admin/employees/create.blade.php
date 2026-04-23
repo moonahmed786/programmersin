@@ -2,19 +2,14 @@
 
 @section('content')
 
-<!-- Architect Unit Initialization Header -->
-<div class="mb-12">
+<div class="mb-8">
     <x-admin.breadcrumbs :items="[
-        ['label' => 'Personnel Registry', 'url' => route('admin.employees.index')],
-        ['label' => 'New Unit Initialization']
+        ['label' => 'Team Members', 'url' => route('admin.employees.index')],
+        ['label' => 'Add Member']
     ]" />
     
-    <div class="flex items-center gap-4 mt-6">
-        <div>
-            <h1 class="text-2xl font-black tracking-tighter text-on-surface uppercase italic">Architect Unit Initialization</h1>
-            <p class="text-[10px] text-on-surface-variant font-mono opacity-60 uppercase tracking-widest mt-1">Deploying new personnel node to agency grid</p>
-        </div>
-    </div>
+    <h1 class="text-2xl font-bold text-slate-900 mt-4">Add Team Member</h1>
+    <p class="text-sm text-slate-500 mt-1">Fill in the details to add a new team member</p>
 </div>
 
 <div class="max-w-5xl" x-data="{ 
@@ -35,131 +30,121 @@
     validateStep(step) {
         if (step === 1) {
             const name = document.getElementById('name').value;
-            if (!name) { alert('Legal Identifier is required to proceed.'); return false; }
+            if (!name) { alert('Name is required.'); return false; }
         }
         return true;
     }
 }">
-    {{-- Form Stepper --}}
     <x-admin.form-stepper :steps="[
-        ['label' => 'Identity'],
-        ['label' => 'Academic'],
-        ['label' => 'Capability'],
-        ['label' => 'Operations'],
-        ['label' => 'Authority']
+        ['label' => 'Profile'],
+        ['label' => 'Education'],
+        ['label' => 'Skills'],
+        ['label' => 'Experience'],
+        ['label' => 'Account']
     ]" ::current-step="currentStep" />
 
-    <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm animate-in-fade">
+    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100">
         <form action="{{ route('admin.employees.store') }}" method="POST" @submit="loading = true">
             @csrf
 
-            <div class="p-12">
-                <!-- Step 01: Core Profile -->
-                <div x-show="currentStep === 1" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-8" x-transition:enter-end="opacity-100 translate-x-0" class="space-y-16">
-                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+            <div class="p-8 md:p-10">
+                <!-- Step 1: Profile -->
+                <div x-show="currentStep === 1" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0" class="space-y-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                         <div class="lg:col-span-1">
-                            <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 01</span>
-                            <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight">Identity & Authority</h3>
+                            <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Step 1</p>
+                            <h3 class="text-sm font-bold text-slate-900">Basic Info</h3>
                         </div>
-                        <div class="lg:col-span-3 space-y-10">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                <div class="space-y-1">
-                                    <label class="label-material" for="name">Legal Identifier</label>
+                        <div class="lg:col-span-3 space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1.5" for="name">Full Name *</label>
                                     <input id="name" type="text" name="name" value="{{ old('name') }}"
-                                        class="input-material @error('name') border-rose-300 ring-rose-50 ring-4 @enderror"
-                                        placeholder="Input full name...">
-                                    @error('name') <p class="text-[10px] text-rose-600 font-black uppercase tracking-widest mt-3 flex items-center gap-2">
-                                        <span class="material-symbols-outlined text-xs">error</span>
-                                        {{ $message }}
-                                    </p> @enderror
+                                        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all @error('name') border-red-300 @enderror"
+                                        placeholder="John Doe">
+                                    @error('name') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                                 </div>
-
-                                <div class="space-y-1">
-                                    <label class="label-material" for="position">Technical Specialization</label>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1.5" for="position">Position</label>
                                     <input id="position" type="text" name="position" value="{{ old('position') }}"
-                                        class="input-material"
-                                        placeholder="e.g. Lead Solutions Architect">
+                                        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                                        placeholder="e.g. Senior Developer">
                                 </div>
                             </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                <div class="space-y-1">
-                                    <label class="label-material" for="phone">Comm Link (Phone)</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1.5" for="phone">Phone</label>
                                     <input id="phone" type="text" name="phone" value="{{ old('phone') }}"
-                                        class="input-material font-mono"
-                                        placeholder="+XX XXX XXXXXXX">
+                                        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                                        placeholder="+1 234 567 8900">
                                 </div>
-
-                                <div class="space-y-1">
-                                    <label class="label-material" for="location">Deployment Zone (Location)</label>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1.5" for="location">Location</label>
                                     <input id="location" type="text" name="location" value="{{ old('location') }}"
-                                        class="input-material"
-                                        placeholder="City, Region, Node">
+                                        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                                        placeholder="City, Country">
                                 </div>
                             </div>
-
-                            <div class="space-y-1">
-                                <label class="label-material" for="bio">Architectural Dossier (Bio)</label>
-                                <textarea id="bio" name="bio" rows="6"
-                                    class="input-material h-44 resize-none italic leading-relaxed">{{ old('bio') }}</textarea>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="bio">Bio</label>
+                                <textarea id="bio" name="bio" rows="4"
+                                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
+                                    placeholder="A short bio about this team member...">{{ old('bio') }}</textarea>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 02: Knowledge Matrix -->
-                <div x-show="currentStep === 2" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-8" x-transition:enter-end="opacity-100 translate-x-0" x-cloak class="space-y-16">
-                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+                <!-- Step 2: Education -->
+                <div x-show="currentStep === 2" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0" x-cloak class="space-y-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                         <div class="lg:col-span-1">
-                            <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 02</span>
-                            <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight">Academic Integrity</h3>
+                            <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Step 2</p>
+                            <h3 class="text-sm font-bold text-slate-900">Education</h3>
                         </div>
-                        <div class="lg:col-span-3 space-y-6">
+                        <div class="lg:col-span-3 space-y-4">
                             <template x-for="(item, index) in education" :key="index">
-                                <div class="p-8 bg-slate-50 border border-slate-100 rounded-2xl relative group transition-all hover:bg-white hover:shadow-sm">
-                                    <button type="button" @click="removeEducation(index)" class="absolute top-6 right-6 w-8 h-8 flex items-center justify-center rounded-lg text-slate-300 hover:text-rose-500 hover:bg-rose-50 transition-all">
-                                        <span class="material-symbols-outlined text-lg">delete</span>
+                                <div class="p-5 bg-slate-50 border border-slate-100 rounded-xl relative group">
+                                    <button type="button" @click="removeEducation(index)" class="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all">
+                                        <span class="material-symbols-outlined text-lg">close</span>
                                     </button>
-                                    <div class="grid grid-cols-1 gap-6">
-                                        <div class="space-y-1">
-                                            <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Institution</label>
+                                    <div class="grid grid-cols-1 gap-4">
+                                        <div>
+                                            <label class="block text-xs font-medium text-slate-500 mb-1">Institution</label>
                                             <input type="text" :name="'education['+index+'][university]'" x-model="item.university" 
-                                                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs font-black text-on-surface focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all" placeholder="Enter University/Institution Name">
+                                                class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="University name">
                                         </div>
-                                        <div class="space-y-1">
-                                            <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Credentials | Tenure</label>
+                                        <div>
+                                            <label class="block text-xs font-medium text-slate-500 mb-1">Degree & Year</label>
                                             <input type="text" :name="'education['+index+'][info]'" x-model="item.info" 
-                                                class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs font-bold text-on-surface-variant italic" placeholder="e.g. MS in Advanced Architecture (2018-2022)">
+                                                class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-600 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="e.g. BS Computer Science (2018-2022)">
                                         </div>
                                     </div>
                                 </div>
                             </template>
-                            <button type="button" @click="addEducation()" class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-primary hover:text-on-surface transition-all bg-primary/5 px-6 py-3 rounded-xl border border-primary/10">
-                                <span class="material-symbols-outlined text-lg">add_circle</span>
-                                Append Education Record
+                            <button type="button" @click="addEducation()" class="inline-flex items-center gap-2 text-sm font-medium text-primary hover:bg-primary/5 px-4 py-2 rounded-lg transition-all">
+                                <span class="material-symbols-outlined text-lg">add</span>
+                                Add Education
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 03: Capability Mapping -->
-                <div x-show="currentStep === 3" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-8" x-transition:enter-end="opacity-100 translate-x-0" x-cloak class="space-y-16">
-                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+                <!-- Step 3: Skills -->
+                <div x-show="currentStep === 3" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0" x-cloak class="space-y-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                         <div class="lg:col-span-1">
-                            <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 03</span>
-                            <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight">Capability Node Mapping</h3>
+                            <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Step 3</p>
+                            <h3 class="text-sm font-bold text-slate-900">Skills</h3>
                         </div>
                         <div class="lg:col-span-3">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-8">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <template x-for="(value, key) in skills" :key="key">
-                                    <div class="space-y-3">
-                                        <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1" x-text="key"></label>
-                                        <div class="group relative">
-                                            <input type="text" :name="'skills['+key+']'" x-model="skills[key]" 
-                                                class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-xs font-black text-on-surface focus:ring-4 focus:ring-primary/5 focus:border-primary focus:bg-white transition-all shadow-sm" 
-                                                placeholder="e.g. PHP, Laravel, PostgreSQL...">
-                                            <span class="absolute right-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-200 group-focus-within:text-primary opacity-40 transition-all text-lg">bolt</span>
-                                        </div>
+                                    <div>
+                                        <label class="block text-xs font-medium text-slate-500 mb-1.5" x-text="key"></label>
+                                        <input type="text" :name="'skills['+key+']'" x-model="skills[key]" 
+                                            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white transition-all" 
+                                            placeholder="e.g. PHP, Laravel, PostgreSQL...">
                                     </div>
                                 </template>
                             </div>
@@ -167,121 +152,106 @@
                     </div>
                 </div>
 
-                <!-- Step 04: Operational Chronicles -->
-                <div x-show="currentStep === 4" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-8" x-transition:enter-end="opacity-100 translate-x-0" x-cloak class="space-y-16">
-                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+                <!-- Step 4: Experience -->
+                <div x-show="currentStep === 4" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0" x-cloak class="space-y-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                         <div class="lg:col-span-1">
-                            <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 04</span>
-                            <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight">Operational Chronicles</h3>
+                            <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Step 4</p>
+                            <h3 class="text-sm font-bold text-slate-900">Experience</h3>
                         </div>
-                        <div class="lg:col-span-3 space-y-10">
+                        <div class="lg:col-span-3 space-y-6">
                             <template x-for="(exp, expIdx) in experience" :key="expIdx">
-                                <div class="p-10 bg-slate-50 border border-slate-100 rounded-3xl relative group transition-all hover:bg-white hover:shadow-md">
-                                    <button type="button" @click="removeExperience(expIdx)" class="absolute top-8 right-8 w-10 h-10 flex items-center justify-center rounded-xl text-slate-300 hover:text-rose-600 hover:bg-rose-50 transition-all">
-                                        <span class="material-symbols-outlined text-xl">delete</span>
+                                <div class="p-6 bg-slate-50 border border-slate-100 rounded-xl relative group">
+                                    <button type="button" @click="removeExperience(expIdx)" class="absolute top-4 right-4 w-7 h-7 flex items-center justify-center rounded-lg text-slate-300 hover:text-red-500 hover:bg-red-50 transition-all">
+                                        <span class="material-symbols-outlined text-lg">close</span>
                                     </button>
-                                    
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                                        <div class="space-y-1">
-                                            <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Node Entity (Company)</label>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                        <div>
+                                            <label class="block text-xs font-medium text-slate-500 mb-1">Company</label>
                                             <input type="text" :name="'experience['+expIdx+'][company]'" x-model="exp.company" 
-                                                class="w-full bg-white border border-slate-200 rounded-xl px-5 py-3.5 text-sm font-black text-on-surface focus:ring-4 focus:ring-primary/5 focus:border-primary transition-all shadow-sm" placeholder="e.g. Global Tech Hub">
+                                                class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Company name">
                                         </div>
-                                        <div class="space-y-1">
-                                            <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Chronicle Span (Range)</label>
+                                        <div>
+                                            <label class="block text-xs font-medium text-slate-500 mb-1">Duration</label>
                                             <input type="text" :name="'experience['+expIdx+'][range]'" x-model="exp.range" 
-                                                class="w-full bg-white border border-slate-200 rounded-xl px-5 py-3.5 text-xs font-mono font-bold text-primary italic" placeholder="e.g. JAN 2022 - PRESENT">
+                                                class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-600 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="e.g. Jan 2022 – Present">
                                         </div>
                                     </div>
-
-                                    <div class="space-y-1 mb-10">
-                                        <label class="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Authority Profile (Role)</label>
+                                    <div class="mb-4">
+                                        <label class="block text-xs font-medium text-slate-500 mb-1">Job Title</label>
                                         <input type="text" :name="'experience['+expIdx+'][role]'" x-model="exp.role" 
-                                            class="w-full bg-white border border-slate-200 rounded-xl px-6 py-4 text-base font-black text-on-surface tracking-tight" placeholder="e.g. Senior Architectural Analyst">
+                                            class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="e.g. Senior Software Engineer">
                                     </div>
-
-                                    <div class="space-y-4">
-                                        <label class="text-[10px] font-black text-slate-600 uppercase tracking-widest pl-1 border-b border-slate-100 pb-2 flex items-center gap-2">
-                                            <span class="material-symbols-outlined text-sm text-primary">analytics</span>
-                                            Mission Bulletins
-                                        </label>
+                                    <div class="space-y-2">
+                                        <label class="block text-xs font-medium text-slate-500">Key Achievements</label>
                                         <template x-for="(bullet, bIdx) in exp.bullets" :key="bIdx">
-                                            <div class="flex items-center gap-4 group/bullet">
-                                                <div class="w-2 h-2 rounded-full bg-primary/20 flex-shrink-0 group-focus-within/bullet:bg-primary transition-colors"></div>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-slate-300">•</span>
                                                 <input type="text" :name="'experience['+expIdx+'][bullets]['+bIdx+']'" x-model="exp.bullets[bIdx]" 
-                                                    class="flex-1 bg-white border border-slate-100 rounded-2xl px-5 py-3.5 text-xs font-bold text-on-surface-variant focus:ring-2 focus:ring-primary/5 focus:border-primary/40 focus:bg-white transition-all" placeholder="Describe operational success node...">
-                                                <button type="button" @click="removeBullet(expIdx, bIdx)" class="text-slate-200 hover:text-rose-500 transition-colors">
+                                                    class="flex-1 bg-white border border-slate-100 rounded-lg px-4 py-2 text-sm text-slate-700 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" placeholder="Describe an achievement...">
+                                                <button type="button" @click="removeBullet(expIdx, bIdx)" class="text-slate-300 hover:text-red-500 transition-colors">
                                                     <span class="material-symbols-outlined text-lg">close</span>
                                                 </button>
                                             </div>
                                         </template>
-                                        <button type="button" @click="addBullet(expIdx)" class="text-[9px] font-black uppercase tracking-widest text-primary flex items-center gap-2 mt-4 hover:translate-x-1 transition-transform bg-primary/5 px-4 py-2 rounded-lg border border-primary/10">
-                                            <span class="material-symbols-outlined text-base">add</span>
-                                            Append Bulletin
+                                        <button type="button" @click="addBullet(expIdx)" class="inline-flex items-center gap-1 text-xs font-medium text-primary mt-1">
+                                            <span class="material-symbols-outlined text-sm">add</span>
+                                            Add point
                                         </button>
                                     </div>
                                 </div>
                             </template>
 
-                            <button type="button" @click="addExperience()" class="w-full py-8 border-2 border-dashed border-slate-100 rounded-3xl flex flex-col items-center justify-center gap-3 text-slate-300 hover:text-primary hover:border-primary/30 transition-all group bg-slate-50/50">
-                                <span class="material-symbols-outlined text-4xl opacity-40 group-hover:scale-110 transition-transform">add_circle</span>
-                                <span class="font-black text-[11px] uppercase tracking-[0.3em]">Initialize Operational Chronic Node</span>
+                            <button type="button" @click="addExperience()" class="w-full py-6 border-2 border-dashed border-slate-200 rounded-xl flex items-center justify-center gap-2 text-slate-400 hover:text-primary hover:border-primary/30 transition-all">
+                                <span class="material-symbols-outlined text-xl">add</span>
+                                <span class="text-sm font-medium">Add Work Experience</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 05: System Authority Access -->
-                <div x-show="currentStep === 5" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-8" x-transition:enter-end="opacity-100 translate-x-0" x-cloak class="space-y-16">
-                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+                <!-- Step 5: Account -->
+                <div x-show="currentStep === 5" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-x-4" x-transition:enter-end="opacity-100 translate-x-0" x-cloak class="space-y-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                         <div class="lg:col-span-1">
-                            <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 05</span>
-                            <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight">Authority & Credentials</h3>
+                            <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Step 5</p>
+                            <h3 class="text-sm font-bold text-slate-900">Account</h3>
                         </div>
-                        <div class="lg:col-span-3 space-y-10">
-                            <div class="space-y-1">
-                                <label class="label-material" for="email">Primary Auth Node (Email)</label>
+                        <div class="lg:col-span-3 space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="email">Email Address *</label>
                                 <input id="email" type="email" name="email" value="{{ old('email') }}"
-                                    class="input-material font-mono @error('email') border-rose-300 ring-rose-50 ring-4 @enderror"
-                                    placeholder="access@vector.hub">
-                                @error('email') <p class="text-[10px] text-rose-600 font-black uppercase tracking-widest mt-3 flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-xs">error</span>
-                                    {{ $message }}
-                                </p> @enderror
+                                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all @error('email') border-red-300 @enderror"
+                                    placeholder="name@company.com">
+                                @error('email') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                             </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                <div class="space-y-1">
-                                    <label class="label-material" for="password">Security Hash Sequence (Password)</label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1.5" for="password">Password *</label>
                                     <input id="password" type="password" name="password"
-                                        class="input-material font-mono @error('password') border-rose-300 @enderror"
-                                        placeholder="Min 8 Characters">
-                                    @error('password') <p class="text-[10px] text-rose-600 font-black uppercase tracking-widest mt-3 flex items-center gap-2">
-                                        <span class="material-symbols-outlined text-xs">lock</span>
-                                        {{ $message }}
-                                    </p> @enderror
+                                        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all @error('password') border-red-300 @enderror"
+                                        placeholder="Min 8 characters">
+                                    @error('password') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                                 </div>
-
-                                <div class="space-y-1">
-                                    <label class="label-material" for="password_confirmation">Sequence Validation</label>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1.5" for="password_confirmation">Confirm Password</label>
                                     <input id="password_confirmation" type="password" name="password_confirmation"
-                                        class="input-material font-mono"
-                                        placeholder="Confirm Hash Sequence">
+                                        class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                                        placeholder="Confirm password">
                                 </div>
                             </div>
-
-                            <div class="pt-6">
-                                <label class="flex items-center gap-5 cursor-pointer group">
+                            <div class="pt-2">
+                                <label class="flex items-center gap-3 cursor-pointer group">
                                     <div class="relative">
                                         <input type="hidden" name="is_active" value="0">
                                         <input id="is_active" type="checkbox" name="is_active" value="1" {{ old('is_active', 1) ? 'checked' : '' }}
                                             class="sr-only peer">
-                                        <div class="w-16 h-8 bg-slate-100 rounded-full peer-checked:bg-primary transition-all shadow-inner border border-slate-200"></div>
-                                        <div class="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transition-all border border-slate-100 peer-checked:translate-x-8"></div>
+                                        <div class="w-11 h-6 bg-slate-200 rounded-full peer-checked:bg-primary transition-all"></div>
+                                        <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all peer-checked:translate-x-5"></div>
                                     </div>
-                                    <div class="flex flex-col">
-                                        <span class="text-xs font-black uppercase tracking-widest text-on-surface group-hover:text-primary transition-colors leading-none">Authority Protocol Active</span>
-                                        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-tighter mt-1">Personnel unit has global read/write access to system nodes</span>
+                                    <div>
+                                        <span class="text-sm font-medium text-slate-900">Active Account</span>
+                                        <p class="text-xs text-slate-400">This member can log in and access the system</p>
                                     </div>
                                 </label>
                             </div>
@@ -290,42 +260,33 @@
                 </div>
             </div>
 
-            <!-- Form Runtime Controls -->
-            <div class="px-12 py-12 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-                <div class="flex items-center gap-6">
-                    {{-- Status Indicator --}}
-                    <div class="flex items-center gap-4">
-                        <div class="w-3 h-3 rounded-full animate-pulse shadow-sm"
-                             :class="currentStep === 5 ? 'bg-emerald-500 shadow-emerald-200' : 'bg-primary shadow-primary-200'"></div>
-                        <div class="flex flex-col leading-none">
-                            <span class="text-[9px] font-black text-on-surface uppercase tracking-widest" 
-                                  x-text="currentStep === 5 ? 'Final Deployment Sync' : 'Initialization Phase ' + currentStep + '/5'"></span>
-                            <span class="text-[8px] text-slate-400 font-bold uppercase tracking-widest mt-1">Integrity: VERIFIED</span>
-                        </div>
-                    </div>
+            <!-- Form Footer -->
+            <div class="px-8 md:px-10 py-5 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-slate-400" x-text="'Step ' + currentStep + ' of 5'"></span>
                 </div>
-                <div class="flex items-center gap-6">
+                <div class="flex items-center gap-3">
                     <button type="button" x-show="currentStep > 1" @click="currentStep--" 
-                            class="text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-on-surface transition-colors flex items-center gap-2">
-                        <span class="material-symbols-outlined text-base">arrow_back</span>
-                        Previous Phase
+                            class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-4 py-2 rounded-lg hover:bg-slate-100">
+                        <span class="material-symbols-outlined text-lg">arrow_back</span>
+                        Back
                     </button>
                     
                     <button type="button" x-show="currentStep < 5" @click="if(validateStep(currentStep)) currentStep++" 
-                            class="btn-stellar px-10 py-4">
-                        Next Synchronization
-                        <span class="material-symbols-outlined text-base">arrow_forward</span>
+                            class="inline-flex items-center gap-1.5 bg-primary text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-primary-dark transition-colors">
+                        Continue
+                        <span class="material-symbols-outlined text-lg">arrow_forward</span>
                     </button>
 
                     <button type="submit" x-show="currentStep === 5" 
                             :disabled="loading"
-                            class="btn-stellar px-12 py-5 bg-emerald-600 hover:bg-emerald-700 shadow-emerald-100 disabled:opacity-50 disabled:cursor-wait relative overflow-hidden">
-                        <span :class="{ 'opacity-0': loading }" class="flex items-center gap-3">
-                            <span class="material-symbols-outlined text-lg">rocket_launch</span>
-                            Finalize Deployment
+                            class="inline-flex items-center gap-2 bg-emerald-600 text-white text-sm font-semibold px-6 py-2.5 rounded-xl hover:bg-emerald-700 transition-colors disabled:opacity-50 relative">
+                        <span :class="{ 'opacity-0': loading }" class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">save</span>
+                            Save Member
                         </span>
                         <div x-show="loading" class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                         </div>
                     </button>
                 </div>

@@ -2,136 +2,108 @@
 
 @section('content')
 
-<!-- Service Node Configuration Header -->
-<div class="mb-14 px-2">
-    <div class="flex items-center gap-6 mb-4">
-        <a href="{{ route('admin.services.index') }}" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-white border border-slate-100 shadow-sm text-slate-400 hover:text-primary transition-all hover:shadow-md">
-            <span class="material-symbols-outlined text-2xl">arrow_back</span>
+<div class="mb-8">
+    <div class="flex items-center gap-4 mb-4">
+        <a href="{{ route('admin.services.index') }}" class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-primary transition-all">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
         </a>
-        <div class="flex flex-col gap-2">
-            <h1 class="text-3xl font-black tracking-tighter text-on-surface uppercase italic">
-                Configure <span class="text-primary opacity-90">Unit</span>
-            </h1>
-            <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.4em] flex items-center gap-3">
-                <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-                Refining architectural module: <span class="text-on-surface">{{ $service->slug }}</span>
-            </p>
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900">Edit Service</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Update <span class="font-medium text-slate-700">{{ $service->title }}</span></p>
         </div>
     </div>
 </div>
 
-<div class="max-w-5xl animate-in-fade">
-    <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm">
+<div class="max-w-5xl">
+    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100">
         <form action="{{ route('admin.services.update', $service) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div class="p-12 space-y-14">
-                <!-- Group 01: Identity -->
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+            <div class="p-8 md:p-10 space-y-10">
+                <!-- Details -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     <div class="lg:col-span-1">
-                        <span class="text-[9px] font-black text-primary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 01</span>
-                        <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight italic">Module Identity</h3>
+                        <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Details</p>
+                        <h3 class="text-sm font-bold text-slate-900">Basic Info</h3>
                     </div>
-                    <div class="lg:col-span-3 space-y-10">
-                        <div class="space-y-1">
-                            <label class="label-material" for="title">Label Display Name</label>
+                    <div class="lg:col-span-3 space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5" for="title">Title *</label>
                             <input id="title" type="text" name="title" value="{{ old('title', $service->title) }}" required
-                                class="input-material @error('title') border-rose-300 ring-rose-50 ring-4 @enderror"
-                                placeholder="Module identifier...">
-                            @error('title') <p class="text-[10px] text-rose-600 font-black uppercase tracking-widest mt-3 flex items-center gap-2">
-                                <span class="material-symbols-outlined text-xs">error</span>
-                                {{ $message }}
-                            </p> @enderror
+                                class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all @error('title') border-red-300 @enderror"
+                                placeholder="Service title">
+                            @error('title') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                         </div>
-
-                        <div class="space-y-1">
-                            <label class="label-material" for="description">Functional Blueprint</label>
-                            <textarea id="description" name="description" rows="5"
-                                class="input-material h-40 resize-none italic @error('description') border-rose-300 ring-rose-50 ring-4 @enderror shadow-sm"
-                                placeholder="Describe the unit's operational parameters...">{{ old('description', $service->description) }}</textarea>
-                            @error('description') <p class="text-[10px] text-rose-600 font-black uppercase tracking-widest mt-3 flex items-center gap-2">
-                                <span class="material-symbols-outlined text-xs">error</span>
-                                {{ $message }}
-                            </p> @enderror
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1.5" for="description">Description</label>
+                            <textarea id="description" name="description" rows="4"
+                                class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none @error('description') border-red-300 @enderror"
+                                placeholder="Describe this service...">{{ old('description', $service->description) }}</textarea>
+                            @error('description') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                         </div>
                     </div>
                 </div>
 
-                <div class="h-px bg-slate-50"></div>
+                <div class="h-px bg-slate-100"></div>
 
-                <!-- Group 02: Parameters -->
-                <div class="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start">
+                <!-- Settings -->
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     <div class="lg:col-span-1">
-                        <span class="text-[9px] font-black text-secondary uppercase tracking-[0.3em] block mb-3 opacity-60 italic">Section 02</span>
-                        <h3 class="font-black text-on-surface tracking-tighter uppercase text-sm leading-tight italic">Registry Parameters</h3>
+                        <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">Settings</p>
+                        <h3 class="text-sm font-bold text-slate-900">Options</h3>
                     </div>
-                    <div class="lg:col-span-3 space-y-10">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <div class="space-y-1">
-                                <label class="label-material" for="icon">Visual Glyph</label>
-                                <div class="relative group">
-                                    <span class="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-primary text-xl group-focus-within:scale-110 transition-all">{{ old('icon', $service->icon) ?? 'category' }}</span>
+                    <div class="lg:col-span-3 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="icon">Icon Name</label>
+                                <div class="relative">
+                                    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary text-lg">{{ old('icon', $service->icon) ?? 'category' }}</span>
                                     <input id="icon" type="text" name="icon" value="{{ old('icon', $service->icon) }}"
-                                        class="input-material pl-16 font-mono font-black"
-                                        placeholder="material_symbol_id">
+                                        class="w-full border border-slate-200 rounded-xl pl-11 pr-4 py-2.5 text-sm text-slate-900 font-mono focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                                        placeholder="material_icon_name">
                                 </div>
                             </div>
-
-                            <div class="space-y-1">
-                                <label class="label-material" for="price">Base Unit Price (USD)</label>
-                                <div class="relative group">
-                                    <span class="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 font-black text-xs group-focus-within:text-primary transition-all">$</span>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="price">Starting Price ($)</label>
+                                <div class="relative">
+                                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">$</span>
                                     <input id="price" type="number" step="0.01" name="price" value="{{ old('price', $service->price) }}"
-                                        class="input-material pl-12 font-black tabular-nums"
-                                        placeholder="00.00">
+                                        class="w-full border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all"
+                                        placeholder="0.00">
                                 </div>
                             </div>
                         </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <div class="space-y-1">
-                                <label class="label-material" for="order">Registry Priority</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5" for="order">Display Order</label>
                                 <input id="order" type="number" name="order" value="{{ old('order', $service->order) }}"
-                                    class="input-material font-mono font-black tabular-nums">
+                                    class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 font-mono focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
                             </div>
-
-                            <div class="pt-2 flex flex-col justify-end">
-                                <div class="flex items-center justify-between p-6 bg-slate-50 border border-slate-100 rounded-2xl">
-                                    <div class="flex flex-col gap-1">
-                                        <span class="text-[10px] font-black uppercase tracking-widest text-on-surface leading-none">Broadcast Protocol</span>
-                                        <span class="text-[8px] text-slate-400 font-bold uppercase tracking-widest leading-none">Global Unit Visibility</span>
-                                    </div>
-                                    <label class="relative inline-flex items-center cursor-pointer group">
+                            <div class="flex items-center pt-6">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <div class="relative">
                                         <input type="hidden" name="is_active" value="0">
                                         <input id="is_active" type="checkbox" name="is_active" value="1" {{ old('is_active', $service->is_active) ? 'checked' : '' }}
                                             class="sr-only peer">
-                                        <div class="w-12 h-6 bg-slate-200 rounded-full peer-checked:bg-primary transition-all shadow-inner border border-slate-200"></div>
-                                        <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-md transition-all border border-slate-100 peer-checked:translate-x-6"></div>
-                                    </label>
-                                </div>
+                                        <div class="w-11 h-6 bg-slate-200 rounded-full peer-checked:bg-primary transition-all"></div>
+                                        <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-sm transition-all peer-checked:translate-x-5"></div>
+                                    </div>
+                                    <span class="text-sm font-medium text-slate-700">Active</span>
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Form Actions -->
-            <div class="px-12 py-10 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-                <div class="flex items-center gap-6">
-                    <div class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(0,118,255,0.3)]"></div>
-                    <div class="flex flex-col leading-none">
-                        <span class="text-on-surface font-black text-[10px] uppercase tracking-tight italic">Registry Node Stable</span>
-                        <p class="text-[8px] font-black uppercase tracking-[0.2em] text-slate-400 mt-1 opacity-60">Awaiting central core sync</p>
-                    </div>
-                </div>
-                <div class="flex items-center gap-10">
-                    <a href="{{ route('admin.services.index') }}" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-rose-600 transition-colors">Abort Sync</a>
-                    <button type="submit" class="btn-stellar px-14 py-4">
-                        <span class="material-symbols-outlined text-lg">terminal</span>
-                        Commit Protocol
-                    </button>
-                </div>
+            <!-- Footer -->
+            <div class="px-8 md:px-10 py-5 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+                <a href="{{ route('admin.services.index') }}" class="text-sm font-medium text-slate-500 hover:text-slate-700 transition-colors px-4 py-2">Cancel</a>
+                <button type="submit" class="inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-6 py-2.5 rounded-xl hover:bg-primary-dark transition-colors">
+                    <span class="material-symbols-outlined text-lg">save</span>
+                    Save Changes
+                </button>
             </div>
         </form>
     </div>

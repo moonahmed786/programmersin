@@ -2,205 +2,170 @@
 
 @section('content')
 
-<!-- Lead Intelligence Terminal Header -->
-<div class="mb-14 px-2">
-    <div class="flex items-center justify-between mb-8">
-        <div class="flex items-center gap-6">
-            <a href="{{ route('admin.inquiries.index') }}" class="w-12 h-12 flex items-center justify-center rounded-2xl bg-white border border-slate-100 shadow-sm text-slate-400 hover:text-primary transition-all hover:shadow-md">
-                <span class="material-symbols-outlined text-2xl">arrow_back</span>
+<div class="mb-8">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <a href="{{ route('admin.inquiries.index') }}" class="w-9 h-9 flex items-center justify-center rounded-lg bg-white border border-slate-200 text-slate-400 hover:text-primary transition-all">
+                <span class="material-symbols-outlined text-lg">arrow_back</span>
             </a>
-            <div class="flex flex-col gap-2">
-                <h1 class="text-3xl font-black tracking-tighter text-on-surface uppercase italic">
-                    Lead <span class="text-primary opacity-90">Intelligence</span>
-                </h1>
-                <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.3em] flex items-center gap-3">
-                    <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-                    Analyzing node: <span class="text-on-surface">INQ-{{ str_pad($inquiry->id, 4, '0', STR_PAD_LEFT) }}</span>
-                </p>
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900">Inquiry Details</h1>
+                <p class="text-sm text-slate-500 mt-0.5">INQ-{{ str_pad($inquiry->id, 4, '0', STR_PAD_LEFT) }} · {{ $inquiry->created_at->format('d M Y') }}</p>
             </div>
         </div>
 
         @if(auth()->user()->isSuperAdmin())
-        <div class="flex items-center gap-4">
-            <form action="{{ route('admin.inquiries.update_status', $inquiry->id) }}" method="POST" class="inline-flex items-center gap-8 bg-white p-3 px-8 rounded-stellar border border-slate-100 shadow-sm">
-                @csrf
-                @method('PATCH')
-                <div class="flex flex-col">
-                    <span class="text-[8px] font-black uppercase text-slate-400 tracking-widest leading-none mb-1">Pipeline Stage</span>
-                    <select name="status" class="bg-transparent border-none text-[11px] font-black uppercase tracking-widest text-primary focus:ring-0 cursor-pointer p-0 -mt-1 appearance-none">
-                        <option value="new" @if($inquiry->status == 'new') selected @endif>NEW_LEAD</option>
-                        <option value="in_review" @if($inquiry->status == 'in_review') selected @endif>IN_REVIEW</option>
-                        <option value="responded" @if($inquiry->status == 'responded') selected @endif>RESPONDED</option>
-                        <option value="closed" @if($inquiry->status == 'closed') selected @endif>CLOSED</option>
-                    </select>
-                </div>
-                <div class="w-px h-8 bg-slate-100"></div>
-                <button type="submit" class="btn-stellar px-8 py-3 text-[10px]">
-                    Commit Pipeline
-                </button>
-            </form>
-        </div>
+        <form action="{{ route('admin.inquiries.update_status', $inquiry->id) }}" method="POST" class="inline-flex items-center gap-3 bg-white px-4 py-2 rounded-xl border border-slate-200">
+            @csrf
+            @method('PATCH')
+            <label class="text-xs font-medium text-slate-500">Status:</label>
+            <select name="status" class="border-none text-sm font-semibold text-primary focus:ring-0 cursor-pointer bg-transparent">
+                <option value="new" @if($inquiry->status == 'new') selected @endif>New</option>
+                <option value="in_review" @if($inquiry->status == 'in_review') selected @endif>In Review</option>
+                <option value="responded" @if($inquiry->status == 'responded') selected @endif>Responded</option>
+                <option value="closed" @if($inquiry->status == 'closed') selected @endif>Closed</option>
+            </select>
+            <button type="submit" class="inline-flex items-center gap-1.5 bg-primary text-white text-xs font-semibold px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors">
+                Update
+            </button>
+        </form>
         @endif
     </div>
 </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-12 animate-in-fade">
-    <!-- Message Intelligence -->
-    <div class="lg:col-span-2 space-y-12">
-        <section class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm relative group">
-            <div class="p-12 relative z-10">
-                <div class="flex items-center gap-4 mb-10">
-                    <div class="w-2.5 h-2.5 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(0,118,255,0.3)]"></div>
-                    <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] italic">Decrypted Payload (Inquiry Message)</h3>
-                </div>
-                <div class="bg-slate-50 border border-slate-100 rounded-3xl p-12">
-                    <h4 class="text-2xl font-black text-on-surface tracking-tighter mb-8 italic">{{ $inquiry->subject }}</h4>
-                    <div class="text-on-surface-variant font-medium leading-[2.2] text-sm whitespace-pre-line italic">
-                        {{ $inquiry->message }}
-                    </div>
-                </div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Message & Notes -->
+    <div class="lg:col-span-2 space-y-8">
+        <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 p-8">
+            <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-6">Message</h3>
+            <div class="bg-slate-50 border border-slate-100 rounded-xl p-8">
+                <h4 class="text-xl font-bold text-slate-900 mb-4">{{ $inquiry->subject }}</h4>
+                <div class="text-sm text-slate-600 leading-relaxed whitespace-pre-line">{{ $inquiry->message }}</div>
             </div>
-        </section>
+        </div>
 
-        <!-- Internal Telemetry (Collaboration) -->
-        <section class="space-y-8">
-            <div class="flex items-center justify-between px-6">
-                <div class="flex items-center gap-4">
-                    <div class="w-2 h-2 rounded-full bg-tertiary shadow-[0_0_8px_rgba(124,77,255,0.4)]"></div>
-                    <h3 class="text-[10px] font-black text-on-surface uppercase tracking-[0.3em] leading-none">Specialist Collaboration Log</h3>
-                </div>
-                <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest tabular-nums bg-white px-3 py-1 rounded-full border border-slate-100">{{ $inquiry->notes->count() }} ENTRIES_DETECTOR</span>
+        <!-- Notes -->
+        <div class="space-y-6">
+            <div class="flex items-center justify-between px-2">
+                <h3 class="text-sm font-bold text-slate-900">Internal Notes</h3>
+                <span class="text-xs font-medium text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">{{ $inquiry->notes->count() }} notes</span>
             </div>
             
-            <div class="space-y-8">
-                @foreach($inquiry->notes as $note)
-                <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm p-10 relative group hover:border-primary/20 transition-all">
-                    <div class="flex items-start justify-between mb-6 pb-6 border-b border-slate-50">
-                        <div class="flex items-center gap-5">
-                            <div class="w-12 h-12 rounded-2xl bg-on-surface border border-on-surface flex items-center justify-center text-white font-black text-xs shadow-md">
-                                {{ strtoupper(substr($note->user->name, 0, 2)) }}
-                            </div>
-                            <div>
-                                <p class="text-[10px] font-black text-on-surface uppercase tracking-widest leading-none">{{ $note->user->name }}</p>
-                                <p class="text-[9px] font-black text-primary uppercase tracking-tighter mt-1.5 tabular-nums opacity-80">{{ $note->created_at->format('d M Y // H:i') }}</p>
-                            </div>
+            @foreach($inquiry->notes as $note)
+            <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 p-6">
+                <div class="flex items-start justify-between mb-4 pb-4 border-b border-slate-50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center text-sm font-bold text-slate-500">
+                            {{ strtoupper(substr($note->user->name, 0, 2)) }}
                         </div>
-                        <span class="text-[9px] font-black text-slate-300 uppercase tracking-[0.2em] italic">LOG_ENTRY_{{ str_pad($loop->iteration, 2, '0', STR_PAD_LEFT) }}</span>
-                    </div>
-                    <div class="text-sm font-medium text-on-surface-variant leading-relaxed italic px-2">
-                        {{ $note->content }}
+                        <div>
+                            <p class="text-sm font-semibold text-slate-900">{{ $note->user->name }}</p>
+                            <p class="text-xs text-slate-400">{{ $note->created_at->format('d M Y, H:i') }}</p>
+                        </div>
                     </div>
                 </div>
-                @endforeach
-
-                <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-stellar p-10">
-                    <form action="{{ route('admin.inquiries.store_note', $inquiry->id) }}" method="POST" class="space-y-6">
-                        @csrf
-                        <div class="flex flex-col">
-                            <label class="label-material" for="note_content">Initialize New Logistics Entry</label>
-                            <textarea id="note_content" name="content" rows="5" placeholder="Awaiting manual encryption..." required 
-                                class="input-material h-40 resize-none italic py-6"></textarea>
-                        </div>
-                        <div class="flex justify-end">
-                            <button type="submit" class="btn-stellar px-12">
-                                <span class="material-symbols-outlined text-lg">post_add</span>
-                                Log Intelligence
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                <div class="text-sm text-slate-600 leading-relaxed">{{ $note->content }}</div>
             </div>
-        </section>
+            @endforeach
 
-        <!-- Engagement Hub -->
-        <section class="bg-on-surface rounded-stellar overflow-hidden border border-on-surface shadow-2xl p-16 text-center relative group">
-            <div class="absolute inset-0 bg-primary opacity-5 group-hover:opacity-10 transition-opacity duration-700"></div>
-            <div class="relative z-10 max-w-sm mx-auto space-y-10">
-                <div class="w-24 h-24 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center text-primary mx-auto shadow-inner group-hover:scale-110 group-hover:rotate-6 transition-all duration-700">
-                    <span class="material-symbols-outlined text-5xl">outgoing_mail</span>
-                </div>
-                <div class="space-y-4">
-                    <h4 class="text-3xl font-black text-white tracking-tighter italic uppercase">Initialize Outreach</h4>
-                    <p class="text-slate-400 text-sm italic font-medium leading-relaxed">Commence direct engagement protocol and transform this node into an active engineering engagement.</p>
-                </div>
-                <button class="btn-stellar w-full py-6 flex justify-center text-white bg-primary hover:bg-primary-dark">
-                    Initialize Engagement Protocol
-                </button>
+            <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl p-6">
+                <form action="{{ route('admin.inquiries.store_note', $inquiry->id) }}" method="POST" class="space-y-4">
+                    @csrf
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1.5" for="note_content">Add a note</label>
+                        <textarea id="note_content" name="content" rows="4" placeholder="Write your note..." required 
+                            class="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"></textarea>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-5 py-2.5 rounded-xl hover:bg-primary-dark transition-colors">
+                            <span class="material-symbols-outlined text-lg">post_add</span>
+                            Add Note
+                        </button>
+                    </div>
+                </form>
             </div>
-        </section>
+        </div>
+
+        <!-- Quick Reply -->
+        <div class="bg-slate-900 rounded-2xl p-10 text-center">
+            <div class="max-w-sm mx-auto space-y-6">
+                <div class="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center text-primary mx-auto">
+                    <span class="material-symbols-outlined text-3xl">outgoing_mail</span>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold text-white">Reply to Inquiry</h4>
+                    <p class="text-slate-400 text-sm mt-2">Send a direct response and convert this lead into an active project.</p>
+                </div>
+                <a href="mailto:{{ $inquiry->email }}?subject=Re: {{ $inquiry->subject }}" class="inline-flex items-center gap-2 bg-primary text-white text-sm font-semibold px-6 py-3 rounded-xl hover:bg-primary-dark transition-colors w-full justify-center">
+                    Send Email
+                </a>
+            </div>
+        </div>
     </div>
 
-    <!-- Contact Metadata -->
-    <div class="space-y-10">
-        <!-- Identity Telemetry Card -->
-        <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm p-12">
-            <div class="flex items-center gap-4 mb-12 pb-6 border-b border-slate-50">
-                <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Identity Telemetry</h3>
-            </div>
+    <!-- Contact Info -->
+    <div class="space-y-6">
+        <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 p-8">
+            <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-6 pb-4 border-b border-slate-50">Contact Info</h3>
             
-            <div class="space-y-10">
-                 <div class="flex items-start gap-6">
-                    <div class="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center text-slate-300 shadow-sm group-hover:text-primary transition-colors">
-                        <span class="material-symbols-outlined text-2xl">id_card</span>
+            <div class="space-y-6">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 flex-shrink-0">
+                        <span class="material-symbols-outlined">person</span>
                     </div>
-                    <div class="flex flex-col gap-1.5">
-                        <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest italic opacity-60">Legal Entity</span>
-                        <span class="font-black tracking-tighter text-on-surface text-xl uppercase italic leading-none">{{ $inquiry->name }}</span>
+                    <div>
+                        <span class="text-xs text-slate-400">Name</span>
+                        <p class="text-sm font-semibold text-slate-900">{{ $inquiry->name }}</p>
                     </div>
                 </div>
 
-                <div class="flex items-start gap-6">
-                    <div class="w-12 h-12 rounded-2xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary shadow-sm hover:scale-110 transition-transform">
-                        <span class="material-symbols-outlined text-2xl">alternate_email</span>
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-lg bg-primary/5 flex items-center justify-center text-primary flex-shrink-0">
+                        <span class="material-symbols-outlined">mail</span>
                     </div>
-                    <div class="flex flex-col gap-1.5 overflow-hidden">
-                        <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest italic opacity-60">Auth Email Path</span>
-                        <span class="font-black tracking-tight text-primary text-sm truncate leading-none tabular-nums">{{ $inquiry->email }}</span>
+                    <div class="overflow-hidden">
+                        <span class="text-xs text-slate-400">Email</span>
+                        <p class="text-sm font-semibold text-primary truncate">{{ $inquiry->email }}</p>
                     </div>
                 </div>
 
                 @if($inquiry->phone)
-                <div class="flex items-start gap-6">
-                    <div class="w-12 h-12 rounded-2xl bg-secondary/5 border border-secondary/10 flex items-center justify-center text-secondary shadow-sm">
-                        <span class="material-symbols-outlined text-2xl">cell_tower</span>
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600 flex-shrink-0">
+                        <span class="material-symbols-outlined">phone</span>
                     </div>
-                    <div class="flex flex-col gap-1.5">
-                        <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest italic opacity-60">Signal Port Link</span>
-                        <span class="font-black tracking-tight text-on-surface text-sm italic leading-none tabular-nums">{{ $inquiry->phone }}</span>
+                    <div>
+                        <span class="text-xs text-slate-400">Phone</span>
+                        <p class="text-sm font-semibold text-slate-900">{{ $inquiry->phone }}</p>
                     </div>
                 </div>
                 @endif
 
-                <div class="pt-10 mt-10 border-t border-slate-50 flex items-center gap-4">
-                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.3)]"></div>
-                    <div class="flex flex-col leading-none">
-                        <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest italic opacity-60">Source Node</span>
-                        <span class="font-black tracking-tighter text-on-surface text-[10px] uppercase mt-1.5">MAIN_INQUIRY_LANDING</span>
-                    </div>
+                <div class="pt-4 mt-4 border-t border-slate-50">
+                    <span class="text-xs text-slate-400">Source</span>
+                    <p class="text-sm font-medium text-slate-600 mt-0.5">Contact Form</p>
                 </div>
             </div>
         </div>
 
-        <!-- Operations Console -->
-        <div class="bg-on-surface p-12 rounded-stellar text-white border border-on-surface shadow-2xl relative overflow-hidden group">
-            <div class="relative z-10 space-y-8">
-                <h4 class="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] italic mb-6">Operations Console</h4>
-                <div class="space-y-4">
-                    <button class="w-full flex items-center justify-between p-6 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/5 transition-all group/action">
-                        <span class="text-[10px] font-black uppercase tracking-widest italic text-slate-400 group-hover/action:text-white transition-colors">Direct Specialist Assign</span>
-                        <span class="material-symbols-outlined text-lg text-slate-700 group-hover/action:translate-x-1 group-hover/action:text-white transition-all">chevron_right</span>
-                    </button>
-                    <button class="w-full flex items-center justify-between p-6 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/5 transition-all group/action hover:border-rose-500/20">
-                        <span class="text-[10px] font-black uppercase tracking-widest italic text-slate-400 group-hover/action:text-rose-500 transition-colors">Archive Payload Node</span>
-                        <span class="material-symbols-outlined text-lg text-slate-700 group-hover/action:translate-x-1 group-hover/action:text-rose-500 transition-all">chevron_right</span>
-                    </button>
-                    <button class="w-full flex items-center justify-between p-6 bg-white/5 hover:bg-white/10 rounded-2xl border border-white/5 transition-all group/action">
-                        <span class="text-[10px] font-black uppercase tracking-widest italic text-slate-400 group-hover/action:text-white transition-colors">Export Telemetry Data</span>
-                        <span class="material-symbols-outlined text-lg text-slate-700 group-hover/action:translate-x-1 group-hover/action:text-white transition-all">chevron_right</span>
-                    </button>
-                </div>
-            </div>
-            <span class="material-symbols-outlined absolute -right-8 -bottom-8 text-[12rem] text-white/5 pointer-events-none group-hover:scale-125 group-hover:-rotate-12 transition-all duration-[2s]">hub</span>
+        <!-- Quick Actions -->
+        <div class="bg-slate-900 p-6 rounded-2xl text-white space-y-3">
+            <h4 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Quick Actions</h4>
+            <button class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 rounded-xl transition-all text-sm text-slate-400 hover:text-white">
+                Assign to Team Member
+                <span class="material-symbols-outlined text-lg">chevron_right</span>
+            </button>
+            <form action="{{ route('admin.inquiries.destroy', $inquiry->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this inquiry?')">
+                @csrf @method('DELETE')
+                <button type="submit" class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-red-500/10 rounded-xl transition-all text-sm text-slate-400 hover:text-red-400">
+                    Delete Inquiry
+                    <span class="material-symbols-outlined text-lg">chevron_right</span>
+                </button>
+            </form>
+            <button class="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 rounded-xl transition-all text-sm text-slate-400 hover:text-white">
+                Export as PDF
+                <span class="material-symbols-outlined text-lg">chevron_right</span>
+            </button>
         </div>
     </div>
 </div>
