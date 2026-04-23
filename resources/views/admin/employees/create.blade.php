@@ -12,7 +12,7 @@
     <p class="text-sm text-slate-500 mt-1">Fill in the details to add a new team member</p>
 </div>
 
-<div class="max-w-5xl" x-data="{ 
+<div x-data="{ 
     currentStep: 1,
     loading: false,
     education: [],

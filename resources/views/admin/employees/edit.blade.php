@@ -12,7 +12,7 @@
     <p class="text-sm text-slate-500 mt-1">Update profile for <span class="font-medium text-slate-700">{{ $employee->name }}</span></p>
 </div>
 
-<div class="max-w-5xl" x-data="{ 
+<div x-data="{ 
     currentStep: 1,
     loading: false,
     education: {{ json_encode($employee->education ?? []) }},

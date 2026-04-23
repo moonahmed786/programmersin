@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<div class="max-w-4xl">
+<div>
     <div class="bg-white rounded-2xl overflow-hidden border border-slate-100">
         <form action="{{ route('admin.menus.store') }}" method="POST">
             @csrf

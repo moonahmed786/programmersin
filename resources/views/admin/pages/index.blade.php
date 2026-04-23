@@ -33,12 +33,12 @@
                         <th class="px-6 py-3.5 text-left text-xs font-semibold text-slate-500">Sections</th>
                         <x-admin.sortable-th column="is_published" label="Status" />
                         <x-admin.sortable-th column="updated_at" label="Updated" />
-                        <th class="px-6 py-3.5 text-right text-xs font-semibold text-slate-500">Actions</th>
+                        <th class="px-6 py-3.5 text-right text-xs font-semibold text-slate-500 w-16"></th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
                     @foreach($pages as $page)
-                        <tr class="hover:bg-slate-50/50 transition-colors group">
+                        <tr class="hover:bg-slate-50/50 transition-colors">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 rounded-lg bg-primary/5 flex items-center justify-center text-primary">
@@ -66,17 +66,24 @@
                                 <span class="text-sm text-slate-400">{{ $page->updated_at->diffForHumans() }}</span>
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <div class="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
-                                    <a href="{{ route('admin.pages.edit', $page) }}" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-primary hover:bg-slate-100 transition-all">
-                                        <span class="material-symbols-outlined text-lg">edit</span>
+                                <x-admin.row-actions>
+                                    <a href="{{ url($page->slug) }}" target="_blank" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
+                                        <span class="material-symbols-outlined text-lg text-slate-400">open_in_new</span>
+                                        Preview
                                     </a>
+                                    <a href="{{ route('admin.pages.edit', $page) }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
+                                        <span class="material-symbols-outlined text-lg text-slate-400">edit</span>
+                                        Edit
+                                    </a>
+                                    <div class="h-px bg-slate-100 mx-3 my-1"></div>
                                     <form action="{{ route('admin.pages.destroy', $page) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this page?')">
                                         @csrf @method('DELETE')
-                                        <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-all">
+                                        <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
                                             <span class="material-symbols-outlined text-lg">delete</span>
+                                            Delete
                                         </button>
                                     </form>
-                                </div>
+                                </x-admin.row-actions>
                             </td>
                         </tr>
                     @endforeach

@@ -28,12 +28,12 @@
                         <th class="px-6 py-3.5 text-left text-xs font-semibold text-slate-500">Service</th>
                         <x-admin.sortable-th column="created_at" label="Created" />
                         <x-admin.sortable-th column="status" label="Status" />
-                        <th class="px-6 py-3.5 text-right text-xs font-semibold text-slate-500">Actions</th>
+                        <th class="px-6 py-3.5 text-right text-xs font-semibold text-slate-500 w-16"></th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
                     @foreach($projects as $project)
-                        <tr class="hover:bg-slate-50/50 transition-colors group">
+                        <tr class="hover:bg-slate-50/50 transition-colors">
                             <td class="px-6 py-4">
                                 <span class="text-sm font-semibold text-slate-900">{{ $project->title }}</span>
                             </td>
@@ -55,19 +55,19 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <div class="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
-                                    @php
-                                        $rolePrefix = auth()->user()->isSuperAdmin() ? 'admin' : (auth()->user()->isEmployee() ? 'employee' : 'customer');
-                                    @endphp
-                                    <a href="{{ route($rolePrefix.'.projects.show', $project->id) }}" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-primary hover:bg-slate-100 transition-all">
-                                        <span class="material-symbols-outlined text-lg">visibility</span>
+                                <x-admin.row-actions>
+                                    @php $rolePrefix = auth()->user()->isSuperAdmin() ? 'admin' : (auth()->user()->isEmployee() ? 'employee' : 'customer'); @endphp
+                                    <a href="{{ route($rolePrefix.'.projects.show', $project->id) }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
+                                        <span class="material-symbols-outlined text-lg text-slate-400">visibility</span>
+                                        View
                                     </a>
                                     @if(auth()->user()->isSuperAdmin())
-                                    <a href="{{ route('admin.projects.edit', $project->id) }}" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-amber-600 hover:bg-amber-50 transition-all">
-                                        <span class="material-symbols-outlined text-lg">edit</span>
+                                    <a href="{{ route('admin.projects.edit', $project->id) }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
+                                        <span class="material-symbols-outlined text-lg text-slate-400">edit</span>
+                                        Edit
                                     </a>
                                     @endif
-                                </div>
+                                </x-admin.row-actions>
                             </td>
                         </tr>
                     @endforeach

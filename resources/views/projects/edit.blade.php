@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<div class="max-w-5xl">
+<div>
     <form action="{{ route('admin.projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')

@@ -31,12 +31,12 @@
                         <th class="px-6 py-3.5 text-left text-xs font-semibold text-slate-500">Location</th>
                         <th class="px-6 py-3.5 text-left text-xs font-semibold text-slate-500">Order</th>
                         <th class="px-6 py-3.5 text-left text-xs font-semibold text-slate-500">Status</th>
-                        <th class="px-6 py-3.5 text-right text-xs font-semibold text-slate-500">Actions</th>
+                        <th class="px-6 py-3.5 text-right text-xs font-semibold text-slate-500 w-16"></th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-50">
                     @forelse($menus as $menu)
-                        <tr class="hover:bg-slate-50/50 transition-colors group">
+                        <tr class="hover:bg-slate-50/50 transition-colors">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <span class="material-symbols-outlined text-slate-400 text-lg">link</span>
@@ -62,22 +62,24 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <div class="flex justify-end gap-1 opacity-0 group-hover:opacity-100 transition-all">
-                                    <a href="{{ route('admin.menus.edit', $menu) }}" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-primary hover:bg-slate-100 transition-all">
-                                        <span class="material-symbols-outlined text-lg">edit</span>
+                                <x-admin.row-actions>
+                                    <a href="{{ route('admin.menus.edit', $menu) }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
+                                        <span class="material-symbols-outlined text-lg text-slate-400">edit</span>
+                                        Edit
                                     </a>
                                     <form action="{{ route('admin.menus.destroy', $menu) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this menu item?')">
                                         @csrf @method('DELETE')
-                                        <button type="submit" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-all">
+                                        <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
                                             <span class="material-symbols-outlined text-lg">delete</span>
+                                            Delete
                                         </button>
                                     </form>
-                                </div>
+                                </x-admin.row-actions>
                             </td>
                         </tr>
                         
                         @foreach($menu->children as $child)
-                        <tr class="bg-slate-50/30 group border-l-2 border-primary/10 hover:bg-slate-50/60 transition-colors">
+                        <tr class="bg-slate-50/30 border-l-2 border-primary/10 hover:bg-slate-50/60 transition-colors">
                             <td class="px-6 py-3">
                                 <div class="flex items-center gap-3 pl-8">
                                     <span class="material-symbols-outlined text-slate-300 text-base">subdirectory_arrow_right</span>
@@ -97,9 +99,19 @@
                                 <span class="w-1.5 h-1.5 rounded-full {{ $child->is_active ? 'bg-emerald-400' : 'bg-slate-200' }} inline-block"></span>
                             </td>
                             <td class="px-6 py-3 text-right">
-                                <a href="{{ route('admin.menus.edit', $child) }}" class="w-7 h-7 flex items-center justify-center rounded-lg text-slate-300 hover:text-primary transition-all opacity-0 group-hover:opacity-100 ml-auto">
-                                    <span class="material-symbols-outlined text-base">edit</span>
-                                </a>
+                                <x-admin.row-actions>
+                                    <a href="{{ route('admin.menus.edit', $child) }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 transition-colors">
+                                        <span class="material-symbols-outlined text-lg text-slate-400">edit</span>
+                                        Edit
+                                    </a>
+                                    <form action="{{ route('admin.menus.destroy', $child) }}" method="POST" onsubmit="return confirm('Delete this sub-item?')">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                            <span class="material-symbols-outlined text-lg">delete</span>
+                                            Delete
+                                        </button>
+                                    </form>
+                                </x-admin.row-actions>
                             </td>
                         </tr>
                         @endforeach
