@@ -1,159 +1,139 @@
 @extends('layouts.backend')
 
 @section('content')
-<div class="flex flex-col gap-10 md:gap-14">
-    <!-- Welcome Header -->
-    <div class="flex flex-col gap-3">
-        <div class="flex items-center gap-3">
-            <span class="w-1.5 h-1.5 rounded-full bg-primary shadow-[0_0_12px_rgba(0,118,255,0.4)] animate-pulse"></span>
-            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">System Command Node</p>
-        </div>
-        <h1 class="text-4xl md:text-5xl font-black text-on-surface tracking-tighter">
-            Executive <span class="text-primary opacity-90 italic">Dashboard</span>
+<div class="flex flex-col gap-8">
+    <!-- Welcome -->
+    <div>
+        <h1 class="text-2xl font-bold text-slate-900">
+            Good {{ now()->hour < 12 ? 'morning' : (now()->hour < 17 ? 'afternoon' : 'evening') }}, {{ Auth::user()->name }} 👋
         </h1>
-        <p class="text-sm text-on-surface-variant font-bold max-w-2xl mt-2 leading-relaxed">
-            Welcome back, Administrator. Your high-fidelity engineering mission status and project intelligence are synchronized.
-        </p>
+        <p class="text-sm text-slate-500 mt-1">Here's what's happening with your projects today.</p>
     </div>
 
-    <!-- Stats Matrix -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    <!-- Stats -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <x-admin.stat-card 
-            label="Mission Count" 
+            label="Total Projects" 
             :value="$stats['total_projects']" 
-            icon="rocket_launch" 
-            trend="+14.2%" 
+            icon="folder_open" 
+            trend="+12%" 
         />
         <x-admin.stat-card 
-            label="Inquiry Flow" 
+            label="New Inquiries" 
             :value="$stats['recent_inquiries']->count()" 
-            icon="mail" 
+            icon="inbox" 
             :trendUp="true"
-            trend="Accelerating" 
+            trend="Active" 
         />
         <x-admin.stat-card 
-            label="Architectural Units" 
+            label="Services" 
             :value="$stats['total_services']" 
-            icon="layers" 
+            icon="widgets" 
         />
         <x-admin.stat-card 
-            label="Roster Personnel" 
+            label="Team Members" 
             :value="$stats['total_employees']" 
-            icon="group" 
+            icon="people" 
         />
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-14 items-start">
-        <!-- Recent Intelligence Ledger -->
-        <div class="lg:col-span-8 flex flex-col gap-8">
-            <div class="flex items-center justify-between px-2">
-                <div class="flex flex-col">
-                    <h2 class="text-2xl font-black text-on-surface tracking-tighter uppercase">Recent Intelligence</h2>
-                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Personnel and inquiry registry incoming</p>
-                </div>
-                <a href="{{ route('admin.inquiries.index') }}" class="flex items-center gap-2 text-[10px] font-black text-primary uppercase tracking-widest hover:text-on-surface transition-colors bg-primary/5 px-5 py-2.5 rounded-xl border border-primary/10">
-                    Explore Registry
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+        <!-- Recent Inquiries -->
+        <div class="lg:col-span-2">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-slate-900">Recent Inquiries</h2>
+                <a href="{{ route('admin.inquiries.index') }}" class="text-sm font-medium text-primary hover:text-primary-dark transition-colors flex items-center gap-1">
+                    View all
                     <span class="material-symbols-outlined text-base">arrow_forward</span>
                 </a>
             </div>
 
-            <div class="bg-white rounded-stellar border border-slate-100 shadow-sm overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left ledger-table">
-                        <thead>
-                            <tr class="bg-slate-50/50 border-b border-slate-100">
-                                <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Source Identity</th>
-                                <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Deployment Type</th>
-                                <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Validation</th>
-                                <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Timestamp</th>
+            <div class="bg-white rounded-2xl border border-slate-100 overflow-hidden">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="border-b border-slate-100">
+                            <th class="px-6 py-3.5 text-xs font-semibold text-slate-500">Name</th>
+                            <th class="px-6 py-3.5 text-xs font-semibold text-slate-500">Type</th>
+                            <th class="px-6 py-3.5 text-xs font-semibold text-slate-500">Status</th>
+                            <th class="px-6 py-3.5 text-xs font-semibold text-slate-500 text-right">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        @forelse($stats['recent_inquiries'] as $inquiry)
+                            <tr class="hover:bg-slate-50/50 transition-colors">
+                                <td class="px-6 py-4">
+                                    <span class="text-sm font-medium text-slate-900">{{ $inquiry->name }}</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="text-xs font-medium text-primary bg-primary/5 px-2.5 py-1 rounded-md">
+                                        {{ $inquiry->service_type ?? 'General' }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium
+                                        {{ $inquiry->status === 'new' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700' }}">
+                                        {{ ucfirst($inquiry->status) }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-xs text-slate-400 text-right">{{ $inquiry->created_at->diffForHumans() }}</td>
                             </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-50">
-                            @forelse($stats['recent_inquiries'] as $inquiry)
-                                <tr class="hover:bg-slate-50/50 transition-all group cursor-default">
-                                    <td class="px-8 py-6">
-                                        <div class="flex flex-col">
-                                            <span class="text-sm font-black text-on-surface tracking-tight">{{ $inquiry->name }}</span>
-                                            <span class="text-[9px] font-bold text-slate-400 tracking-widest uppercase">Contact Entry</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-8 py-6">
-                                        <span class="text-[10px] font-black text-primary bg-primary/5 px-3 py-1.5 rounded-lg border border-primary/10 uppercase tracking-widest">
-                                            {{ $inquiry->service_type ?? 'Development' }}
-                                        </span>
-                                    </td>
-                                    <td class="px-8 py-6">
-                                        <span class="badge-node {{ $inquiry->status === 'new' ? 'badge-live' : 'badge-warning' }} font-black text-[9px] tracking-widest uppercase">
-                                            {{ strtoupper($inquiry->status) }}
-                                        </span>
-                                    </td>
-                                    <td class="px-8 py-6 text-[10px] font-black text-slate-400 text-right uppercase tracking-widest tabular-nums">{{ $inquiry->created_at->diffForHumans() }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="px-8 py-24 text-center">
-                                        <div class="w-16 h-16 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-4 border border-slate-100">
-                                            <span class="material-symbols-outlined text-slate-300 text-3xl">inbox</span>
-                                        </div>
-                                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Registry is clear. No active inquiries.</p>
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="px-6 py-16 text-center">
+                                    <span class="material-symbols-outlined text-slate-300 text-3xl block mb-2">inbox</span>
+                                    <p class="text-sm text-slate-400">No inquiries yet</p>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <!-- Ongoing Deployments -->
-        <div class="lg:col-span-4 flex flex-col gap-8">
-            <div class="flex items-center justify-between px-2">
-                <h2 class="text-2xl font-black text-on-surface tracking-tighter uppercase">Operations</h2>
-                <span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(0,118,255,0.4)] animate-pulse"></span>
+        <!-- Active Projects -->
+        <div>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold text-slate-900">Active Projects</h2>
             </div>
 
-            <div class="flex flex-col gap-6">
+            <div class="flex flex-col gap-3">
                 @forelse($stats['ongoing_projects'] as $project)
-                    <div class="bg-white p-8 rounded-stellar border border-slate-100 shadow-sm transition-all duration-500 hover:shadow-md hover:border-primary/20 group relative overflow-hidden">
-                        <div class="flex items-start justify-between mb-8 relative z-10">
-                            <div class="flex flex-col">
-                                <span class="text-sm font-black text-on-surface tracking-tight group-hover:text-primary transition-colors">{{ $project->title }}</span>
-                                <span class="text-[9px] text-slate-400 font-black uppercase tracking-widest mt-2">{{ $project->service->name ?? 'Service Hub' }}</span>
+                    <div class="bg-white p-5 rounded-2xl border border-slate-100 hover:border-slate-200 transition-all group">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <span class="text-sm font-semibold text-slate-900 group-hover:text-primary transition-colors">{{ $project->title }}</span>
+                                <p class="text-xs text-slate-400 mt-0.5">{{ $project->service->name ?? 'No service' }}</p>
                             </div>
-                            <span class="px-3 py-1.5 rounded-lg text-[8px] font-black uppercase tracking-[0.2em] bg-blue-50 text-blue-600 border border-blue-100">Synchronizing</span>
+                            <span class="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase
+                                {{ $project->status === 'in_progress' ? 'bg-blue-50 text-blue-600' : 'bg-amber-50 text-amber-600' }}">
+                                {{ str_replace('_', ' ', $project->status) }}
+                            </span>
                         </div>
                         
-                        <div class="space-y-4 relative z-10">
-                            <div class="flex justify-between items-center text-[10px] font-black text-slate-500 uppercase tracking-widest">
-                                <span>Convergence Integrity</span>
-                                <span class="text-primary font-mono">{{ $project->status === 'completed' ? '100' : ($project->status === 'in_progress' ? '64' : '12') }}%</span>
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs text-slate-500">
+                                <span>Progress</span>
+                                <span class="font-medium">{{ $project->status === 'completed' ? '100' : ($project->status === 'in_progress' ? '65' : '10') }}%</span>
                             </div>
-                            <div class="w-full h-2 bg-slate-50 rounded-full overflow-hidden border border-slate-100">
-                                <div class="h-full bg-primary transition-all duration-1000" 
-                                     style="width: {{ $project->status === 'completed' ? '100%' : ($project->status === 'in_progress' ? '64%' : '12%') }}">
+                            <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-primary rounded-full transition-all duration-1000" 
+                                     style="width: {{ $project->status === 'completed' ? '100%' : ($project->status === 'in_progress' ? '65%' : '10%') }}">
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Decor -->
-                        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all duration-500"></div>
                     </div>
                 @empty
-                    <div class="bg-white p-12 rounded-stellar border border-slate-100 text-center border-dashed">
-                        <span class="material-symbols-outlined text-slate-200 text-4xl block mb-4">architecture</span>
-                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest italic leading-loose">No active architectural deployments identified.</p>
+                    <div class="bg-white p-8 rounded-2xl border border-dashed border-slate-200 text-center">
+                        <span class="material-symbols-outlined text-slate-300 text-2xl block mb-2">folder_off</span>
+                        <p class="text-sm text-slate-400">No active projects</p>
                     </div>
                 @endforelse
+
+                <a href="{{ route('admin.projects.create') }}" class="flex items-center justify-center gap-2 px-4 py-3 bg-primary text-white text-sm font-semibold rounded-xl hover:bg-primary-dark transition-colors">
+                    <span class="material-symbols-outlined text-lg">add</span>
+                    New Project
+                </a>
             </div>
-            
-            <!-- Quick Command Button -->
-            <a href="{{ route('admin.projects.create') }}" class="btn-stellar w-full justify-center group overflow-hidden">
-                <span class="relative z-10 flex items-center gap-3">
-                    <span class="material-symbols-outlined text-lg">add_circle</span>
-                    Initialize New Mission
-                </span>
-                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-            </a>
         </div>
     </div>
 </div>

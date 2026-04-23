@@ -20,6 +20,15 @@
         [x-cloak] {
             display: none !important;
         }
+
+        /* Background decorative blobs — NEVER block clicks */
+        .bg-decor {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none !important;
+            z-index: 0;
+        }
     </style>
 
     <link rel="icon" type="image/svg+xml" href="{{ \App\Models\Setting::get('site_logo', asset('uploads/assets/logo.svg')) }}">
@@ -33,15 +42,15 @@
     <x-admin.sidebar />
 
     <!-- Main Content Area -->
-    <main class="flex-1 flex flex-col min-h-screen relative transition-all duration-300 lg:ml-72">
-        <!-- Tonal background elements for depth -->
-        <div class="absolute -top-40 -right-40 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute top-1/2 -left-40 w-[600px] h-[600px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none"></div>
+    <main class="flex-1 flex flex-col min-h-screen relative transition-all duration-300 lg:ml-64">
+        <!-- Decorative background blobs — pointer-events: none ensures they never block clicks -->
+        <div class="bg-decor" style="top: -160px; right: -160px; width: 800px; height: 800px; background: rgba(0,118,255,0.04);"></div>
+        <div class="bg-decor" style="top: 50%; left: -160px; width: 600px; height: 600px; background: rgba(0,229,255,0.04);"></div>
 
         <x-admin.navbar :title="$title ?? 'Dashboard'" :subtitle="$subtitle ?? 'Overview'" />
 
-        <!-- Scrollable Content -->
-        <div class="flex-1 p-6 md:p-10 animate-in-fade relative z-10 w-full max-w-full">
+        <!-- Scrollable Content — NO opacity animation, content is always visible -->
+        <div class="flex-1 p-6 md:p-10 relative z-10 w-full max-w-full">
             @yield('content')
         </div>
     </main>

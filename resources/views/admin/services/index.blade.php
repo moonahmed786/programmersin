@@ -35,15 +35,17 @@
 
 <!-- Intelligence Ledger -->
 <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm">
+    <x-admin.table-filter-bar placeholder="Search services by title or description..." />
+    
     <div class="overflow-x-auto">
         <table class="ledger-table">
             <thead>
                 <tr class="bg-slate-50/50 border-b border-slate-50">
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Service Module Info</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Price Point</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Sequence</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Registry Status</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Execution</th>
+                    <x-admin.sortable-th column="title" label="Service Module Info" />
+                    <x-admin.sortable-th column="price" label="Price Point" />
+                    <x-admin.sortable-th column="order" label="Sequence" />
+                    <x-admin.sortable-th column="is_active" label="Registry Status" />
+                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-background/50 border-b border-outline-variant text-right">Execution</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-50">
@@ -55,7 +57,7 @@
                                     <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">{{ $service->icon ?? 'settings_suggest' }}</span>
                                 </div>
                                 <div class="flex flex-col">
-                                    <span class="font-black text-on-surface tracking-tight leading-none mb-1.5">{{ $service->title }}</span>
+                                    <a href="{{ route('admin.services.edit', $service) }}" class="font-black text-on-surface tracking-tight leading-none mb-1.5 hover:text-primary transition-colors">{{ $service->title }}</a>
                                     <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">{{ $service->slug }}</span>
                                 </div>
                             </div>
@@ -97,9 +99,10 @@
                     <tr>
                         <td colspan="5" class="px-8 py-32 text-center">
                             <div class="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-6 border border-slate-100">
-                                <span class="material-symbols-outlined text-4xl text-slate-200">settings_suggest</span>
+                                <span class="material-symbols-outlined text-4xl text-slate-200">manage_search</span>
                             </div>
-                            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 italic">No services detected in the global registry node.</p>
+                            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 italic">No service modules found matching your current indexing protocol.</p>
+                            <a href="{{ route('admin.services.index') }}" class="inline-flex items-center gap-2 mt-6 text-[9px] font-black uppercase tracking-widest text-primary hover:bg-primary/5 px-6 py-3 rounded-xl border border-primary/10 transition-all">Reset Module Index</a>
                         </td>
                     </tr>
                 @endif

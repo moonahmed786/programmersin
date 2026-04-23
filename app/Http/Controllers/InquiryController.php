@@ -7,13 +7,37 @@ use Illuminate\Http\Request;
 
 class InquiryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (!auth()->user()->isSuperAdmin()) {
             abort(403);
         }
 
-        $inquiries = Inquiry::latest()->paginate(15);
+        $query = Inquiry::query();
+
+        // Search Implementation
+        if ($search = $request->input('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('subject', 'like', "%{$search}%")
+                  ->orWhere('company', 'like', "%{$search}%");
+            });
+        }
+
+        // Sorting Implementation
+        $sort = $request->input('sort', 'created_at');
+        $direction = $request->input('direction', 'desc');
+        
+        $validSorts = ['name', 'email', 'status', 'created_at', 'subject'];
+        if (in_array($sort, $validSorts)) {
+            $query->orderBy($sort, $direction);
+        } else {
+            $query->latest();
+        }
+
+        $inquiries = $query->paginate(15)->withQueryString();
+        
         return view('admin.inquiries.index', compact('inquiries'));
     }
 

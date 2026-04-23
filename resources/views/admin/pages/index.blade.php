@@ -35,16 +35,18 @@
 
 <!-- Intelligence Ledger -->
 <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm">
+    <x-admin.table-filter-bar placeholder="Search blueprints by title or description..." />
+    
     <div class="overflow-x-auto">
         <table class="ledger-table w-full">
             <thead>
                 <tr class="bg-slate-50/50 border-b border-slate-50">
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Blueprint Identity</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Experience Slug</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Node Depth</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Registry Status</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Last Refined</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Execution</th>
+                    <x-admin.sortable-th column="title" label="Blueprint Identity" />
+                    <x-admin.sortable-th column="slug" label="Experience Slug" />
+                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-background/50 border-b border-outline-variant">Node Depth</th>
+                    <x-admin.sortable-th column="is_published" label="Registry Status" />
+                    <x-admin.sortable-th column="updated_at" label="Last Refined" />
+                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-background/50 border-b border-outline-variant text-right">Execution</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-50">
@@ -52,11 +54,11 @@
                     <tr class="hover:bg-slate-50/50 transition-all group">
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-6">
-                                <div class="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-all duration-500">
+                                <div class="w-12 h-12 rounded-2xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary shadow-sm group-hover:scale-105 transition-all duration-500">
                                     <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">auto_stories</span>
                                 </div>
                                 <div class="flex flex-col">
-                                    <span class="font-black text-on-surface tracking-tight leading-none mb-1.5">{{ $page->title }}</span>
+                                    <a href="{{ route('admin.pages.edit', $page) }}" class="font-black text-on-surface tracking-tight leading-none mb-1.5 hover:text-primary transition-colors">{{ $page->title }}</a>
                                     <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">Experience Blueprint</span>
                                 </div>
                             </div>
@@ -70,7 +72,7 @@
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-3">
                                 @php $count = count($page->content ?? []); @endphp
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
                                 <span class="text-[10px] font-black font-mono text-slate-400 uppercase tracking-widest tabular-nums">{{ $count > 9 ? $count : '0'.$count }} Content Nodes</span>
                             </div>
                         </td>
@@ -101,9 +103,10 @@
                     <tr>
                         <td colspan="6" class="px-8 py-32 text-center">
                             <div class="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-6 border border-slate-100">
-                                <span class="material-symbols-outlined text-4xl text-slate-200">post_add</span>
+                                <span class="material-symbols-outlined text-4xl text-slate-200">manage_search</span>
                             </div>
-                            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 italic">Registry is clear. No blueprints detected in the core module.</p>
+                            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 italic">No blueprints found matching your current indexing protocol.</p>
+                            <a href="{{ route('admin.pages.index') }}" class="inline-flex items-center gap-2 mt-6 text-[9px] font-black uppercase tracking-widest text-primary hover:bg-primary/5 px-6 py-3 rounded-xl border border-primary/10 transition-all">Reset Blueprint Index</a>
                         </td>
                     </tr>
                 @endif

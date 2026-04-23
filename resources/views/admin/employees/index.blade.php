@@ -35,15 +35,17 @@
 
 <!-- Intelligence Ledger -->
 <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm">
+    <x-admin.table-filter-bar placeholder="Search personnel by name, email or position..." />
+    
     <div class="overflow-x-auto">
         <table class="ledger-table">
             <thead>
                 <tr class="bg-slate-50/50 border-b border-slate-50">
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Personnel Identity</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Specialization</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Communication Node</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Status</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Execution</th>
+                    <x-admin.sortable-th column="name" label="Personnel Identity" />
+                    <x-admin.sortable-th column="position" label="Specialization" />
+                    <th class="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-background/50 border-b border-outline-variant">Communication Node</th>
+                    <x-admin.sortable-th column="is_active" label="Status" />
+                    <th class="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-background/50 border-b border-outline-variant">Execution</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-50">
@@ -55,7 +57,7 @@
                                     <img src="https://api.dicebear.com/7.x/avataaars/svg?seed={{ $employee->name }}" alt="{{ $employee->name }}" class="w-full h-full object-cover">
                                 </div>
                                 <div class="flex flex-col">
-                                    <span class="font-black text-on-surface tracking-tight leading-none mb-1.5">{{ $employee->name }}</span>
+                                    <a href="{{ route('admin.employees.edit', $employee) }}" class="font-black text-on-surface tracking-tight leading-none mb-1.5 hover:text-primary transition-colors">{{ $employee->name }}</a>
                                     <span class="text-[10px] text-slate-400 font-bold uppercase tracking-widest italic">{{ $employee->email }}</span>
                                 </div>
                             </div>
@@ -90,9 +92,10 @@
                     <tr>
                         <td colspan="5" class="px-8 py-32 text-center">
                             <div class="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-6 border border-slate-100">
-                                <span class="material-symbols-outlined text-4xl text-slate-200">group</span>
+                                <span class="material-symbols-outlined text-4xl text-slate-200">manage_search</span>
                             </div>
-                            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 italic">No active personnel units detected in the registry.</p>
+                            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 italic">No personnel units matched your current filter parameters.</p>
+                            <a href="{{ route('admin.employees.index') }}" class="inline-flex items-center gap-2 mt-6 text-[9px] font-black uppercase tracking-widest text-primary hover:bg-primary/5 px-6 py-3 rounded-xl border border-primary/10 transition-all">Reset Active Query</a>
                         </td>
                     </tr>
                 @endif

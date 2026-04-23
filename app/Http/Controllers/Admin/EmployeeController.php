@@ -10,9 +10,32 @@ use Illuminate\Validation\Rule;
 
 class EmployeeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $employees = User::where('role', 'employee')->latest()->paginate(15);
+        $query = User::where('role', 'employee');
+
+        // Search Implementation
+        if ($search = $request->input('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('position', 'like', "%{$search}%");
+            });
+        }
+
+        // Sorting Implementation
+        $sort = $request->input('sort', 'created_at');
+        $direction = $request->input('direction', 'desc');
+        
+        $validSorts = ['name', 'email', 'position', 'is_active', 'created_at'];
+        if (in_array($sort, $validSorts)) {
+            $query->orderBy($sort, $direction);
+        } else {
+            $query->latest();
+        }
+
+        $employees = $query->paginate(15)->withQueryString();
+        
         return view('admin.employees.index', compact('employees'));
     }
 

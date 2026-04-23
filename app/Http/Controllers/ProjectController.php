@@ -9,17 +9,41 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
+        $query = Project::query()->with(['customer', 'service']);
         
-        if ($user->isSuperAdmin()) {
-            $projects = Project::with(['customer', 'service'])->latest()->paginate(10);
-        } elseif ($user->isEmployee()) {
-            $projects = $user->assignedProjects()->with(['customer', 'service'])->latest()->paginate(10);
-        } else {
-            $projects = Project::where('customer_id', $user->id)->with('service')->latest()->paginate(10);
+        // Search Implementation
+        if ($search = $request->input('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
         }
+
+        // Sorting Implementation
+        $sort = $request->input('sort', 'created_at');
+        $direction = $request->input('direction', 'desc');
+        
+        $validSorts = ['title', 'status', 'created_at', 'budget'];
+        if (in_array($sort, $validSorts)) {
+            $query->orderBy($sort, $direction);
+        } else {
+            $query->latest();
+        }
+
+        if ($user->isSuperAdmin()) {
+            // No extra filtering
+        } elseif ($user->isEmployee()) {
+            $query->whereHas('employees', function($q) use ($user) {
+                $q->where('employee_id', $user->id);
+            });
+        } else {
+            $query->where('customer_id', $user->id);
+        }
+
+        $projects = $query->paginate(10)->withQueryString();
 
         return view('projects.index', compact('projects'));
     }

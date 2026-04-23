@@ -27,27 +27,18 @@
 
 <!-- Intelligence Ledger -->
 <div class="bg-white rounded-stellar overflow-hidden border border-slate-100 shadow-sm">
-    <div class="px-10 py-6 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
-        <div class="flex items-center gap-6">
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Registry LifeCycle</span>
-            <div class="h-4 w-px bg-slate-200"></div>
-            <div class="flex gap-8">
-                <button class="text-[10px] font-black uppercase tracking-widest text-primary border-b-2 border-primary pb-1">Primary Feed</button>
-                <button class="text-[10px] font-black uppercase tracking-widest text-slate-300 hover:text-slate-500 transition-colors pb-1">Archived Archive</button>
-            </div>
-        </div>
-    </div>
+    <x-admin.table-filter-bar placeholder="Search engagements by title or description..." />
     
     <div class="overflow-x-auto">
         <table class="ledger-table w-full">
             <thead>
                 <tr class="bg-slate-50/50 border-b border-slate-50">
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Project Identity</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Stakeholder</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Service Module</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Deployment Date</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Engagement Status</th>
-                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] text-right">Execution</th>
+                    <x-admin.sortable-th column="title" label="Project Identity" />
+                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-background/50 border-b border-outline-variant">Stakeholder</th>
+                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-background/50 border-b border-outline-variant">Service Module</th>
+                    <x-admin.sortable-th column="created_at" label="Initialization Date" />
+                    <x-admin.sortable-th column="status" label="Engagement Status" />
+                    <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] bg-background/50 border-b border-outline-variant text-right">Execution</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-50">
@@ -71,7 +62,7 @@
                             </span>
                         </td>
                         <td class="px-8 py-6">
-                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest tabular-nums">{{ $project->due_date ? $project->due_date->format('d M Y') : 'UNSCHEDULED' }}</span>
+                            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest tabular-nums">{{ $project->created_at->format('d M Y') }}</span>
                         </td>
                         <td class="px-8 py-6">
                             <span class="badge-node {{ $project->status == 'completed' ? 'badge-live' : ($project->status == 'cancelled' ? 'badge-warning' : 'badge-live opacity-80') }} font-black text-[9px] tracking-widest">
@@ -99,9 +90,10 @@
                     <tr>
                         <td colspan="6" class="px-8 py-32 text-center">
                             <div class="w-20 h-20 rounded-full bg-slate-50 flex items-center justify-center mx-auto mb-6 border border-slate-100">
-                                <span class="material-symbols-outlined text-4xl text-slate-200">inventory_2</span>
+                                <span class="material-symbols-outlined text-4xl text-slate-200">manage_search</span>
                             </div>
-                            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 italic">No active engagements detected in the registry node.</p>
+                            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 italic">No mission modules found matching your current indexing protocol.</p>
+                            <a href="{{ route('admin.projects.index') }}" class="inline-flex items-center gap-2 mt-6 text-[9px] font-black uppercase tracking-widest text-primary hover:bg-primary/5 px-6 py-3 rounded-xl border border-primary/10 transition-all">Reset Engagement Index</a>
                         </td>
                     </tr>
                 @endif

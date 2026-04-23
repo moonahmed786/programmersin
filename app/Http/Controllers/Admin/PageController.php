@@ -9,9 +9,31 @@ use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pages = Page::latest()->paginate(15);
+        $query = Page::query();
+        
+        // Search Implementation
+        if ($search = $request->input('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('meta_description', 'like', "%{$search}%");
+            });
+        }
+
+        // Sorting Implementation
+        $sort = $request->input('sort', 'created_at');
+        $direction = $request->input('direction', 'desc');
+        
+        $validSorts = ['title', 'slug', 'is_published', 'updated_at', 'created_at'];
+        if (in_array($sort, $validSorts)) {
+            $query->orderBy($sort, $direction);
+        } else {
+            $query->latest();
+        }
+
+        $pages = $query->paginate(15)->withQueryString();
+        
         return view('admin.pages.index', compact('pages'));
     }
 
