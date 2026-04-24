@@ -114,10 +114,6 @@ class InquiryController extends Controller
 
     public function updateStatus(Request $request, Inquiry $inquiry)
     {
-        if (!auth()->user()->isSuperAdmin()) {
-            abort(403);
-        }
-
         $validated = $request->validate([
             'status' => 'required|in:new,in_review,responded,closed',
         ]);
@@ -125,5 +121,13 @@ class InquiryController extends Controller
         $inquiry->update($validated);
 
         return back()->with('success', 'Inquiry status updated successfully.');
+    }
+
+    public function destroy(Inquiry $inquiry)
+    {
+        $inquiry->notes()->delete();
+        $inquiry->delete();
+
+        return redirect()->route('admin.inquiries.index')->with('success', 'Inquiry deleted successfully.');
     }
 }

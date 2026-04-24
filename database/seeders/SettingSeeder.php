@@ -143,7 +143,7 @@ class SettingSeeder extends Seeder
             ],
             [
                 'key' => 'cta_url',
-                'value' => '#contact',
+                'value' => '/contact-us',
                 'group' => 'general',
                 'label' => 'Header CTA URL',
                 'type' => 'text',

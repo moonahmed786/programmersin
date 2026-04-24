@@ -53,7 +53,7 @@ class MenuSeeder extends Seeder
 
         $legalItems = [
             ['title' => 'Privacy Policy', 'url' => '/privacy-policy', 'order' => 1, 'parent_id' => $legal->id, 'location' => 'footer'],
-            ['title' => 'Terms of Service', 'url' => '#', 'order' => 2, 'parent_id' => $legal->id, 'location' => 'footer'],
+            ['title' => 'Terms of Service', 'url' => '/terms-of-service', 'order' => 2, 'parent_id' => $legal->id, 'location' => 'footer'],
         ];
 
         foreach ($legalItems as $item) {

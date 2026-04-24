@@ -89,7 +89,7 @@ class ProjectController extends Controller
             abort(403);
         }
         
-        if ($user->isEmployee() && !$project->employees->contains($user->id)) {
+        if ($user->isEmployee() && !$project->employees()->where('employee_id', $user->id)->exists()) {
             abort(403);
         }
 

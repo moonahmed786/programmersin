@@ -9,7 +9,6 @@
             </a>
         </div>
 
-        <!-- Desktop Menu -->
         <div class="hidden lg:flex items-center gap-10">
             @foreach($headerMenus as $menu)
                 <div class="relative group" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
@@ -63,7 +62,7 @@
         <div class="px-8 py-8 space-y-6">
             @foreach($headerMenus as $menu)
                 <div class="space-y-4">
-                    <a @click="mobileMenuOpen = false" class="block text-lg font-black tracking-tighter {{ request()->is(ltrim($menu->url, '/')) ? 'text-primary' : 'text-white' }}"
+                    <a @click="mobileMenuOpen = false" class="block text-lg font-black tracking-tighter {{ $menu->url && request()->is(ltrim($menu->url, '/')) ? 'text-primary' : 'text-white' }}"
                        href="{{ $menu->url ?: '#' }}">
                         {{ $menu->title }}
                     </a>
