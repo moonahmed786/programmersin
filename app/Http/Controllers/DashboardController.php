@@ -18,7 +18,7 @@ class DashboardController extends Controller
             'total_projects' => Project::count(),
             'total_services' => Service::count(),
             'recent_inquiries' => Inquiry::latest()->limit(5)->get(),
-            'ongoing_projects' => Project::whereIn('status', ['pending', 'in_progress', 'review'])->latest()->limit(5)->get(),
+            'ongoing_projects' => Project::whereIn('status', ['pending', 'in_progress', 'review'])->with('service')->latest()->limit(5)->get(),
         ];
 
         return view('admin.dashboard', compact('stats'));

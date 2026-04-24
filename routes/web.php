@@ -23,7 +23,7 @@ Route::get('/portfolio', [ProjectController::class, 'portfolio'])->name('portfol
 Route::get('/portfolio/{slug}', [ProjectController::class, 'showcase'])->name('portfolio.show');
 Route::get('/team/{employee}', [\App\Http\Controllers\PortfolioController::class, 'show'])->name('employee.portfolio');
 
-Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store');
+Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.store')->middleware('throttle:6,1');
 
 // Grouped Protected Routes
 Route::middleware(['auth'])->group(function () {
@@ -38,10 +38,9 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('menus', \App\Http\Controllers\Admin\MenuController::class);
         Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
 
-        Route::get('/inquiries', [InquiryController::class, 'index'])->name('inquiries.index');
-        Route::get('/inquiries/{inquiry}', [InquiryController::class, 'show'])->name('inquiries.show');
-        Route::post('/inquiries/{inquiry}/notes', [InquiryController::class, 'storeNote'])->name('inquiries.store_note');
         Route::patch('/inquiries/{inquiry}/status', [InquiryController::class, 'updateStatus'])->name('inquiries.update_status');
+        Route::post('/inquiries/{inquiry}/notes', [InquiryController::class, 'storeNote'])->name('inquiries.store_note');
+        Route::resource('inquiries', InquiryController::class)->only(['index', 'show', 'destroy']);
 
         // Settings Routes
         Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'index'])->name('settings.index');
