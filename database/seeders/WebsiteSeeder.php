@@ -6,16 +6,15 @@ use Illuminate\Database\Seeder;
 
 class WebsiteSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         $this->call([
             ServiceSeeder::class,
             ProjectSeeder::class,
+            EmployeeSeeder::class,
             MenuSeeder::class,
             PageSeeder::class,
+            PricingSeeder::class,
         ]);
     }
 }
