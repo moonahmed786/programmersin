@@ -39,3 +39,7 @@ Thumbs.db
 /PRD.md
 /progress.txt
 /VERSION
+/.scratch_debug*
+/.cache*
+/.gemini*
+
